@@ -19,6 +19,7 @@ PODS:
     - Starscream (~> 3.1)
   - Starscream (3.1.1)
   - SwiftLint (0.39.1)
+  - Then (2.7.0)
 
 DEPENDENCIES:
   - Alamofire (~> 5.2)
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - SnapKit (~> 5.0.0)
   - Socket.IO-Client-Swift (~> 15.2.0)
   - SwiftLint
+  - Then
 
 SPEC REPOS:
   trunk:
@@ -42,6 +44,7 @@ SPEC REPOS:
     - Socket.IO-Client-Swift
     - Starscream
     - SwiftLint
+    - Then
 
 SPEC CHECKSUMS:
   Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
@@ -54,7 +57,8 @@ SPEC CHECKSUMS:
   Socket.IO-Client-Swift: 1e3e3a1f09f3312a167f0d781eb2f383d477357c
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftLint: 55e96a4a4d537d4a3156859fc1c54bd24851a046
+  Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: 9b7991d3e31b04641f1f4c89749d16be99e145d8
+PODFILE CHECKSUM: 437a97b6e3a14064f6cf500b86f76cb42931e306
 
 COCOAPODS: 1.10.0

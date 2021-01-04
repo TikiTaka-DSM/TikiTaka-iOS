@@ -13,6 +13,7 @@ pod ‘SwiftLint’
 pod 'Kingfisher', '~> 5.0'
 pod 'Socket.IO-Client-Swift', '~> 15.2.0'
 pod 'SnapKit', '~> 5.0.0'
+pod 'Then'
 
   # Pods for TikiTaka
 
