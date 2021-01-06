@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SignUpViewController: UIViewController {
 
@@ -53,6 +55,9 @@ class SignUpViewController: UIViewController {
         $0.layer.cornerRadius = 28
     }
     
+    private let disposeBag = DisposeBag()
+    private let viewModel = SignUpViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,6 +72,19 @@ class SignUpViewController: UIViewController {
         setUpConstraint()
     }
 
+    func bindViewModel() {
+        let input = SignUpViewModel.Input(id: idTextField.rx.text.orEmpty.asDriver(), name: nameTextField.rx.text.orEmpty.asDriver(), password: pwTextField.rx.text.orEmpty.asDriver(), repassword: RepwTextField.rx.text.orEmpty.asDriver(), doneTap: signInBtn.rx.tap.asDriver())
+        let output = viewModel.transform(input: input)
+        
+        output.result.emit(onNext: { text in
+            self.setAlert(text)
+        },onCompleted: { self.goNext("main") }).disposed(by: disposeBag)
+        output.isEnable.drive(self.signInBtn.rx.isEnabled).disposed(by: disposeBag)
+        output.isEnable.drive(onNext: { isEnable in
+            print(isEnable)
+        }).disposed(by: disposeBag)
+    }
+    
     func setUpConstraint() {
         logoView.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
