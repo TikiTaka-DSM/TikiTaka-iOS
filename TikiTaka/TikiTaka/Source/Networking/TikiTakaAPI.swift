@@ -14,7 +14,7 @@ enum TikiTakaAPI {
     
     case getMyProfile
     case getOtherProfile(_ str: String)
-    case changeProfile(img: Data, name: String, statusMessage: String)
+    case changeProfile
     
     case getFriends
     case searchFriends(_ name: String)
@@ -72,8 +72,6 @@ enum TikiTakaAPI {
             return ["id": id, "password": password]
         case .signUp(let id, let password, let name):
             return ["id": id, "password": password, "name": name]
-        case .changeProfile(let img, let name, let statusMessage):
-            return ["img": img, "name": name, "statusMessage": statusMessage]
         case .postRoom(let people):
             return ["people": people]
         default:
