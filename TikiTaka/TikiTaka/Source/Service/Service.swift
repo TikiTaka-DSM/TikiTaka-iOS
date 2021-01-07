@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import Alamofire
 
 class Service {
 
@@ -36,5 +37,34 @@ class Service {
                 return .fail
             }
         }
+    }
+    
+    func getMyProfile() -> Observable<(ProfileData?, NetworkPart)> {
+        connect.requestData(.getMyProfile).map { (response, data) -> (ProfileData?, NetworkPart) in
+            switch response.statusCode {
+            case 200:
+                guard let data = try? JSONDecoder().decode(ProfileData.self, from: data) else { return (nil, .fail)}
+                return (data, .success)
+            default:
+                return (nil, .fail)
+            }
+        }
+    }
+    
+    func changeProfile(_ img: Data?, _ name: String, statusMessage: String) -> DataRequest {
+        
+        let api: TikiTakaAPI = .changeProfile
+        let baseUrl = ""
+        let param = ["name": name, "statusMessage": statusMessage]
+        
+        return AF.upload(multipartFormData: { (multipartFormData) in
+            if img != nil {
+                multipartFormData.append(img!, withName: "img", fileName: "image.jpg", mimeType: "image/jpg")
+            }
+
+            for (key, value) in param {
+                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key, mimeType: "text/plain")
+            }
+        }, to: baseUrl + api.path, method: .post, headers: api.headers)
     }
 }
