@@ -7,13 +7,17 @@
 
 import Foundation
 
-class Friend: Codable {
+struct Friend: Codable {
     let id: String
     let img: String
     let name: String
     let statusMessage: String
 }
 
-class Friends: Codable {
+struct Friends: Codable {
     let friends: [Friend]
+}
+
+struct Search: Codable {
+    let user: Friends
 }
