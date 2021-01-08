@@ -67,4 +67,78 @@ class Service {
             }
         }, to: baseUrl + api.path, method: .post, headers: api.headers)
     }
+    
+    func getFriends() -> Observable<(Friends?, NetworkPart)> {
+        connect.requestData(.getFriends).map { (response, data) -> (Friends?, NetworkPart) in
+            switch response.statusCode {
+            case 200:
+                guard let data = try? JSONDecoder().decode(Friends.self, from: data) else { return (nil, .fail) }
+                
+                return (data, .success)
+            default:
+                return (nil, .fail)
+            }
+        }
+    }
+    
+    func getOtherProfile(_ str: String) -> Observable<(OtherProfile?, NetworkPart)> {
+        connect.requestData(.getOtherProfile(str)).map { (response, data) -> (OtherProfile?, NetworkPart) in
+            switch response.statusCode {
+            case 200:
+                guard let data = try? JSONDecoder().decode(OtherProfile.self, from: data) else { return (nil, .fail) }
+                
+                return (data, .success)
+            default:
+                return (nil, .fail)
+            }
+        }
+    }
+    
+    func searchFriends(_ name: String) -> Observable<(Search?, NetworkPart)> {
+        connect.requestData(.searchFriends(name)).map { (response, data) -> (Search?, NetworkPart) in
+            switch response.statusCode {
+            case 200:
+                guard let data = try? JSONDecoder().decode(Search.self, from: data) else { return (nil, .fail) }
+                
+                return (data, .success)
+            default:
+                return (nil, .fail)
+            }
+        }
+    }
+    
+    func blockFriends(_ name: String) -> Observable<NetworkPart> {
+        connect.requestData(.blockFriends(name)).map { (response, data) -> NetworkPart in
+            switch response.statusCode {
+            case 200:
+                return .success
+            default:
+                return .fail
+            }
+        }
+    }
+    
+    func findFriends(_ name: String) -> Observable<(Search?, NetworkPart)> {
+        connect.requestData(.FindFriends(name)).map { (response, data) -> (Search?, NetworkPart) in
+            switch response.statusCode {
+            case 200:
+                guard let data = try? JSONDecoder().decode(Search.self, from: data) else { return (nil, .fail) }
+                
+                return (data, .success)
+            default:
+                return (nil, .fail)
+            }
+        }
+    }
+    
+    func postFriends(_ id: String) -> Observable<NetworkPart> {
+        connect.requestData(.postFriends(id)).map { (response, data) -> NetworkPart in
+            switch response.statusCode {
+            case 200:
+                return .success
+            default:
+                return .fail
+            }
+        }
+    }
 }
