@@ -7,12 +7,22 @@
 
 import Foundation
 
-class Profile: Codable {
+struct Profile: Codable {
     let img: String
     let name: String
     let statusMessage: String
 }
 
-class ProfileData: Codable {
+struct State: Codable {
+    let friend: Bool
+    let block: Bool
+}
+
+struct ProfileData: Codable {
     let profileData: Profile
+}
+
+struct OtherProfile: Codable {
+    let profileData: Profile
+    let state: State
 }
