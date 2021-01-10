@@ -9,7 +9,7 @@ import Foundation
 
 struct Friend: Codable {
     let id: String
-    let img: String
+    let img: String?
     let name: String
     let statusMessage: String
 }
