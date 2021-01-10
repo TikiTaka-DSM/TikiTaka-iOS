@@ -7,45 +7,52 @@
 
 import UIKit
 import Then
+import RxSwift
+import RxCocoa
 import SnapKit
 
 class SignInViewController: UIViewController {
 
-    let logoView = UIImageView().then {
+    private let logoView = UIImageView().then {
         $0.image = UIImage(named: "TikiTaka_logo")
     }
     
-    let logoLabel = UILabel().then {
+    private let logoLabel = UILabel().then {
         $0.text = "티키타카를 통해 다양한 사람들과 대화를 해 보세요!"
         $0.textColor = PointColor.sub
     }
     
-    let idTextField = UITextField().then {
+    private let idTextField = UITextField().then {
         $0.placeholder = "ID"
         $0.textColor = .white
         $0.backgroundColor = PointColor.primary
         $0.layer.cornerRadius = 28
+        $0.addLeftPadding()
     }
     
-    let pwTextField = UITextField().then {
+    private let pwTextField = UITextField().then {
         $0.placeholder = "Password"
         $0.textColor = .white
         $0.backgroundColor = PointColor.primary
         $0.layer.cornerRadius = 28
+        $0.addLeftPadding()
     }
     
-    let signInBtn = UIButton().then {
+    private let signInBtn = UIButton().then {
         $0.backgroundColor = PointColor.sub
         $0.setTitle("Login", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 28
     }
     
-    let signUpBtn = UIButton().then {
+    private let signUpBtn = UIButton().then {
         $0.setTitle("계정이 없으신가요?", for: .normal)
         $0.setTitleColor(.gray, for: .normal)
         $0.titleLabel?.font = UIFont(name: "Arial Hebrew", size: 13)
     }
+    
+    private let disposeBag = DisposeBag()
+    private let viewModel = SignInViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +65,26 @@ class SignInViewController: UIViewController {
         view.addSubview(signUpBtn)
         
         setUpConstraint()
+        bindViewModel()
+        
+        signUpBtn.rx.tap.subscribe(onNext: { _ in
+            self.goNext("SignUp")
+        }).disposed(by: disposeBag)
+    }
+    
+    func bindViewModel() {
+        let input = SignInViewModel.Input(id: idTextField.rx.text.orEmpty.asDriver(),
+                                          password: pwTextField.rx.text.orEmpty.asDriver(),
+                                          doneTap: signInBtn.rx.tap.asDriver())
+        let output = viewModel.transform(input: input)
+        
+        output.result.emit(onNext: { text in
+            self.setAlert(text)
+        }, onCompleted: { self.goNext("main") }).disposed(by: disposeBag)
+        output.isEnable.drive(self.signInBtn.rx.isEnabled).disposed(by: disposeBag)
+        output.isEnable.drive(onNext: { isEnable in
+            print("")
+        }).disposed(by: disposeBag)
     }
     
     func setUpConstraint() {
