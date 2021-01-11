@@ -141,4 +141,43 @@ class Service {
             }
         }
     }
+    
+    func postRoom(_ people: [String]) -> Observable<(RoomData?, NetworkPart)> {
+        connect.requestData(.postRoom(people)).map { (response, data) -> (RoomData?, NetworkPart) in
+            switch response.statusCode {
+            case 201:
+                guard let data = try? JSONDecoder().decode(RoomData.self, from: data) else { return (nil, .fail)}
+                
+                return (data, .success)
+            default:
+                return (nil, .fail)
+            }
+        }
+    }
+    
+    func getChatList() -> Observable<(Friends?, NetworkPart)> {
+        connect.requestData(.getChatList).map { (response, data) -> (Friends?, NetworkPart) in
+            switch response.statusCode {
+            case 200:
+                guard let data = try? JSONDecoder().decode(Friends.self, from: data) else { return (nil, .fail)}
+                
+                return (data, .success)
+            default:
+                return (nil, .fail)
+            }
+        }
+    }
+    
+    func getChatInfo(_ id: Int) -> Observable<(MessageData?, NetworkPart)> {
+        connect.requestData(.getChatInfo(id)).map { (response, data) -> (MessageData?, NetworkPart) in
+            switch response.statusCode {
+            case 200:
+                guard let data = try? JSONDecoder().decode(MessageData.self, from: data) else { return (nil, .fail) }
+                return (data, .success)
+            default:
+                return (nil, .fail)
+            }
+        }
+    }
+    
 }
