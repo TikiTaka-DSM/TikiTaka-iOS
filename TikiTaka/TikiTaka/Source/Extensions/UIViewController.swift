@@ -24,6 +24,10 @@ extension UIViewController {
         
         present(alert, animated: true, completion: nil)
     }
+    
+    func forCornerRadius(_ object: AnyObject) {
+        object.layer?.cornerRadius = object.bounds!.height / 2
+    }
 }
 
 extension UIButton {
