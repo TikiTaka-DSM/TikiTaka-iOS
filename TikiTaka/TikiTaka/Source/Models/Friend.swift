@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 struct Friend: Codable {
     let id: String
@@ -20,4 +21,18 @@ struct Friends: Codable {
 
 struct Search: Codable {
     let user: Friends
+}
+
+struct Section {
+    var header: String
+    var items: [Friend]
+}
+
+extension Section: SectionModelType {
+    typealias Item = Friend
+    
+    init(original: Section, items: [Item]) {
+        self = original
+        self.items = items
+    }
 }
