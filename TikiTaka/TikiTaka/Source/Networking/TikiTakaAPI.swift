@@ -24,7 +24,7 @@ enum TikiTakaAPI {
     
     case postRoom(_ people: [String])
     case getChatList
-    case getChatInfo(_ id: String)
+    case getChatInfo(_ id: Int)
     
     var path: String {
         switch self {
