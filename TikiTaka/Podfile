@@ -9,12 +9,12 @@ pod ‘RxSwift’, ‘~> 5’
 pod ‘RxCocoa’, ‘~> 5’
 pod ‘Alamofire’, ‘~> 5.2’
 pod 'RxAlamofire'
-pod ‘SwiftLint’
 pod 'Kingfisher', '~> 5.0'
 pod 'Socket.IO-Client-Swift', '~> 15.2.0'
 pod 'SnapKit', '~> 5.0.0'
 pod 'Then'
 pod 'RxDataSources', '~> 4.0'
+pod 'MessageKit'
 
   # Pods for TikiTaka
 
