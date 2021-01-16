@@ -14,7 +14,8 @@ class FindViewModel: ViewModelType {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        let findFriend: Signal<String>
+        let friendName: Driver<String>
+        let findFriend: Driver<Void>
     }
     
     struct Output {
@@ -25,7 +26,7 @@ class FindViewModel: ViewModelType {
         let api = Service()
         let findData = BehaviorRelay<SearchUser?>(value: nil)
         
-        input.findFriend.asObservable().subscribe(onNext: { name in
+        input.findFriend.asObservable().withLatestFrom(input.friendName).subscribe(onNext: { name in
             api.findFriends(name).subscribe(onNext: { data, response in
                 switch response {
                 case .success:
@@ -38,4 +39,5 @@ class FindViewModel: ViewModelType {
         
         return Output(findData: findData.asDriver())
     }
+    
 }
