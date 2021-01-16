@@ -20,7 +20,13 @@ struct Friends: Codable {
 }
 
 struct Search: Codable {
-    let user: Friends
+    let user: SearchUser
+}
+
+struct SearchUser: Codable {
+    let id: String
+    let name: String
+    let img: String
 }
 
 struct Section {
