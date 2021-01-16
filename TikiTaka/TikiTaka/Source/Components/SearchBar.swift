@@ -10,13 +10,13 @@ import UIKit
 
 class SearchBar: UIView {
     
-    private let searchTextField = UITextField().then {
+    let searchTextField = UITextField().then {
         $0.placeholder = "Search"
         $0.textColor = .white
         $0.backgroundColor = .clear
     }
     
-    private let doneBtn = UIButton().then {
+    let doneBtn = UIButton().then {
         $0.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         $0.tintColor = .white
     }
