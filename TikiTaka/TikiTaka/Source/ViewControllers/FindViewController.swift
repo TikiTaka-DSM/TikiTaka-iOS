@@ -20,19 +20,35 @@ class FindViewController: UIViewController {
         $0.text = "검색을 통해 친구를 찾아보세요!"
     }
     
-    private let dispsoeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
+    private let viewModel = FindViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.addSubview(searchBar)
         view.addSubview(errorLabel)
+        
+        bindViewModel()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         setUpConstraint()
+    }
+    
+    func bindViewModel() {
+        let input = FindViewModel.Input(friendName: searchBar.searchTextField.rx.text.orEmpty.asDriver(), findFriend: searchBar.doneBtn.rx.tap.asDriver())
+        let output = viewModel.transform(input: input)
+        
+        output.findData.asObservable().subscribe(onNext: { data in
+            if let find = data {
+                print(find)
+            } else {
+                self.errorLabel.text = "존재하지 않는 아이디입니다."
+            }
+        }).disposed(by: disposeBag)
     }
     
     func setUpConstraint() {
