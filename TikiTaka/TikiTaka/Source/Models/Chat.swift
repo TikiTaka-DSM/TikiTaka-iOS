@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import MessageKit
 
 struct Message: Codable {
-    let user: [User]
+    let user: User
     let message: String
     let photo: String
     let voice: String
