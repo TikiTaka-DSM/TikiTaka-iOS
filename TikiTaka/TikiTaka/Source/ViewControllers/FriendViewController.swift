@@ -12,8 +12,7 @@ import RxCocoa
 class FriendViewController: UIViewController {
 
     private let friendsTableView = UITableView().then {
-        $0.separatorColor = PointColor.primary
-        $0.rowHeight = 73
+        $0.rowHeight = 60
     }
     
     private let searchBar = SearchBar().then {
@@ -34,6 +33,8 @@ class FriendViewController: UIViewController {
 
         dummy.accept([Friend(id: "asdf", img: nil, name: "gi", statusMessage: "Cjdq"), Friend(id: "asdf", img: nil, name: "gi", statusMessage: "Cjdq")])
         
+        friendsTableView.rx.setDelegate(self).disposed(by: disposeBag)
+
         setTableView()
     }
     
@@ -44,12 +45,12 @@ class FriendViewController: UIViewController {
     }
     
     func bindViewModel() {
-        let input = FriendViewModel.Input(loadFriends: loadData.asSignal(onErrorJustReturn: ()))
+        let input = FriendViewModel.Input(loadFriends: loadData.asSignal(onErrorJustReturn: ()), searchName: searchBar.searchTextField.rx.text.orEmpty.asSignal(onErrorJustReturn: ""), searchFriend: searchBar.doneBtn.rx.tap.asSignal())
         let output = viewModel.transform(input: input)
         
         output.loadData.drive(friendsTableView.rx.items(cellIdentifier: "friendsCell", cellType: UITableViewCell.self)) { row, model, cell in
             cell.textLabel?.text = model.name
-            cell.imageView?.kf.setImage(with: URL(string: model.img))
+            cell.imageView?.kf.setImage(with: URL(string: model.img!))
         }.disposed(by: disposeBag)
     }
     
@@ -57,9 +58,20 @@ class FriendViewController: UIViewController {
         friendsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "friendsCell")
         
         dummy.bind(to: friendsTableView.rx.items(cellIdentifier: "friendsCell")) { row, model, cell in
+            
             cell.imageView?.image = UIImage(named: "TikiTaka_logo.png")
             self.forCornerRadius(cell.imageView!)
             cell.textLabel?.text = model.name
+            let footerView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.bounds.size.width, height: 1))
+
+            let bottomView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 60, width: self.view.bounds.size.width, height: 1))
+
+            cell.addSubview(footerView)
+            cell.addSubview(bottomView)
+
+            footerView.addBottomBorderWithColor(color: PointColor.primary, width: 1)
+            bottomView.addTopBorderWithColor(color: PointColor.primary, width: 1)
+
         }.disposed(by: disposeBag)
     }
     
@@ -78,4 +90,14 @@ class FriendViewController: UIViewController {
             $0.bottom.equalTo(view.snp.bottom)
         }
     }
+}
+
+extension FriendViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        tableView.separatorColor = .clear
+        tableView.separatorInset = .zero
+        tableView.separatorStyle = .none
+    }
+
 }
