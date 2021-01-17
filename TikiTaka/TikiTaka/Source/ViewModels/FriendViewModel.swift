@@ -14,28 +14,43 @@ class FriendViewModel: ViewModelType {
     
     struct Input {
         let loadFriends: Signal<Void>
+        let searchName: Signal<String>
+        let searchFriend: Signal<Void>
     }
     
     struct Output {
-        let loadData: BehaviorRelay<Friends?>
+        let loadData: Driver<[Friend]>
+        let searchData: Driver<SearchUser?>
     }
     
     func transform(input: Input) -> Output {
         let api = Service()
-        let loadData = BehaviorRelay<Friends?>(value: nil)
+        let loadData = BehaviorRelay<[Friend]>(value: [])
+        let searchData = BehaviorRelay<SearchUser?>(value: nil)
         
         input.loadFriends.asObservable().subscribe(onNext: { _ in
             api.getFriends().subscribe(onNext: { data, response in
                 switch response {
                 case .success:
-                    loadData.accept(data!)
+                    loadData.accept(data!.friends)
                 default:
                     print("df")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        return Output(loadData: loadData)
+        input.searchFriend.asObservable().withLatestFrom(input.searchName).subscribe(onNext: { name in
+            api.searchFriends(name).subscribe(onNext: { data, response in
+                switch response {
+                case .success:
+                    searchData.accept(data!.user)
+                default:
+                    searchData.accept(nil)
+                }
+            }).disposed(by: self.disposeBag)
+        }).disposed(by: disposeBag)
+        
+        return Output(loadData: loadData.asDriver(), searchData: searchData.asDriver())
     }
 
 
