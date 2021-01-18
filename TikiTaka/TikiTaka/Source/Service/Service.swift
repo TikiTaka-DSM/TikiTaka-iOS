@@ -29,7 +29,7 @@ class Service {
     func signUp(_ id: String, _ password: String, _ name: String) -> Observable<NetworkPart> {
         connect.requestData(.signUp(id, password, name)).map { (response, data) -> NetworkPart in
             switch response.statusCode {
-            case 200:
+            case 201:
                 return .success
             case 409:
                 return .duplication
