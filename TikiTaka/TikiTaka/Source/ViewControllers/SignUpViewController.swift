@@ -25,6 +25,7 @@ class SignUpViewController: UIViewController {
         $0.textColor = .white
         $0.backgroundColor = PointColor.primary
         $0.layer.cornerRadius = 28
+        $0.addLeftPadding()
     }
     
     let pwTextField = UITextField().then {
@@ -32,6 +33,8 @@ class SignUpViewController: UIViewController {
         $0.textColor = .white
         $0.backgroundColor = PointColor.primary
         $0.layer.cornerRadius = 28
+        $0.addLeftPadding()
+        $0.isSecureTextEntry = true
     }
     
     let nameTextField = UITextField().then {
@@ -39,6 +42,7 @@ class SignUpViewController: UIViewController {
         $0.textColor = .white
         $0.backgroundColor = PointColor.primary
         $0.layer.cornerRadius = 28
+        $0.addLeftPadding()
     }
     
     let RepwTextField = UITextField().then {
@@ -46,6 +50,8 @@ class SignUpViewController: UIViewController {
         $0.textColor = .white
         $0.backgroundColor = PointColor.primary
         $0.layer.cornerRadius = 28
+        $0.addLeftPadding()
+        $0.isSecureTextEntry = true
     }
     
     let signInBtn = UIButton().then {
@@ -70,6 +76,7 @@ class SignUpViewController: UIViewController {
         view.addSubview(RepwTextField)
 
         setUpConstraint()
+        bindViewModel()
     }
 
     func bindViewModel() {
@@ -78,10 +85,10 @@ class SignUpViewController: UIViewController {
         
         output.result.emit(onNext: { text in
             self.setAlert(text)
-        },onCompleted: { self.goNext("main") }).disposed(by: disposeBag)
+        },onCompleted: { self.goNext("Main") }).disposed(by: disposeBag)
         output.isEnable.drive(self.signInBtn.rx.isEnabled).disposed(by: disposeBag)
         output.isEnable.drive(onNext: { isEnable in
-            print(isEnable)
+            self.signInBtn.tintColor = UIColor.gray
         }).disposed(by: disposeBag)
     }
     
