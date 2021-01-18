@@ -14,13 +14,11 @@ extension UIViewController {
         navigationController?.pushViewController(vc!, animated: true)
     }
     
-    func setAlert(_ titlt: String) {
+    func setAlert(_ title: String) {
         let alert = UIAlertController(title: "알람", message: title, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(action)
-        alert.addAction(cancel)
         
         present(alert, animated: true, completion: nil)
     }
