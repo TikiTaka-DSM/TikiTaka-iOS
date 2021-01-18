@@ -36,6 +36,7 @@ class SignInViewController: UIViewController {
         $0.backgroundColor = PointColor.primary
         $0.layer.cornerRadius = 28
         $0.addLeftPadding()
+        $0.isSecureTextEntry = true
     }
     
     private let signInBtn = UIButton().then {
@@ -80,7 +81,7 @@ class SignInViewController: UIViewController {
         
         output.result.emit(onNext: { text in
             self.setAlert(text)
-        }, onCompleted: { self.goNext("main") }).disposed(by: disposeBag)
+        }, onCompleted: { self.goNext("Main") }).disposed(by: disposeBag)
         output.isEnable.drive(self.signInBtn.rx.isEnabled).disposed(by: disposeBag)
         output.isEnable.drive(onNext: { isEnable in
             print("")
