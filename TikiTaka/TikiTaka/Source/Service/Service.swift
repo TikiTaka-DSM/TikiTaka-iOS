@@ -118,15 +118,13 @@ class Service {
         }
     }
     
-    func findFriends(_ name: String) -> Observable<(Search?, NetworkPart)> {
-        connect.requestData(.FindFriends(name)).map { (response, data) -> (Search?, NetworkPart) in
+    func findFriends(_ name: String) -> Observable<NetworkPart> {
+        connect.requestData(.FindFriends(name)).map { (response, data) -> (NetworkPart) in
             switch response.statusCode {
             case 200:
-                guard let data = try? JSONDecoder().decode(Search.self, from: data) else { return (nil, .fail) }
-                
-                return (data, .success)
+                return .success
             default:
-                return (nil, .fail)
+                return .fail
             }
         }
     }
