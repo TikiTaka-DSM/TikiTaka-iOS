@@ -26,3 +26,11 @@ struct OtherProfile: Codable {
     let profileData: Profile
     let state: State
 }
+
+struct Token: Codable {
+    let accessToken: String
+}
+
+struct TokenData: Codable {
+    let tokens: Token
+}
