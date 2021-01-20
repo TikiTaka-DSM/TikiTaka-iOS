@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+struct TokenManager {
+    
+    enum TokenSataus {
+        case access
+        case refresh
+    }
+    
+    static var currentToken: Token? {
+        return StoregaeManager.shared.read()?.tokens
+    }
+    
+}
