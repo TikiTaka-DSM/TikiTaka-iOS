@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class ProfileViewController: UIViewController {
 
@@ -13,12 +15,10 @@ class ProfileViewController: UIViewController {
     private let userNameLabel = UILabel().then {
         $0.textAlignment = .center
         $0.font = .boldSystemFont(ofSize: 22)
-        $0.text = "백예린"
     }
     private let statusLabel = UILabel().then {
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 18)
-        $0.text = "요즘 DPR 노래가 좋더라~!"
     }
     
     private let chatBtn = UIButton().then {
@@ -39,11 +39,15 @@ class ProfileViewController: UIViewController {
         $0.setTitleColor(.white, for: .normal)
     }
     private var isFriend: Bool = true
-
+    private let disposeBag = DisposeBag()
+    private let viewModel = ProfileViewModel()
+    private let loadData = BehaviorRelay<Void>(value: ())
+    
+    var friendId = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        userImageView.image = UIImage(systemName: "camera")
         userImageView.contentMode = .scaleAspectFit
         
         view.addSubview(userImageView)
@@ -53,7 +57,7 @@ class ProfileViewController: UIViewController {
         view.addSubview(blockBtn)
         view.addSubview(addBtn)
         
-        setUpConstraint()
+        bindViewModel()
     }
     
     override func viewDidLayoutSubviews() {
@@ -63,14 +67,31 @@ class ProfileViewController: UIViewController {
         self.forCornerRadius(userImageView)
         self.forCornerRadius(chatBtn)
         self.forCornerRadius(blockBtn)
+        setUpConstraint()
         self.forCornerRadius(addBtn)
+    }
+    
+    func bindViewModel() {
+        let input = ProfileViewModel.Input(
+            loadProfile: loadData.asSignal(onErrorJustReturn: ()),
+            friendId: friendId,
+            selectAdd: addBtn.rx.tap.asDriver(),
+            selectChat: chatBtn.rx.tap.asDriver(),
+            selectBlock: blockBtn.rx.tap.asDriver())
+        let output = viewModel.transform(input: input)
+
+        output.loadData.bind { (data) in
+            self.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data.profileData.img)"))
+            self.userNameLabel.text = data.profileData.name
+            self.statusLabel.text = data.profileData.statusMessage
+        }.disposed(by: disposeBag)
     }
     
     func setUpConstraint() {
    
         userImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(self.view.snp.top).offset(75)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(75)
             $0.height.width.equalTo(140)
         }
         
