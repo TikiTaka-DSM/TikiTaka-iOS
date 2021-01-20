@@ -14,13 +14,14 @@ class ProfileViewModel: ViewModelType {
     
     struct Input {
         let loadProfile: Signal<Void>
-        let selectAdd: Driver<String>
-        let selectChat: Driver<[String]>
-        let selectBlock: Driver<String>
+        let friendId: String
+        let selectAdd: Driver<Void>
+        let selectChat: Driver<Void>
+        let selectBlock: Driver<Void>
     }
     
     struct Output {
-        let loadData: BehaviorRelay<OtherProfile?>
+        let loadData: PublishRelay<OtherProfile>
         let postFriend: Signal<String>
         let postChat: Signal<RoomData>
         let postBlock: Signal<String>
