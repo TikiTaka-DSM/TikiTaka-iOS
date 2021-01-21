@@ -19,25 +19,27 @@ class FindViewModel: ViewModelType {
     }
     
     struct Output {
-        let findData: Driver<SearchUser?>
+        let findData: Signal<String>
     }
     
     func transform(input: Input) -> Output {
         let api = Service()
-        let findData = BehaviorRelay<SearchUser?>(value: nil)
+        let findData = PublishSubject<String>()
         
         input.findFriend.asObservable().withLatestFrom(input.friendName).subscribe(onNext: { name in
-            api.findFriends(name).subscribe(onNext: { data, response in
+            api.findFriends(name).subscribe(onNext: { response in
                 switch response {
                 case .success:
-                    findData.accept(data!.user)
+                    findData.onCompleted()
+                case .notFound:
+                    findData.onNext("ID에 해당하는 유저가 없음")
                 default:
-                    findData.accept(nil)
+                    findData.onNext("추가할 수 없음")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        return Output(findData: findData.asDriver())
+        return Output(findData: findData.asSignal(onErrorJustReturn: ""))
     }
     
 }
