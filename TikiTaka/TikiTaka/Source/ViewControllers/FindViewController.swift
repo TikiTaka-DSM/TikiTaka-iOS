@@ -39,15 +39,14 @@ class FindViewController: UIViewController {
     }
     
     func bindViewModel() {
-        let input = FindViewModel.Input(friendName: searchBar.searchTextField.rx.text.orEmpty.asDriver(), findFriend: searchBar.doneBtn.rx.tap.asDriver())
+        let input = FindViewModel.Input(friendName: searchBar.searchTextField.rx.text.orEmpty.asDriver(),
+                                        findFriend: searchBar.doneBtn.rx.tap.asDriver())
         let output = viewModel.transform(input: input)
         
-        output.findData.asObservable().subscribe(onNext: { data in
-            if let find = data {
-                print(find)
-            } else {
-                self.errorLabel.text = "존재하지 않는 아이디입니다."
-            }
+        output.findData.emit(onCompleted: {
+            guard let vc = self.storyboard?.instantiateViewController(identifier: "Profile") as? ProfileViewController else { return }
+            vc.friendId = self.searchBar.searchTextField.text!
+            self.present(vc, animated: true, completion: nil)
         }).disposed(by: disposeBag)
     }
     
