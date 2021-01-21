@@ -84,7 +84,19 @@ class ProfileViewController: UIViewController {
             self.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data.profileData.img)"))
             self.userNameLabel.text = data.profileData.name
             self.statusLabel.text = data.profileData.statusMessage
+            
+            if data.roomData.id == 1 {
+                guard let vc  = self.storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
+                vc.roomId = data.roomData.id
+                    self.navigationController?.pushViewController(vc, animated: true)
+            }
         }.disposed(by: disposeBag)
+        
+        output.postChat.emit(onNext: { data in
+            guard let vc  = self.storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
+            vc.roomId = data!.roomData.id
+            self.navigationController?.pushViewController(vc, animated: true)
+        }).disposed(by: disposeBag)
     }
     
     func setUpConstraint() {
