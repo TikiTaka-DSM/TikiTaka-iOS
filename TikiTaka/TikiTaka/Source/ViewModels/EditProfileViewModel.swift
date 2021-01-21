@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class EditProfileViewModel: ViewModelType {
+final class EditProfileViewModel: ViewModelType {
     private let disposeBag = DisposeBag()
 
     struct Input {
