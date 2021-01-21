@@ -22,7 +22,7 @@ class ChatInputField: UIView {
     let inputTextField = UITextField().then {
         $0.backgroundColor = .white
         $0.addLeftPadding()
-        $0.font = .monospacedSystemFont(ofSize: 10, weight: .regular)
+        $0.font = .monospacedSystemFont(ofSize: 13, weight: .regular)
     }
     
     let sendBtn = UIButton().then {
