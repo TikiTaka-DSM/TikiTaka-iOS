@@ -8,13 +8,25 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import MessageKit
-import InputBarAccessoryView
+import AVFoundation
+import SocketIO
+import Kingfisher
 
 class ChatViewController: UIViewController {
 
     private let chatTableView = UITableView()
     private let inputBar = ChatInputField()
+    private let disposeBag = DisposeBag()
+    private let viewModel = ChatViewModel()
+    private let loadData = BehaviorRelay<Void>(value: ())
+    lazy var imagePicker: UIImagePickerController = {
+        let picker: UIImagePickerController = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+        picker.allowsEditing = true
+        return picker
+    }()
+    var roomId = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,4 +81,18 @@ extension ChatViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
     }
+}
+
+extension ChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let originalImage: UIImage = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue)] as? UIImage {
+            guard let imageData = originalImage.jpegData(compressionQuality: 0.4) else {
+                print("Could not get JPEG representation of UIImage")
+                return
+            }
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 }
