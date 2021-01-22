@@ -12,11 +12,10 @@ import RxSwift
 
 class ServiceType {
     
-    let baseUrl = ""
-    typealias httpResult = Observable<(HTTPURLResponse, Data)>
+    typealias HTTPResult = Observable<(HTTPURLResponse, Data)>
 
-    func requestData(_ api: TikiTakaAPI) -> httpResult {
-        return RxAlamofire.requestData(api.method, baseUrl + api.path, parameters: api.params, encoding: JSONEncoding.prettyPrinted, headers: api.headers)
+    func requestData(_ api: TikiTakaAPI) -> HTTPResult {
+        return RxAlamofire.requestData(api.method, Config.baseURL + api.path, parameters: api.params, encoding: JSONEncoding.prettyPrinted, headers: api.headers)
     }
     
 }
