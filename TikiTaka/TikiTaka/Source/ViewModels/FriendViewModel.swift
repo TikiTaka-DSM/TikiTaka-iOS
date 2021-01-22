@@ -20,14 +20,14 @@ final class FriendViewModel: ViewModelType {
     }
     
     struct Output {
-        let loadData: BehaviorRelay<[Friend]>
+        let loadData: BehaviorRelay<[SearchUser]>
         let searchData: Driver<[SearchUser]?>
         let selectData: Driver<String>
     }
     
     func transform(input: Input) -> Output {
         let api = Service()
-        let loadData = BehaviorRelay<[Friend]>(value: [])
+        let loadData = BehaviorRelay<[SearchUser]>(value: [])
         let searchData = BehaviorRelay<[SearchUser]?>(value: nil)
         let selectData = PublishRelay<String>()
         

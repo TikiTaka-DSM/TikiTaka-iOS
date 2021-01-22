@@ -16,7 +16,7 @@ struct Friend: Codable {
 }
 
 struct Friends: Codable {
-    let friends: [Friend]
+    let friends: [SearchUser]
 }
 
 struct Search: Codable {
