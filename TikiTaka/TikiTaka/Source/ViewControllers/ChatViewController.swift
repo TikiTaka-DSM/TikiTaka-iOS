@@ -13,7 +13,7 @@ import SocketIO
 import Kingfisher
 
 class ChatViewController: UIViewController {
-
+    
     private let chatTableView = UITableView()
     private let inputBar = ChatInputField()
     private let disposeBag = DisposeBag()
@@ -49,7 +49,7 @@ class ChatViewController: UIViewController {
             self.setRecord()
         }).disposed(by: disposeBag)
     }
-      
+    
     override func viewWillAppear(_ animated: Bool) {
         chatTableView.separatorColor = .clear
         chatTableView.separatorInset = .zero
@@ -102,7 +102,7 @@ class ChatViewController: UIViewController {
     func startRecording() {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let audioFileName = paths[0].appendingPathComponent(NSUUID().uuidString + ".m4a")
-
+        
         let settings = [
             AVFormatIDKey : Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 12000,
