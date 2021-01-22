@@ -39,11 +39,19 @@ class EditProfileViewController: UIViewController {
         $0.image = UIImage(systemName: "camera")
         $0.tintColor = .white
     }
-  
+    
+    lazy var imagePicker: UIImagePickerController = {
+        let picker: UIImagePickerController = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+        picker.allowsEditing = true
+        return picker
+    }()
+    
     private let disposeBag = DisposeBag()
     private let viewModel = EditProfileViewModel()
     private let loadData = BehaviorRelay<Void>(value: ())
-    private let editImageData = PublishRelay<Data?>()
+    private let editImageData = BehaviorRelay<Data?>(value: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +81,7 @@ class EditProfileViewController: UIViewController {
         let output = viewModel.transform(input: input)
         
         output.laodData.bind{ (data) in
-            self.userImageBtn.imageView!.kf.setImage(with: URL(string: (data?.profileData.img)!))
+            self.userImageBtn.imageView!.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data?.profileData.img ?? "default.png")"))
             self.nameTextField.text = data?.profileData.name
             self.statusTextField.text = data?.profileData.statusMessage
         }.disposed(by: disposeBag)
@@ -123,4 +131,19 @@ class EditProfileViewController: UIViewController {
     }
 
 
+}
+
+extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let originalImage: UIImage = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue)] as? UIImage {
+            guard let imageData = originalImage.jpegData(compressionQuality: 0.4) else {
+                print("Could not get JPEG representation of UIImage")
+                return
+            }
+            editImageData.accept(imageData)
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 }
