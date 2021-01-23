@@ -8,9 +8,9 @@
 import Foundation
 import Security
 
-class TokenManager {
+class StoregaeManager {
     
-    static let shared = TokenManager()
+    static let shared = StoregaeManager()
     
     private let account = "TikiTaka"
     private let service = Bundle.main.bundleIdentifier
@@ -21,7 +21,7 @@ class TokenManager {
         kSecAttrAccount : "TikiTaka"
     ]
     
-    func create(_ user: User) -> Bool {
+    func create(_ user: TokenData) -> Bool {
         guard let data = try? JSONEncoder().encode(user) else { return false }
         
         let keyChainQuery: NSDictionary = [
@@ -36,7 +36,7 @@ class TokenManager {
         return SecItemAdd(keyChainQuery, nil) == errSecSuccess
     }
     
-    func read() -> User? {
+    func read() -> TokenData? {
         let keyChainQuery: NSDictionary = [
             kSecClass : kSecClassGenericPassword,
             kSecAttrService : service!,
@@ -50,7 +50,7 @@ class TokenManager {
         
         if status == errSecSuccess {
             let retrievedData = dataTypeRef as! Data
-            let value = try? JSONDecoder().decode(User.self, from: retrievedData)
+            let value = try? JSONDecoder().decode(TokenData.self, from: retrievedData)
             return value
         }else {
             return nil
