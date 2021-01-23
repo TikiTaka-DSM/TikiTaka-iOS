@@ -24,3 +24,11 @@ struct MessageData: Codable {
     let roomData: RoomInfo
     let messageData: [Message]
 }
+
+struct emitMessage: Codable {
+    let user: SearchUser
+    let message: String?
+    let photo: String?
+    let voice: String?
+    let createdAt: String
+}
