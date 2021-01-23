@@ -19,27 +19,23 @@ class MyProfileViewController: UIViewController {
     }
     
     private let userImageView = UIImageView().then {
-        $0.backgroundColor = .black
         $0.layer.cornerRadius = 54.5
     }
     
     private let userNameLabel = UILabel().then {
         $0.textAlignment = .center
         $0.font = .boldSystemFont(ofSize: 22)
-        $0.text = "ID : 기매린"
     }
     
     private let userIDLabel = UILabel().then {
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 16)
         $0.textColor = .lightGray
-        $0.text = "rin1234"
     }
     
     private let statusLabel = UILabel().then {
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 18)
-        $0.text = "취업하고 싶어요"
         $0.underLine()
     }
     
@@ -56,8 +52,18 @@ class MyProfileViewController: UIViewController {
         view.addSubview(userIDLabel)
         view.addSubview(statusLabel)
 
+        gearBtn.rx.tap.subscribe(onNext: { _ in
+            self.goNext("EditUp")
+        }).disposed(by: disposeBag)
+        
         bindViewModel()
         setUpConstraint()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        loadData.accept(())
     }
     
     func bindViewModel() {
@@ -69,16 +75,17 @@ class MyProfileViewController: UIViewController {
         }).disposed(by: disposeBag)
         
         output.laodData.bind{ (data) in
-            self.userImageView.kf.setImage(with: URL(string: (data?.profileData.img)!))
+            self.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data?.profileData.img ?? "default.png")"))
             self.userNameLabel.text = data?.profileData.name
             self.statusLabel.text = data?.profileData.statusMessage
+            self.userIDLabel.text = data?.profileData.id
         }.disposed(by: disposeBag)
     }
 
     func setUpConstraint() {
         
         gearBtn.snp.makeConstraints {
-            $0.top.equalTo(self.view.snp.top).offset(60)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(60)
             $0.trailing.equalTo(-30)
             $0.height.width.equalTo(40)
         }
