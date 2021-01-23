@@ -18,6 +18,8 @@ final class ChatViewModel: ViewModelType {
         let loadChat: Signal<Void>
         let emitText: Driver<Void>
         let messageText: Driver<String>
+        let messageImage: Driver<Data>
+        let messageAudio: Driver<Data>
     }
     
     struct Output {
@@ -29,9 +31,12 @@ final class ChatViewModel: ViewModelType {
         let api = Service()
         let loadData = PublishRelay<[CellType]>()
         let afterSend = PublishSubject<String>()
-        let info = Driver.combineLatest(Driver.just(input.roomId), input.messageText)
+        let Textinfo = Driver.combineLatest(Driver.just(input.roomId), input.messageText)
+        let Imageinfo = Driver.combineLatest(Driver.just(input.roomId), input.messageText)
+        let Audioinfo = Driver.combineLatest(Driver.just(input.roomId), input.messageText)
         var cellType: [CellType] = []
         var socketClient: SocketIOClient!
+        let token = TokenManager.currentToken?.accessToken
         
         input.loadChat.asObservable().subscribe(onNext: { [weak self] _ in
             guard let self = self else {return}
@@ -52,11 +57,31 @@ final class ChatViewModel: ViewModelType {
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        input.emitText.asObservable().withLatestFrom(info).subscribe(onNext: { id, text in
-            socketClient.emit("chatting", ["roomId": id, "token": Token.self, "message": text])
+        input.emitText.asObservable().withLatestFrom(Textinfo).subscribe(onNext: { id, text in
+            socketClient.emit("chatting", ["roomId": id, "token": token, "message": text])
             
             afterSend.onNext("전송완료")
         }).disposed(by: disposeBag)
+        
+        input.messageImage.asObservable().withLatestFrom(Imageinfo).subscribe(onNext: { id, image in
+            socketClient.emit("chatting", ["roomId": id, "token": token, "image": image])
+            
+            afterSend.onNext("전송완료")
+        }).disposed(by: disposeBag)
+        
+        input.messageAudio.asObservable().withLatestFrom(Audioinfo).subscribe(onNext: { id, audio in
+            socketClient.emit("chatting", ["roomId": id, "token": token, "voice": audio])
+            
+            afterSend.onNext("전송완료")
+        }).disposed(by: disposeBag)
+        
+        socketClient.on("realTimeChatting") { (data, ack) in
+//            let name = data[2] as! String
+//            let message = data[3] as! String
+//            let profileImg = data[1] as! String
+//
+//            output.loadChat.add(element: chat)
+        }
         
         return Output(loadData: loadData, afterSend: afterSend.asSignal(onErrorJustReturn: ""))
     }
