@@ -1,5 +1,5 @@
 //
-//  VoiceTableViewCell.swift
+//  OtherVoiceTableViewCell.swift
 //  TikiTaka
 //
 //  Created by 이가영 on 2021/01/24.
@@ -8,13 +8,13 @@
 import UIKit
 import RxSwift
 
-class VoiceTableViewCell: UITableViewCell {
-
+class OtherVoiceTableViewCell: UITableViewCell {
+    
     let timeLabel = UILabel().then {
         $0.textColor = .white
         $0.text = "0:00"
     }
-        
+    
     let playBtn = UIButton().then {
         $0.tintColor = .white
         $0.setImage(UIImage(systemName: "play.fill"), for: .normal)
@@ -83,7 +83,7 @@ class VoiceTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
     }
-
+    
     @objc func counting() {
         count += 1
         
@@ -103,9 +103,6 @@ class VoiceTableViewCell: UITableViewCell {
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(counting), userInfo: nil, repeats: true)
             playBtn.isSelected = !playBtn.isSelected
         }
-        
-        
-        
     }
-
+    
 }
