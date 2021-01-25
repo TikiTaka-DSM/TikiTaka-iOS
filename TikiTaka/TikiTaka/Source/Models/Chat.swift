@@ -9,9 +9,9 @@ import Foundation
 
 struct Message: Codable {
     let user: User
-    let message: String
-    let photo: String
-    let voice: String
+    let message: String?
+    let photo: String?
+    let voice: String?
     let createdAt: String
 }
 
@@ -22,7 +22,7 @@ struct User: Codable {
 
 struct MessageData: Codable {
     let roomData: RoomInfo
-    let messageData: [Message]
+    let messageData: [emitMessage]
 }
 
 struct emitMessage: Codable {
