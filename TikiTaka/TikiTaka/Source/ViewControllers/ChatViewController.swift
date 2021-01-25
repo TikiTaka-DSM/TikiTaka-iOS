@@ -82,6 +82,7 @@ class ChatViewController: UIViewController {
             inputBar.inputTextField.isEnabled = !inputBar.inputTextField.isEnabled
             inputBar.recordTime.isHidden = !inputBar.recordTime.isHidden
             if inputBar.chatAudio.isSelected {
+                timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(counting), userInfo: nil, repeats: true)
                 inputBar.sendBtn.isHidden = true
                 inputBar.inputTextField.text = "녹음을 끝내려면 아이콘을 클릭해주세요."
                 inputBar.inputTextField.backgroundColor = PointColor.sub
@@ -89,6 +90,7 @@ class ChatViewController: UIViewController {
                 inputBar.chatAudio.tintColor = PointColor.sub
                 startRecording()
             } else {
+                timer.invalidate()
                 inputBar.sendBtn.isHidden = false
                 inputBar.inputTextField.text = ""
                 inputBar.inputTextField.backgroundColor = .white
@@ -146,6 +148,15 @@ class ChatViewController: UIViewController {
     @objc func keyboardWillDisappear(note: Notification){
         self.view.frame.origin.y = 0
         inputBar.sendBtn.isHidden = true
+    }
+    
+    @objc func counting() {
+        count += 1
+        
+        let minutes = count / 60 % 60
+        let seconds = count % 60
+        
+        inputBar.recordTime.text = String(format: "%01i:%02i", minutes, seconds)
     }
 }
 
