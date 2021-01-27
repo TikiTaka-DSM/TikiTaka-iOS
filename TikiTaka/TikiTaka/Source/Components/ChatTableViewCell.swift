@@ -13,20 +13,24 @@ class ChatTableViewCell: UITableViewCell {
     let chatName = UILabel()
     let chatTime = UILabel()
     let lastMessage = UILabel()
+    let footerView = UIView().then {
+        $0.backgroundColor = PointColor.primary
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        contentView.addSubview(chatImg)
-        contentView.addSubview(chatName)
-        contentView.addSubview(chatTime)
-        contentView.addSubview(lastMessage)
+        self.addSubview(chatImg)
+        self.addSubview(chatName)
+        self.addSubview(chatTime)
+        self.addSubview(lastMessage)
+        self.addSubview(footerView)
         
         chatImg.snp.makeConstraints {
-            $0.top.equalTo(contentView.snp.top).offset(9)
-            $0.bottom.equalTo(contentView.snp.bottom).offset(-8)
+            $0.top.equalTo(self.snp.top).offset(9)
+            $0.bottom.equalTo(self.snp.bottom).offset(-8)
             $0.width.height.equalTo(53)
-            $0.leading.equalTo(contentView.snp.leading).offset(5)
+            $0.leading.equalTo(self.snp.leading).offset(5)
         }
         
         chatName.snp.makeConstraints {
@@ -40,8 +44,15 @@ class ChatTableViewCell: UITableViewCell {
         }
         
         chatTime.snp.makeConstraints {
-            $0.trailing.equalTo(contentView.snp.trailing).offset(-8)
+            $0.trailing.equalTo(self.snp.trailing).offset(-8)
             $0.centerY.equalToSuperview()
+        }
+        
+        footerView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.height.equalTo(1)
+            $0.width.equalTo(self.snp.width)
+            $0.centerX.equalToSuperview()
         }
     }
     
