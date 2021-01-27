@@ -66,7 +66,7 @@ enum TikiTakaAPI {
         }
     }
     
-    var params: Parameters {
+    var params: Parameters? {
         switch self {
         case .signIn(let id, let password):
             return ["id": id, "password": password]
@@ -75,7 +75,7 @@ enum TikiTakaAPI {
         case .postRoom(let people):
             return ["people": people]
         default:
-            return [:]
+            return nil
         }
     }
     
