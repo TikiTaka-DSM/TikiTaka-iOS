@@ -22,6 +22,9 @@ class ChatViewController: UIViewController {
     private let sendImage = PublishRelay<Data>()
     private let sendVoice = PublishRelay<Data>()
     private var voiceRecord: AVAudioRecorder!
+    private var timer = Timer()
+    private var count = Int()
+    var socketClient: SocketIOClient!
     
     lazy var imagePicker: UIImagePickerController = {
         let picker: UIImagePickerController = UIImagePickerController()
@@ -42,37 +45,99 @@ class ChatViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(note:)), name: UIResponder.keyboardWillHideNotification , object: nil)
         
         inputBar.inputTextField.delegate = self
-        
+        setTableView()
         setUpConstraint()
+        bindViewModel()
+        
+        socketClient = SocketIOManager.shared.socket
+        SocketIOManager.shared.establishConnection()
+        socketClient.emit("joinRoom", socketRoom(roomId: roomId))
         
         inputBar.chatAudio.rx.tap.subscribe(onNext: { _ in
             self.setRecord()
         }).disposed(by: disposeBag)
+   
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         chatTableView.separatorColor = .clear
         chatTableView.separatorInset = .zero
         chatTableView.separatorStyle = .none
     }
     
     func bindViewModel() {
+        
         let input = ChatViewModel.Input(roomId: roomId, loadChat: loadData.asSignal(onErrorJustReturn: ()), emitText: inputBar.sendBtn.rx.tap.asDriver(), messageText: inputBar.inputTextField.rx.text.orEmpty.asDriver(), messageImage: sendImage.asDriver(onErrorJustReturn: Data.init()), messageAudio: sendVoice.asDriver(onErrorJustReturn: Data.init()))
         let output = viewModel.transform(input: input)
-        
+
         output.loadData.asObservable().bind(to: chatTableView.rx.items) { tableview, row, cellType -> UITableViewCell in
             switch cellType {
             case .myMessages(let message):
                 print(message)
-                let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "MyMessageCell")
-                return cell!
-                
+                if message.message!.isEmpty && message.photo!.isEmpty{
+                    //voice
+                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "myVoiceCell") as! MyVoiceTableViewCell
+
+
+                    return cell
+                }else if message.photo!.isEmpty {
+                    //message
+                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
+
+                    cell.messageLabel.text = message.message
+
+                    return cell
+                }else {
+                    //photo
+                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
+
+                    cell.bubbleView.kf.setImage(with: URL(string: ""))
+
+                    return cell
+                }
             case .yourMessage(let message):
                 print(message)
-                let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "MyMessageCell")
-                return cell!
+                if message.message!.isEmpty && message.photo!.isEmpty{
+                    //voice
+                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "otherVoiceCell") as! OtherVoiceTableViewCell
+                    
+                    cell.userImageView.kf.setImage(with: URL(string: ""))
+                    
+                    return cell
+                }else if message.photo!.isEmpty {
+                    //message
+                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "otherCell") as! OtherTableViewCell
+
+                    cell.messageLabel.text = message.message
+                    cell.userImageView.kf.setImage(with: URL(string: ""))
+                    
+                    return cell
+                }else {
+                    //photo
+                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "otherCell") as! OtherTableViewCell
+
+                    cell.bubbleView.kf.setImage(with: URL(string: ""))
+                    cell.userImageView.kf.setImage(with: URL(string: ""))
+                    
+                    return cell
+                }
             }
         }.disposed(by: disposeBag)
+        
+        output.afterSend.emit(onNext: {[unowned self] _ in
+            print("굳")
+            loadData.accept(())
+            chatTableView.reloadData()
+//
+        }).disposed(by: disposeBag)
+    }
+    
+    func setTableView() {
+        chatTableView.register(MyTableViewCell.self, forCellReuseIdentifier: "mineCell")
+        chatTableView.register(OtherTableViewCell.self, forCellReuseIdentifier: "otherCell")
+        chatTableView.register(OtherVoiceTableViewCell.self, forCellReuseIdentifier: "otherVoiceCell")
+        chatTableView.register(MyVoiceTableViewCell.self, forCellReuseIdentifier: "myVoiceCell")
     }
     
     func setRecord() {
@@ -183,8 +248,9 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
 extension ChatViewController: AVAudioRecorderDelegate {
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         do {
+            
             let data = try Data(contentsOf: voiceRecord.url)
-            sendVoice.accept(data)
+            sendVoice.accept(data.base64EncodedData())
         }catch {
             print(error)
         }
