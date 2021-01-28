@@ -22,7 +22,7 @@ enum TikiTakaAPI {
     case FindFriends(_ name: String)
     case postFriends(_ id: String)
     
-    case postRoom(_ people: [String])
+    case postRoom(_ people: String)
     case getChatList
     case getChatInfo(_ id: Int)
     
@@ -73,7 +73,7 @@ enum TikiTakaAPI {
         case .signUp(let id, let password, let name):
             return ["id": id, "password": password, "name": name]
         case .postRoom(let people):
-            return ["people": people]
+            return ["friend": people]
         default:
             return nil
         }
