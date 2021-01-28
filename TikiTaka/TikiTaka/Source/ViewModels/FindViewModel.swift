@@ -30,7 +30,7 @@ final class FindViewModel: ViewModelType {
             api.findFriends(name).subscribe(onNext: { response in
                 switch response {
                 case .success:
-                    findData.onCompleted()
+                    findData.onNext("성공")
                 case .notFound:
                     findData.onNext("ID에 해당하는 유저가 없음")
                 default:
