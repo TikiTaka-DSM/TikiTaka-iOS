@@ -46,8 +46,10 @@ enum TikiTakaAPI {
             return "/friend?id=\(name)"
         case .postFriends(let id):
             return "/friend/\(id)"
-        case .postRoom, .getChatList:
+        case .postRoom:
             return "/room"
+        case .getChatList:
+            return "/rooms"
         case .getChatInfo(let id):
             return "/room/\(id)"
         }
