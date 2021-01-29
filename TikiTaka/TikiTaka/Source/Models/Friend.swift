@@ -29,16 +29,12 @@ struct SearchUser: Codable {
     let img: String
 }
 
-struct Section {
-    var header: String
-    var items: [Friend]
+struct ChatList: Codable {
+    let roomId: Int
+    let user: SearchUser
+    let lastMessage: String
 }
 
-extension Section: SectionModelType {
-    typealias Item = Friend
-    
-    init(original: Section, items: [Item]) {
-        self = original
-        self.items = items
-    }
+struct Rooms: Codable {
+    let rooms: [ChatList]
 }
