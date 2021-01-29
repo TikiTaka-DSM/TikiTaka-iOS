@@ -10,6 +10,7 @@ import Foundation
 struct Profile: Codable {
     let img: String
     let name: String
+    let id: String
     let statusMessage: String
 }
 
@@ -25,6 +26,7 @@ struct ProfileData: Codable {
 struct OtherProfile: Codable {
     let profileData: Profile
     let state: State
+    let roomData: Roomid
 }
 
 struct Token: Codable {
