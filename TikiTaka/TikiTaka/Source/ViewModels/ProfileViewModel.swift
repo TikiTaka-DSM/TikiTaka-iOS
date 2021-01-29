@@ -23,19 +23,20 @@ final class ProfileViewModel: ViewModelType {
     struct Output {
         let loadData: PublishRelay<OtherProfile>
         let postFriend: Signal<String>
-        let postChat: Signal<RoomData>
+        let postChat: Signal<RoomData?>
         let postBlock: Signal<String>
     }
     
     func transform(input: Input) -> Output {
         let api = Service()
-        let loadData = BehaviorRelay<OtherProfile?>(value: nil)
+        let loadData = PublishRelay<OtherProfile>()
         let postFriend = PublishSubject<String>()
         let postBlock = PublishSubject<String>()
-        let postChat = PublishRelay<RoomData>()
+        let postChat = PublishSubject<RoomData?>()
         
         input.loadProfile.asObservable().subscribe(onNext: { _ in
-            api.getOtherProfile("").subscribe(onNext: { data, response in
+            api.getOtherProfile(input.friendId).subscribe(onNext: { data, response in
+                print(response)
                 switch response {
                 case .success:
                     loadData.accept(data!)
@@ -45,8 +46,8 @@ final class ProfileViewModel: ViewModelType {
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        input.selectAdd.asObservable().subscribe(onNext: { id in
-            api.postFriends(id).subscribe(onNext: { response in
+        input.selectAdd.asObservable().subscribe(onNext: { _ in
+            api.postFriends(input.friendId).subscribe(onNext: { response in
                 switch response {
                 case .success:
                     postFriend.onCompleted()
@@ -56,19 +57,22 @@ final class ProfileViewModel: ViewModelType {
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        input.selectChat.asObservable().subscribe(onNext: { people in
-            api.postRoom(people).subscribe(onNext: { data, response in
+        input.selectChat.asObservable().subscribe(onNext: { _ in
+            api.postRoom(input.friendId).subscribe(onNext: { data, response in
+                print(response)
                 switch response {
                 case .success:
-                    postChat.accept(data!)
+                    postChat.onNext(data!)
+                case .duplication:
+                    postChat.onCompleted()
                 default:
                     print("채팅하기 실패")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        input.selectBlock.asObservable().subscribe(onNext: { id in
-            api.blockFriends(id).subscribe(onNext: { response in
+        input.selectBlock.asObservable().subscribe(onNext: { _ in
+            api.blockFriends(input.friendId).subscribe(onNext: { response in
                 switch response {
                 case .success:
                     postBlock.onCompleted()
@@ -78,20 +82,6 @@ final class ProfileViewModel: ViewModelType {
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        return Output(loadData: loadData, postFriend: postFriend.asSignal(onErrorJustReturn: "오류가 발생하여 친구 추가가 되지 않습니다."), postChat: postChat.asSignal(), postBlock: postBlock.asSignal(onErrorJustReturn: "오류가 발생하여 친구 차단이 되지 않습니다."))
+        return Output(loadData: loadData, postFriend: postFriend.asSignal(onErrorJustReturn: "오류가 발생하여 친구 추가가 되지 않습니다."), postChat: postChat.asSignal(onErrorJustReturn: nil), postBlock: postBlock.asSignal(onErrorJustReturn: "오류가 발생하여 친구 차단이 되지 않습니다."))
     }
 }
-
-//private let disposeBag = DisposeBag()
-//
-//struct Input {
-//
-//}
-//
-//struct Output {
-//
-//}
-//
-//func transform(input: Input) -> Output {
-//    <#code#>
-//}
