@@ -35,14 +35,13 @@ final class MainViewModel: ViewModelType {
                     var result = [String : [ChatList]]()
                     for i in 0..<data!.count {
                         if result[String(i)] == nil {
-                            result[String(i)] = data!
+                            result[String(i)] = [data![i]]
                             continue
                         }
                         result[String(i)]?.append(data![i])
                     }
                     
                     loadData.accept(result.compactMap { ChatListSection(model: $0.key, items: $0.value) })
-                    print(result)
                 default:
                     print("asdf")
                 }
