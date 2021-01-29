@@ -18,6 +18,7 @@ class FindViewController: UIViewController {
     private let errorLabel = UILabel().then {
         $0.textColor = PointColor.primary
         $0.text = "검색을 통해 친구를 찾아보세요!"
+        $0.numberOfLines = 0
     }
     
     private let disposeBag = DisposeBag()
@@ -43,7 +44,9 @@ class FindViewController: UIViewController {
                                         findFriend: searchBar.doneBtn.rx.tap.asDriver())
         let output = viewModel.transform(input: input)
         
-        output.findData.emit(onNext: { _ in
+        output.findData.emit(onNext: {[unowned self] error in
+            errorLabel.text = error
+        },onCompleted: {
             guard let vc = self.storyboard?.instantiateViewController(identifier: "Profile") as? ProfileViewController else { return }
             vc.friendId = self.searchBar.searchTextField.text!
             self.present(vc, animated: true, completion: nil)
