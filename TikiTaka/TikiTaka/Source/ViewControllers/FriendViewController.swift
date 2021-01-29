@@ -20,7 +20,6 @@ class FriendViewController: UIViewController {
         $0.backgroundColor = PointColor.primary
     }
 
-    private let dummy = BehaviorRelay<[Friend]>(value: [])
     private let disposeBag = DisposeBag()
     private let loadData = BehaviorRelay<Void>(value: ())
     private let viewModel = FriendViewModel()
@@ -49,22 +48,11 @@ class FriendViewController: UIViewController {
                                           searchFriend: searchBar.doneBtn.rx.tap.asSignal())
         let output = viewModel.transform(input: input)
 
-        output.loadData.bind(to: friendsTableView.rx.items(cellIdentifier: "friendsCell", cellType: UITableViewCell.self)) { row, model, cell in
-
-            self.forCornerRadius(cell.imageView!)
-            cell.imageView?.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(model.img!)"), completionHandler:  { result in
-                cell.setNeedsLayout()
-            })
-            cell.textLabel?.text = model.name
-        
-            let footerView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.bounds.size.width, height: 1))
-            let bottomView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 65, width: self.view.bounds.size.width, height: 1))
-
-            cell.addSubview(footerView)
-            cell.addSubview(bottomView)
+        output.loadData.bind(to: friendsTableView.rx.items(cellIdentifier: "friendsCell", cellType: FriendTableViewCell.self)) { row, model, cell in
             
-            footerView.addBottomBorderWithColor(color: PointColor.primary, width: 1)
-            bottomView.addTopBorderWithColor(color: PointColor.primary, width: 1)
+            cell.friendImg.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(model.img)"))
+            cell.friendName.text = model.name
+            
         }.disposed(by: disposeBag)
 
         output.selectData.drive(onNext: { friend in
@@ -75,7 +63,7 @@ class FriendViewController: UIViewController {
     }
 
     func setTableView() {
-        friendsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "friendsCell")
+        friendsTableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "friendsCell")
     }
 
     func setUpConstraint() {
