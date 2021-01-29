@@ -54,7 +54,6 @@ class Service {
     func changeProfile(_ img: Data?, _ name: String, statusMessage: String) -> DataRequest {
         
         let api: TikiTakaAPI = .changeProfile
-        let baseUrl = ""
         let param = ["name": name, "statusMessage": statusMessage]
         
         return AF.upload(multipartFormData: { (multipartFormData) in
@@ -63,13 +62,16 @@ class Service {
             }
 
             for (key, value) in param {
+                print(key)
+                print(value)
                 multipartFormData.append("\(value)".data(using: .utf8)!, withName: key, mimeType: "text/plain")
             }
-        }, to: baseUrl + api.path, method: .post, headers: api.headers)
+        }, to: Config.baseURL + api.path, method: api.method, headers: api.headers)
     }
     
     func getFriends() -> Observable<(Friends?, NetworkPart)> {
         connect.requestData(.getFriends).map { (response, data) -> (Friends?, NetworkPart) in
+            print(response.statusCode)
             switch response.statusCode {
             case 200:
                 guard let data = try? JSONDecoder().decode(Friends.self, from: data) else { return (nil, .fail) }
@@ -83,6 +85,7 @@ class Service {
     
     func getOtherProfile(_ str: String) -> Observable<(OtherProfile?, NetworkPart)> {
         connect.requestData(.getOtherProfile(str)).map { (response, data) -> (OtherProfile?, NetworkPart) in
+            print(response.statusCode)
             switch response.statusCode {
             case 200:
                 guard let data = try? JSONDecoder().decode(OtherProfile.self, from: data) else { return (nil, .fail) }
@@ -123,6 +126,8 @@ class Service {
             switch response.statusCode {
             case 200:
                 return .success
+            case 404:
+                return .notFound
             default:
                 return .fail
             }
@@ -140,10 +145,11 @@ class Service {
         }
     }
     
-    func postRoom(_ people: [String]) -> Observable<(RoomData?, NetworkPart)> {
+    func postRoom(_ people: String) -> Observable<(RoomData?, NetworkPart)> {
         connect.requestData(.postRoom(people)).map { (response, data) -> (RoomData?, NetworkPart) in
+            print(response.statusCode)
             switch response.statusCode {
-            case 201:
+            case 201, 200:
                 guard let data = try? JSONDecoder().decode(RoomData.self, from: data) else { return (nil, .fail)}
                 
                 return (data, .success)
@@ -153,13 +159,14 @@ class Service {
         }
     }
     
-    func getChatList() -> Observable<(Friends?, NetworkPart)> {
-        connect.requestData(.getChatList).map { (response, data) -> (Friends?, NetworkPart) in
+    func getChatList() -> Observable<([ChatList]?, NetworkPart)> {
+        connect.requestData(.getChatList).map { (response, data) -> ([ChatList]?, NetworkPart) in
+            print(response.statusCode)
             switch response.statusCode {
             case 200:
-                guard let data = try? JSONDecoder().decode(Friends.self, from: data) else { return (nil, .fail)}
+                guard let data = try? JSONDecoder().decode(Rooms.self, from: data) else { return (nil, .fail)}
                 
-                return (data, .success)
+                return (data.rooms, .success)
             default:
                 return (nil, .fail)
             }
@@ -171,6 +178,7 @@ class Service {
             switch response.statusCode {
             case 200:
                 guard let data = try? JSONDecoder().decode(MessageData.self, from: data) else { return (nil, .fail) }
+                
                 return (data, .success)
             default:
                 return (nil, .fail)
