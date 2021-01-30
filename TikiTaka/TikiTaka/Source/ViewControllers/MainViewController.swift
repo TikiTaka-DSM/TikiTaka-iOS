@@ -10,6 +10,9 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
+typealias ChatListSection = SectionModel<String, ChatList>
+typealias ChatListDataSource = RxTableViewSectionedReloadDataSource<ChatListSection>
+
 class MainViewController: UIViewController {
 
     private let chatsTableView = UITableView().then {
@@ -20,24 +23,24 @@ class MainViewController: UIViewController {
         $0.backgroundColor = PointColor.primary
     }
 
-    var sections = [
-        Section(header: "First", items: [Friend(id: "asdf", img: nil, name: "gi", statusMessage: "Cjdq")]),
-        Section(header: "Second", items: [Friend(id: "asdf", img: nil, name: "gi", statusMessage: "Cjdq")]),
-    ]
+    private let viewModel = MainViewModel()
     
-    let dataSource = RxTableViewSectionedReloadDataSource<Section>  { (dataSource, tableView, indexPath, item) -> UITableViewCell in
+    private let dataSource = ChatListDataSource { (dataSource, tableView, indexPath, item) -> UITableViewCell in
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatsCell", for: indexPath) as! ChatTableViewCell
         cell.separatorInset = UIEdgeInsets.zero
 
-        cell.chatImg.image = UIImage(named: "TikiTaka_logo.png")
-        cell.chatName.text = item.name
-        cell.chatTime.text = "오전"
-        cell.lastMessage.text = "안녕"
+        cell.chatImg.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(item.user.img)"), completionHandler:  { result in
+            cell.setNeedsLayout()
+        })
+        cell.chatName.text = item.user.name
+        cell.chatTime.text = "df"
+        cell.lastMessage.text = item.lastMessage
         
         return cell
     }
     
     private let disposeBag = DisposeBag()
+    private let loadData = BehaviorRelay<Void>(value: ())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,9 +49,10 @@ class MainViewController: UIViewController {
         view.addSubview(searchBar)
     
         chatsTableView.rx.setDelegate(self).disposed(by: disposeBag)
-        
         setTableView()
+        bindViewModel()
     }
+ 
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -56,20 +60,21 @@ class MainViewController: UIViewController {
         setUpConstraint()
     }
     
+    func bindViewModel() {
+        let input = MainViewModel.Input(loadChatList: loadData.asSignal(onErrorJustReturn: ()), selectRoom: chatsTableView.rx.itemSelected.asSignal())
+        let output = viewModel.transform(input: input)
+        
+        output.loadData.drive(chatsTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        
+        output.selectData.drive(onNext: { roomId in
+            guard let vc = self.storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
+            vc.roomId = roomId
+            self.present(vc, animated: true, completion: nil)
+        }).disposed(by: disposeBag)
+    }
+    
     func setTableView() {
-        
         chatsTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: "chatsCell")
-        
-        Observable.just(sections)
-          .bind(to: chatsTableView.rx.items(dataSource: dataSource))
-          .disposed(by: disposeBag)
-        
-//        sections.bind(to: chatsTableView.rx.items(cellIdentifier: "chatsCell")) { row, model, cell in
-//            cell.imageView?.image = UIImage(named: "TikiTaka_logo.png")
-//            self.forCornerRadius(cell.imageView!)
-//            cell.textLabel?.text = model.name
-//        }.disposed(by: disposeBag)
-        
     }
     
     func setUpConstraint() {
@@ -104,6 +109,7 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         tableView.separatorColor = .clear
         tableView.separatorInset = .zero
+        tableView.separatorStyle = .none
     }
     
 }
