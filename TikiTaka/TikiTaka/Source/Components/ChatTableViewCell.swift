@@ -54,6 +54,7 @@ class ChatTableViewCell: UITableViewCell {
             $0.width.equalTo(self.snp.width)
             $0.centerX.equalToSuperview()
         }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {

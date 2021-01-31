@@ -14,12 +14,11 @@ class SocketIOManager: NSObject {
     
     var manager = SocketManager(socketURL: URL(string: Config.baseURL)!, config: [.log(false), .compress])
     var socket: SocketIOClient!
-
+    
     override init() {
         super.init()
         
         socket = self.manager.defaultSocket
-
     }
     
     func establishConnection() {
