@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import RxCocoa
 
 extension UIViewController {
     func goNext(_ identifier: String) {
@@ -25,5 +26,19 @@ extension UIViewController {
     
     func forCornerRadius(_ object: AnyObject) {
         object.layer?.cornerRadius = object.bounds!.height / 2
+    }
+}
+
+extension BehaviorRelay where Element: RangeReplaceableCollection {
+    func add(element: Element.Element) {
+        var array = self.value
+        array.append(element)
+        self.accept(array)
+    }
+    
+    func insert(element: Element.Element) {
+        var array = self.value
+        array.insert(element, at: 0 as! Element.Index)
+        self.accept(array)
     }
 }
