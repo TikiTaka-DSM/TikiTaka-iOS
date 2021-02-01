@@ -14,7 +14,7 @@ pod 'Socket.IO-Client-Swift', '~> 15.2.0'
 pod 'SnapKit', '~> 5.0.0'
 pod 'Then'
 pod 'RxDataSources', '~> 4.0'
-pod 'MessageKit'
+pod 'ReactorKit'
 
   # Pods for TikiTaka
 
