@@ -26,4 +26,5 @@ extension Point {
 struct PointColor: Point {
     static let primary = pointHex(hex: "FFA48E")
     static let sub = pointHex(hex: "FD896C")
+    static let enable = pointHex(hex: "FEC9B9")
 }
