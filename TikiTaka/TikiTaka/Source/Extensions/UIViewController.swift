@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 
 extension UIViewController {
-    func goNext(_ identifier: String) {
+    func pushVC(_ identifier: String) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: identifier)
         navigationController?.pushViewController(vc!, animated: true)
     }
