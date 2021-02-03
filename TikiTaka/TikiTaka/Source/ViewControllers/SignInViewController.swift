@@ -11,8 +11,9 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class SignInViewController: UIViewController {
-
+final class SignInViewController: UIViewController {
+    
+    // MARK: UI
     private let logoView = UIImageView().then {
         $0.image = UIImage(named: "TikiTaka_logo")
     }
@@ -54,7 +55,7 @@ class SignInViewController: UIViewController {
         $0.titleLabel?.font = UIFont(name: "Arial Hebrew", size: 13)
     }
     
-    private let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     private let viewModel = SignInViewModel()
     
     override func viewDidLoad() {
@@ -71,8 +72,18 @@ class SignInViewController: UIViewController {
         bindViewModel()
         
         signUpBtn.rx.tap.subscribe(onNext: { _ in
-            self.goNext("SignUp")
+            self.pushVC("SignUp")
         }).disposed(by: disposeBag)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     func bindViewModel() {
@@ -83,12 +94,15 @@ class SignInViewController: UIViewController {
         
         output.result.emit(onNext: { text in
             self.setAlert(text)
-        }, onCompleted: { self.goNext("Main") }).disposed(by: disposeBag)
+        }, onCompleted: { self.pushVC("Main") }).disposed(by: disposeBag)
         output.isEnable.drive(self.signInBtn.rx.isEnabled).disposed(by: disposeBag)
         output.isEnable.drive(onNext: { isEnable in
             print("")
         }).disposed(by: disposeBag)
     }
+    
+    
+    // MARK: Constraints
     
     func setUpConstraint() {
         logoView.snp.makeConstraints { (make) in
@@ -132,6 +146,5 @@ class SignInViewController: UIViewController {
             make.centerX.equalTo(self.view)
         }
     }
-
 }
 
