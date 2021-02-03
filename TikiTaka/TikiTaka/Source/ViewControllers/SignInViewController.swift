@@ -40,10 +40,12 @@ class SignInViewController: UIViewController {
     }
     
     private let signInBtn = UIButton().then {
-        $0.backgroundColor = PointColor.sub
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 28
+        $0.setBackgroundColor(PointColor.enable, for: .disabled)
+        $0.setBackgroundColor(PointColor.sub, for: .normal)
         $0.setTitle("Login", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 28
     }
     
     private let signUpBtn = UIButton().then {
