@@ -53,7 +53,7 @@ class MyProfileViewController: UIViewController {
         view.addSubview(statusLabel)
 
         gearBtn.rx.tap.subscribe(onNext: { _ in
-            self.goNext("EditUp")
+            self.pushVC("EditUp")
         }).disposed(by: disposeBag)
         
         bindViewModel()

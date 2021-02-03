@@ -85,7 +85,7 @@ class SignUpViewController: UIViewController {
         
         output.result.emit(onNext: { text in
             self.setAlert(text)
-        },onCompleted: { self.goNext("Main") }).disposed(by: disposeBag)
+        },onCompleted: { self.pushVC("Main") }).disposed(by: disposeBag)
         output.isEnable.drive(self.signInBtn.rx.isEnabled).disposed(by: disposeBag)
         output.isEnable.drive(onNext: { isEnable in
             self.signInBtn.tintColor = UIColor.gray
