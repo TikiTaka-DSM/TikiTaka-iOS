@@ -54,7 +54,7 @@ class FriendViewController: UIViewController {
             cell.friendName.text = model.name
             
         }.disposed(by: disposeBag)
-
+        
         output.selectData.drive(onNext: { friend in
             guard let vc = self.storyboard?.instantiateViewController(identifier: "Profile") as? ProfileViewController else { return }
             vc.friendId = friend
