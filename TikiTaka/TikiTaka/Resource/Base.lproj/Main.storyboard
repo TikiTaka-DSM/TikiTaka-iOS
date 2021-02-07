@@ -61,7 +61,7 @@
         <!--Chat View Controller-->
         <scene sceneID="7zJ-TP-lh7">
             <objects>
-                <viewController id="xL6-0M-nXQ" customClass="ChatViewController" customModule="TikiTaka" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Chat" id="xL6-0M-nXQ" customClass="ChatViewController" customModule="TikiTaka" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jph-Xv-c42">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -86,7 +86,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iM6-6f-2A7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4273.913043478261" y="743.97321428571422"/>
+            <point key="canvasLocation" x="4265" y="800"/>
         </scene>
         <!--My Profile View Controller-->
         <scene sceneID="xMr-Nc-Hk1">
@@ -135,7 +135,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GlP-N1-rmc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1038" y="837"/>
+            <point key="canvasLocation" x="1038" y="800"/>
         </scene>
         <!--Friend View Controller-->
         <scene sceneID="T7c-ay-G8b">
@@ -185,6 +185,9 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LdH-Mc-GtM">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Q3W-tp-2sh"/>
                     </connections>
@@ -212,7 +215,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HcH-ST-Ce0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1828.985507246377" y="799.55357142857144"/>
+            <point key="canvasLocation" x="1829" y="800"/>
         </scene>
     </scenes>
     <resources>
