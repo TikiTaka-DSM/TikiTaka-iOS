@@ -7,39 +7,33 @@
 
 import Foundation
 import SocketIO
+import RxCocoa
 
 class SocketIOManager: NSObject {
     
     static let shared = SocketIOManager()
     
-    var manager = SocketManager(socketURL: URL(string: Config.baseURL)!, config: [.log(false), .compress])
+    var manager = SocketManager(socketURL: URL(string: "http://54.180.2.226:3000")!, config: [.log(true), .compress])
     var socket: SocketIOClient!
+    var roomInfo = BehaviorRelay<Int>(value: 0)
     
     override init() {
         super.init()
-        
-        socket = self.manager.defaultSocket
+        socket = manager.defaultSocket
     }
     
     func establishConnection() {
         socket.connect()
+        
+        socket.on(clientEvent: .connect) { (data, ack) in
+            print("hihi")
+            print(data)
+            self.socket.emit("joinRoom", ["roomId": self.roomInfo.value])
+        }
     }
     
     func closeConnection() {
         socket.disconnect()
     }
     
-    func sendMessage(roomId: String, message: String, token: String) -> [String : Any] {
-        return ["roomId" : roomId, "message" : message , "token" : token ]
-    }
-    
-    func sendImage(roomId: String, image: Data, token: String) -> [String: Any] {
-        return ["roomId": roomId, "image": image, "token": token]
-    }
-    
-    func sendAudio(roomId: String, audio: Data, token: String) -> [String: Any] {
-        return ["roomId": roomId, "audio": audio, "token": token]
-    }
-    
-
 }
