@@ -49,9 +49,9 @@ class ChatViewController: UIViewController {
         setUpConstraint()
         bindViewModel()
         
-        socketClient = SocketIOManager.shared.socket
         SocketIOManager.shared.establishConnection()
-        socketClient.emit("joinRoom", socketRoom(roomId: roomId))
+        socketClient = SocketIOManager.shared.socket
+        SocketIOManager.shared.socket.emit("joinRoom", ["roodId": roomId])
         
         inputBar.chatAudio.rx.tap.subscribe(onNext: { _ in
             self.setRecord()
