@@ -26,14 +26,8 @@ class SocketIOManager: NSObject {
         socket.connect()
         
         socket.on(clientEvent: .connect) { (data, ack) in
-            print("hihi")
-            print(data)
             self.socket.emit("joinRoom", ["roomId": self.roomInfo.value])
         }
-    }
-    
-    func closeConnection() {
-        socket.disconnect()
     }
     
 }
