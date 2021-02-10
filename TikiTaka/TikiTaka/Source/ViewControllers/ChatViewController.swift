@@ -126,10 +126,9 @@ class ChatViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         output.afterSend.emit(onNext: {[unowned self] _ in
-            print("굳")
             loadData.accept(())
             chatTableView.reloadData()
-//
+            inputBar.inputTextField.text = ""
         }).disposed(by: disposeBag)
     }
     
