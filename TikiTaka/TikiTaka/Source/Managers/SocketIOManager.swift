@@ -30,4 +30,16 @@ class SocketIOManager: NSObject {
         }
     }
     
+    func sendMessage(_ id: Int, _ token: String, message: String) {
+        socket.emit("sendMessage", ["roomId" : id, "token" : token, "message": message])
+    }
+    
+    func sendImage(_ id: Int, _ token: String, image: String) {
+        socket.emit("sendImage", ["roomId" : id, "token" : token, "file": image])
+    }
+    
+    func sendVoice(_ id: Int, _ token: String, voice: String) {
+        socket.emit("sendVoice", ["roomId" : id, "token": token, "file": voice])
+    }
+    
 }
