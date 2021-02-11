@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xL6-0M-nXQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vcB-Ax-SbU">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
@@ -86,7 +86,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iM6-6f-2A7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4265" y="800"/>
+            <point key="canvasLocation" x="3404" y="800"/>
         </scene>
         <!--My Profile View Controller-->
         <scene sceneID="xMr-Nc-Hk1">
@@ -98,11 +98,12 @@
                         <viewLayoutGuide key="safeArea" id="oMN-wg-c96"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="" image="Icon awesome-user-alt-1" selectedImage="Icon awesome-user-alt" id="W0H-ds-8m7"/>
                     <navigationItem key="navigationItem" id="TSa-hp-h0r"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cQR-VM-sq4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2739.130434782609" y="799.55357142857144"/>
+            <point key="canvasLocation" x="1880" y="800"/>
         </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="6CT-Mh-OJB">
@@ -117,7 +118,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b0g-Y0-3Oy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3505.7971014492755" y="799.55357142857144"/>
+            <point key="canvasLocation" x="2646" y="800"/>
         </scene>
         <!--Find View Controller-->
         <scene sceneID="eJl-ae-9Uq">
@@ -167,8 +168,8 @@
                     <connections>
                         <segue destination="H2J-Zk-OJP" kind="relationship" relationship="viewControllers" id="oUn-9C-btg"/>
                         <segue destination="2bN-0D-bGk" kind="relationship" relationship="viewControllers" id="P0e-TT-kmR"/>
-                        <segue destination="KXk-em-fOA" kind="relationship" relationship="viewControllers" id="pxk-Kx-4yO"/>
                         <segue destination="0xt-Do-SzQ" kind="relationship" relationship="viewControllers" id="NvN-aF-bWD"/>
+                        <segue destination="z5P-jF-kw4" kind="relationship" relationship="viewControllers" id="8Ta-YL-hWW"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bCi-B3-DZD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -195,27 +196,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VfY-jj-TdG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-864" y="78"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="80F-MQ-IT6">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KXk-em-fOA" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" selectedImage="Icon awesome-user-alt" id="yNZ-w3-eI4">
-                        <imageReference key="image" image="Icon awesome-user-alt-1" renderingMode="original"/>
-                    </tabBarItem>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AvN-7K-00Q">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="z5P-jF-kw4" kind="relationship" relationship="rootViewController" id="vhy-rt-4gL"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HcH-ST-Ce0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1829" y="800"/>
         </scene>
     </scenes>
     <resources>
