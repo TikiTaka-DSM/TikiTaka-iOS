@@ -29,10 +29,10 @@ struct OtherProfile: Codable {
     let roomData: Roomid
 }
 
-struct Token: Codable {
-    let accessToken: String
+struct Tokens: Codable {
+    let tokens: TokenData
 }
 
 struct TokenData: Codable {
-    let tokens: Token
+    let accessToken: String
 }
