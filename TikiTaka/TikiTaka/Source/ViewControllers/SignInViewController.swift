@@ -57,6 +57,7 @@ final class SignInViewController: UIViewController {
     
     var disposeBag = DisposeBag()
     private let viewModel = SignInViewModel()
+    private var sub = PublishRelay<Void>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,8 +72,8 @@ final class SignInViewController: UIViewController {
         setUpConstraint()
         bindViewModel()
         
-        signUpBtn.rx.tap.subscribe(onNext: { _ in
-            self.pushVC("SignUp")
+        signUpBtn.rx.tap.subscribe(onNext: {[unowned self] _ in
+            pushVC("SignUp")
         }).disposed(by: disposeBag)
     }
     
@@ -96,30 +97,26 @@ final class SignInViewController: UIViewController {
             self.setAlert(text)
         }, onCompleted: { self.pushVC("Main") }).disposed(by: disposeBag)
         output.isEnable.drive(self.signInBtn.rx.isEnabled).disposed(by: disposeBag)
-        output.isEnable.drive(onNext: { isEnable in
-            print("")
-        }).disposed(by: disposeBag)
     }
-    
     
     // MARK: Constraints
     
     func setUpConstraint() {
         logoView.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(130)
+            make.centerX.equalTo(view)
+            make.top.equalTo(view.frame.height / 10)
             make.width.height.equalTo(110)
         }
         
         logoLabel.snp.makeConstraints { (make) in
             make.top.equalTo(logoView.snp.bottom).offset(16)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
             make.height.equalTo(15)
         }
         
         idTextField.snp.makeConstraints { (make) in
             make.top.equalTo(logoLabel.snp.bottom).offset(52)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
             make.height.equalTo(50)
             make.leading.equalTo(50)
             make.trailing.equalTo(-50)
@@ -127,7 +124,7 @@ final class SignInViewController: UIViewController {
         
         pwTextField.snp.makeConstraints { (make) in
             make.top.equalTo(idTextField.snp.bottom).offset(10)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
             make.leading.equalTo(50)
             make.height.equalTo(50)
             make.trailing.equalTo(-50)
@@ -138,12 +135,12 @@ final class SignInViewController: UIViewController {
             make.height.equalTo(50)
             make.leading.equalTo(50)
             make.trailing.equalTo(-50)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
         }
         
         signUpBtn.snp.makeConstraints { (make) in
             make.top.equalTo(signInBtn.snp.bottom).offset(10)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
         }
     }
 }
