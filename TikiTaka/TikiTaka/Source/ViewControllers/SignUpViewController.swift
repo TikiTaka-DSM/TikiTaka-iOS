@@ -55,7 +55,9 @@ class SignUpViewController: UIViewController {
     }
     
     let signInBtn = UIButton().then {
-        $0.backgroundColor = PointColor.sub
+        $0.clipsToBounds = true
+        $0.setBackgroundColor(PointColor.enable, for: .disabled)
+        $0.setBackgroundColor(PointColor.sub, for: .normal)
         $0.setTitle("Sign up", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 28
