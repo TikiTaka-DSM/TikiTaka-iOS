@@ -13,15 +13,20 @@ class Service {
 
     let connect = ServiceType()
     
-    func signIn(_ id: String,_ password: String) -> Observable<NetworkPart> {
-        connect.requestData(.signIn(id, password)).map { (response, data) -> NetworkPart in
+    func signIn(_ id: String,_ password: String) -> Observable<(NetworkPart)> {
+        connect.requestData(.signIn(id, password)).map { (response, data) -> (NetworkPart) in
+            print(response.statusCode)
             switch response.statusCode {
             case 200:
-                return .success
+                guard let data = try? JSONDecoder().decode(Tokens.self, from: data) else { return (.fail) }
+
+                if StoregaeManager.shared.create(data) { return (.success) }
+                
+                return (.fail)
             case 404:
-                return .notFound
+                return (.notFound)
             default:
-                return .fail
+                return (.fail)
             }
         }
     }
