@@ -40,14 +40,14 @@ class FriendTableViewCell: UITableViewCell {
         footerView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.height.equalTo(1)
-            $0.width.equalTo(self.snp.width)
+            $0.width.equalTo(snp.width)
             $0.centerX.equalToSuperview()
         }
         
         bottomView.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.height.equalTo(1)
-            $0.width.equalTo(self.snp.width)
+            $0.width.equalTo(snp.width)
             $0.centerX.equalToSuperview()
         }
 
@@ -58,6 +58,11 @@ class FriendTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configCell(_ model: SearchUser) {
+        friendImg.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(model.img)"))
+        friendName.text = model.name
     }
     
     override func awakeFromNib() {

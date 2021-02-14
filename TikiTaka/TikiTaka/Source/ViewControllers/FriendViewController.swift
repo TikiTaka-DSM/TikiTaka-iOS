@@ -49,10 +49,7 @@ class FriendViewController: UIViewController {
         let output = viewModel.transform(input: input)
 
         output.loadData.bind(to: friendsTableView.rx.items(cellIdentifier: "friendsCell", cellType: FriendTableViewCell.self)) { row, model, cell in
-            
-            cell.friendImg.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(model.img)"))
-            cell.friendName.text = model.name
-            
+            cell.configCell(model)
         }.disposed(by: disposeBag)
         
         output.selectData.drive(onNext: { friend in
