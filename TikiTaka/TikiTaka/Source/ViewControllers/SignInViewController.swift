@@ -104,7 +104,7 @@ final class SignInViewController: UIViewController {
     func setUpConstraint() {
         logoView.snp.makeConstraints { (make) in
             make.centerX.equalTo(view)
-            make.top.equalTo(view.frame.height / 10)
+            make.top.equalTo(view.frame.height / 8)
             make.width.height.equalTo(110)
         }
         

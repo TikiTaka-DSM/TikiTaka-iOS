@@ -94,20 +94,20 @@ class SignUpViewController: UIViewController {
     
     func setUpConstraint() {
         logoView.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(130)
+            make.centerX.equalTo(view)
+            make.top.equalTo(view.frame.height / 8)
             make.width.height.equalTo(110)
         }
         
         logoLabel.snp.makeConstraints { (make) in
             make.top.equalTo(logoView.snp.bottom).offset(16)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
             make.height.equalTo(15)
         }
         
         idTextField.snp.makeConstraints { (make) in
             make.top.equalTo(nameTextField.snp.bottom).offset(10)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
             make.height.equalTo(50)
             make.leading.equalTo(50)
             make.trailing.equalTo(-50)
@@ -115,7 +115,7 @@ class SignUpViewController: UIViewController {
         
         pwTextField.snp.makeConstraints { (make) in
             make.top.equalTo(idTextField.snp.bottom).offset(10)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
             make.leading.equalTo(50)
             make.height.equalTo(50)
             make.trailing.equalTo(-50)
@@ -123,7 +123,7 @@ class SignUpViewController: UIViewController {
         
         nameTextField.snp.makeConstraints { (make) in
             make.top.equalTo(logoLabel.snp.bottom).offset(15)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
             make.height.equalTo(50)
             make.leading.equalTo(50)
             make.trailing.equalTo(-50)
@@ -131,7 +131,7 @@ class SignUpViewController: UIViewController {
         
         RepwTextField.snp.makeConstraints { (make) in
             make.top.equalTo(pwTextField.snp.bottom).offset(10)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
             make.leading.equalTo(50)
             make.height.equalTo(50)
             make.trailing.equalTo(-50)
@@ -142,7 +142,7 @@ class SignUpViewController: UIViewController {
             make.height.equalTo(50)
             make.leading.equalTo(50)
             make.trailing.equalTo(-50)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
         }
     }
 
