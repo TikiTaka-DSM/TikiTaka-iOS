@@ -21,7 +21,7 @@ class StoregaeManager {
         kSecAttrAccount : "TikiTaka"
     ]
     
-    func create(_ user: TokenData) -> Bool {
+    func create(_ user: Tokens) -> Bool {
         guard let data = try? JSONEncoder().encode(user) else { return false }
         
         let keyChainQuery: NSDictionary = [
@@ -36,7 +36,7 @@ class StoregaeManager {
         return SecItemAdd(keyChainQuery, nil) == errSecSuccess
     }
     
-    func read() -> TokenData? {
+    func read() -> Tokens? {
         let keyChainQuery: NSDictionary = [
             kSecClass : kSecClassGenericPassword,
             kSecAttrService : service!,
@@ -50,7 +50,7 @@ class StoregaeManager {
         
         if status == errSecSuccess {
             let retrievedData = dataTypeRef as! Data
-            let value = try? JSONDecoder().decode(TokenData.self, from: retrievedData)
+            let value = try? JSONDecoder().decode(Tokens.self, from: retrievedData)
             return value
         }else {
             return nil

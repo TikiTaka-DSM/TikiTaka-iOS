@@ -14,8 +14,8 @@ struct TokenManager {
         case refresh
     }
     
-    static var currentToken: Token? {
-        return StoregaeManager.shared.read()?.tokens
+    static var currentToken: Tokens? {
+        return StoregaeManager.shared.read()
     }
     
 }
