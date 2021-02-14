@@ -86,8 +86,8 @@ enum TikiTakaAPI {
         case .signUp, .signIn:
             return nil
         case .getMyProfile, .changeProfile, .getOtherProfile, .getFriends, .searchFriends, .FindFriends, .postRoom, .getChatList:
-            let token = String()
-            return ["Authorization": "Bearer " + token]
+            guard let token = TokenManager.currentToken?.tokens.accessToken else { return nil }
+            return ["Authorization" : "Bearer " + token]
         default:
             return [:]
         }
