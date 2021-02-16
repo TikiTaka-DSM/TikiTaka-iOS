@@ -14,9 +14,6 @@ class FriendTableViewCell: UITableViewCell {
     let footerView = UIView().then {
         $0.backgroundColor = PointColor.primary
     }
-    let bottomView = UIView().then {
-        $0.backgroundColor = PointColor.primary
-    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -24,7 +21,6 @@ class FriendTableViewCell: UITableViewCell {
         self.addSubview(friendImg)
         self.addSubview(friendName)
         self.addSubview(footerView)
-        self.addSubview(bottomView)
         
         friendImg.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -43,17 +39,9 @@ class FriendTableViewCell: UITableViewCell {
             $0.width.equalTo(snp.width)
             $0.centerX.equalToSuperview()
         }
-        
-        bottomView.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.height.equalTo(1)
-            $0.width.equalTo(snp.width)
-            $0.centerX.equalToSuperview()
-        }
 
         friendImg.layer.cornerRadius = 25
         friendImg.clipsToBounds = true
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

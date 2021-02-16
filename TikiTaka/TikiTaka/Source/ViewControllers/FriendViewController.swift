@@ -30,15 +30,19 @@ class FriendViewController: UIViewController {
         view.addSubview(friendsTableView)
         view.addSubview(searchBar)
         
-        friendsTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        friendsTableView.delegate = self
+        
         setTableView()
         bindViewModel()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
         setUpConstraint()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        friendsTableView.separatorColor = .clear
+        friendsTableView.separatorInset = .zero
+        friendsTableView.separatorStyle = .none
     }
 
     func bindViewModel() {
@@ -82,10 +86,12 @@ class FriendViewController: UIViewController {
 
 extension FriendViewController: UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        tableView.separatorColor = .clear
-        tableView.separatorInset = .zero
-        tableView.separatorStyle = .none
-    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let bottomView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.bounds.size.width, height: 0))
 
+        bottomView.addBottomBorderWithColor(color: PointColor.primary, width: 1)
+
+        return bottomView
+    }
+    
 }
