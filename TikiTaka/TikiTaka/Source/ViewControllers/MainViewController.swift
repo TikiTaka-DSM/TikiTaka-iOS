@@ -53,6 +53,13 @@ class MainViewController: UIViewController {
         bindViewModel()
     }
  
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        chatsTableView.separatorColor = .clear
+        chatsTableView.separatorInset = .zero
+        chatsTableView.separatorStyle = .none
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -104,12 +111,6 @@ extension MainViewController: UITableViewDelegate {
         bottomView.addTopBorderWithColor(color: PointColor.primary, width: 1)
 
         return bottomView
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        tableView.separatorColor = .clear
-        tableView.separatorInset = .zero
-        tableView.separatorStyle = .none
     }
     
 }
