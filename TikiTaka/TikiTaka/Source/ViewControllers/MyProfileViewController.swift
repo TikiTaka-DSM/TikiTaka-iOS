@@ -19,6 +19,7 @@ class MyProfileViewController: UIViewController {
     }
     
     private let userImageView = UIImageView().then {
+        $0.clipsToBounds = true
         $0.layer.cornerRadius = 54.5
     }
     
@@ -52,7 +53,7 @@ class MyProfileViewController: UIViewController {
         view.addSubview(userIDLabel)
         view.addSubview(statusLabel)
 
-        gearBtn.rx.tap.subscribe(onNext: { _ in
+        gearBtn.rx.tap.subscribe(onNext: {[unowned self] in
             self.pushVC("EditUp")
         }).disposed(by: disposeBag)
         
@@ -62,32 +63,32 @@ class MyProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
+
         loadData.accept(())
     }
     
-    func bindViewModel() {
+    private func bindViewModel() {
         let input = MyProfileViewModel.Input(loadProfile: loadData.asSignal(onErrorJustReturn: ()))
         let output = viewModel.transform(input: input)
         
-        output.result.emit(onNext: { text in
+        output.result.emit(onNext: {[unowned self] text in
             self.setAlert(text)
         }).disposed(by: disposeBag)
         
-        output.laodData.bind{ (data) in
+        output.laodData.asObservable().subscribe(onNext: { (data) in
             self.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data?.profileData.img ?? "default.png")"))
             self.userNameLabel.text = data?.profileData.name
             self.statusLabel.text = data?.profileData.statusMessage
             self.userIDLabel.text = data?.profileData.id
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
     }
 
-    func setUpConstraint() {
+    private func setUpConstraint() {
         
         gearBtn.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(60)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
             $0.trailing.equalTo(-30)
-            $0.height.width.equalTo(40)
+            $0.height.width.equalTo(60)
         }
         
         userImageView.snp.makeConstraints {
