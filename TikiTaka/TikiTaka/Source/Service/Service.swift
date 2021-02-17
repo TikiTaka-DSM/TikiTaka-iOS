@@ -57,18 +57,17 @@ class Service {
     }
     
     func changeProfile(_ img: Data?, _ name: String, statusMessage: String) -> DataRequest {
-        
         let api: TikiTakaAPI = .changeProfile
         let param = ["name": name, "statusMessage": statusMessage]
         
         return AF.upload(multipartFormData: { (multipartFormData) in
             if img != nil {
                 multipartFormData.append(img!, withName: "img", fileName: "image.jpg", mimeType: "image/jpg")
+            }else{
+                multipartFormData.append("".data(using: .utf8)!, withName: "img", fileName: "image", mimeType: "image/jpg")
             }
 
             for (key, value) in param {
-                print(key)
-                print(value)
                 multipartFormData.append("\(value)".data(using: .utf8)!, withName: key, mimeType: "text/plain")
             }
         }, to: Config.baseURL + api.path, method: api.method, headers: api.headers)
