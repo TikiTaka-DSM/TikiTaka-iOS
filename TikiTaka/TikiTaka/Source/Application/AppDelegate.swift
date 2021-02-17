@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
 
         if TokenManager.currentToken?.tokens.accessToken != nil {
-            let viewController = storyboard.instantiateViewController(withIdentifier: "Main")
-
+            let viewController = storyboard.instantiateViewController(withIdentifier: "Navi")
+            
             self.window?.rootViewController = viewController
             self.window?.makeKeyAndVisible()
         }else {
