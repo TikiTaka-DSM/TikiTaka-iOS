@@ -17,14 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
 
         if TokenManager.currentToken?.tokens.accessToken != nil {
-            let viewController = storyboard.instantiateViewController(withIdentifier: "Navi")
+            let viewController = storyboard.instantiateViewController(withIdentifier: "Main")
             
-            self.window?.rootViewController = viewController
+            self.window?.rootViewController = UINavigationController.init(rootViewController: viewController)
             self.window?.makeKeyAndVisible()
         }else {
             let viewController = storyboard.instantiateViewController(withIdentifier: "SignIn") as! SignInViewController
 
-            self.window?.rootViewController = viewController
+            self.window?.rootViewController = UINavigationController.init(rootViewController: viewController)
             self.window?.makeKeyAndVisible()
         }
         
