@@ -85,11 +85,11 @@ enum TikiTakaAPI {
         switch self {
         case .signUp, .signIn:
             return nil
-        case .getMyProfile, .changeProfile, .getOtherProfile, .getFriends, .searchFriends, .FindFriends, .postRoom, .getChatList:
+        case .getMyProfile, .changeProfile, .getOtherProfile, .getFriends, .searchFriends, .FindFriends, .postRoom, .getChatList, .getChatInfo:
             guard let token = TokenManager.currentToken?.tokens.accessToken else { return nil }
             return ["Authorization" : "Bearer " + token]
         default:
-            return [:]
+            return nil
         }
     }
 }
