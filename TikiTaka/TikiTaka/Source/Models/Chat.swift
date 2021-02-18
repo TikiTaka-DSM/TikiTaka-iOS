@@ -30,7 +30,7 @@ struct emitMessage: Codable {
     let message: String?
     let photo: String?
     let voice: String?
-    let createdAt: String
+    let createdAt: String?
 }
 
 

@@ -20,5 +20,10 @@ struct RoomData: Codable {
 }
 
 struct RoomInfo: Codable {
-    let roomData: RoomId
+    let id: Int
+    let name: String
+}
+
+struct Roomid: Codable {
+    let roomId: Int?
 }
