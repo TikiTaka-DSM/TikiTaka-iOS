@@ -71,33 +71,32 @@ class EditProfileViewController: UIViewController {
         statusTextField.underLine()
     }
     
-    func bindViewModel() {
+    private func bindViewModel() {
         let input = EditProfileViewModel.Input(
             loadProfile: loadData.asSignal(onErrorJustReturn: ()),
             editImage: editImageData.asDriver(onErrorJustReturn: nil),
-            editName:nameTextField.rx.text.orEmpty.asDriver(),
+            editName: nameTextField.rx.text.orEmpty.asDriver(),
             editStatus: statusTextField.rx.text.orEmpty.asDriver(),
             doneTap: editBtn.rx.tap.asDriver())
         let output = viewModel.transform(input: input)
         
-        output.laodData.bind{ (data) in
-            self.userImageBtn.imageView!.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data?.profileData.img ?? "default.png")"))
-            self.nameTextField.text = data?.profileData.name
-            self.statusTextField.text = data?.profileData.statusMessage
-        }.disposed(by: disposeBag)
-        
-        output.result.emit(onNext: { text in
-            self.setAlert(text)
+        output.laodData.asObservable().subscribe(onNext: { [unowned self] data in
+            self.userImageBtn.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data?.profileData.img ?? "default.png")"), for: .normal)
+            self.nameTextField.text = data!.profileData.name
+            self.statusTextField.text = data!.profileData.statusMessage
         }).disposed(by: disposeBag)
         
-        output.edit.emit(onNext: { text in
+        output.result.emit(onNext: {[unowned self] text in self.setAlert(text) }).disposed(by: disposeBag)
+        
+        output.edit.emit(onNext: {[unowned self] text in
             self.setAlert(text)
-        }, onCompleted: {
+        }, onCompleted: {[unowned self] in
             self.navigationController?.popViewController(animated: true)
+//            self.dismiss(animated: true, completion: nil)
         }).disposed(by: disposeBag)
     }
     
-    func setUpConstraint() {
+    private func setUpConstraint() {
         
         editBtn.snp.makeConstraints {
             $0.centerX.equalToSuperview()

@@ -33,7 +33,8 @@ final class EditProfileViewModel: ViewModelType {
         let loadData = BehaviorRelay<ProfileData?>(value: nil)
         let info = Driver.combineLatest(input.editImage, input.editName, input.editStatus)
         
-        input.loadProfile.asObservable().subscribe(onNext: {_ in
+        input.loadProfile.asObservable().subscribe(onNext: {[weak self] _ in
+            guard let self = self else { return }
             api.getMyProfile().subscribe(onNext: { data, response in
                 switch response {
                 case .success:
@@ -47,7 +48,6 @@ final class EditProfileViewModel: ViewModelType {
         
         input.doneTap.asObservable().withLatestFrom(info).subscribe(onNext: { img, name, status in
             api.changeProfile(img, name, statusMessage: status).response { (response) in
-                print(response.response?.statusCode)
                 switch response.response?.statusCode {
                 case 200:
                     edit.onCompleted()
