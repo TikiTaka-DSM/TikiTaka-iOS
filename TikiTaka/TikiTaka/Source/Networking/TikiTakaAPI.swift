@@ -6,15 +6,16 @@
 //
 
 import Foundation
-import Alamofire
+import Moya
 
 enum TikiTakaAPI {
+    
     case signIn(_ id: String, _ password: String)
     case signUp(_ id: String, _ password: String, _ name: String)
     
     case getMyProfile
     case getOtherProfile(_ str: String)
-    case changeProfile
+    case changeProfile(_ name: String, _ statusMessage: String, _ img: Data?)
     
     case getFriends
     case searchFriends(_ name: String)
@@ -25,6 +26,13 @@ enum TikiTakaAPI {
     case postRoom(_ people: String)
     case getChatList
     case getChatInfo(_ id: Int)
+    
+}
+
+extension TikiTakaAPI: TargetType {
+    var baseURL: URL {
+        return URL(string: "http://54.180.2.226:5000")!
+    }
     
     var path: String {
         switch self {
@@ -55,7 +63,7 @@ enum TikiTakaAPI {
         }
     }
     
-    var method: HTTPMethod {
+    var method: Moya.Method {
         switch self {
         case .signIn, .signUp, .postFriends, .postRoom:
             return .post
@@ -68,20 +76,28 @@ enum TikiTakaAPI {
         }
     }
     
-    var params: Parameters? {
+    var sampleData: Data {
+        return Data()
+    }
+    
+    var task: Task {
         switch self {
         case .signIn(let id, let password):
-            return ["id": id, "password": password]
+            return .requestParameters(parameters: ["id": id, "password": password], encoding: JSONEncoding.prettyPrinted)
         case .signUp(let id, let password, let name):
-            return ["id": id, "password": password, "name": name]
+            return .requestParameters(parameters: ["id": id, "password": password, "name": name], encoding: JSONEncoding.prettyPrinted)
         case .postRoom(let people):
-            return ["friend": people]
+            return .requestParameters(parameters: ["friend": people], encoding: JSONEncoding.prettyPrinted)
+        case .changeProfile(let name, let statusMessage, let img):
+            return .uploadMultipart([Moya.MultipartFormData(provider: .data(img!), name: "img", fileName: "image.jpg", mimeType: "image/jpg"),
+                                     Moya.MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name", mimeType: "text/plain"),
+                                     Moya.MultipartFormData(provider: .data(statusMessage.data(using: .utf8)!), name: "statusMessage", mimeType: "text/plain")])
         default:
-            return nil
+            return .requestPlain
         }
     }
     
-    var headers: HTTPHeaders? {
+    var headers: [String : String]? {
         switch self {
         case .signUp, .signIn:
             return nil
@@ -92,4 +108,6 @@ enum TikiTakaAPI {
             return nil
         }
     }
+    
+    
 }
