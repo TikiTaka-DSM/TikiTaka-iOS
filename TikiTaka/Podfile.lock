@@ -4,9 +4,13 @@ PODS:
   - Kingfisher (5.15.6):
     - Kingfisher/Core (= 5.15.6)
   - Kingfisher/Core (5.15.6)
-  - ReactorKit (2.1.1):
+  - Moya (14.0.0):
+    - Moya/Core (= 14.0.0)
+  - Moya/Core (14.0.0):
+    - Alamofire (~> 5.0)
+  - Moya/RxSwift (14.0.0):
+    - Moya/Core
     - RxSwift (~> 5.0)
-    - WeakMapTable (~> 1.1)
   - RxAlamofire (5.6.2):
     - RxAlamofire/Core (= 5.6.2)
   - RxAlamofire/Core (5.6.2):
@@ -27,12 +31,12 @@ PODS:
     - Starscream (~> 3.1)
   - Starscream (3.1.1)
   - Then (2.7.0)
-  - WeakMapTable (1.2.0)
 
 DEPENDENCIES:
   - Alamofire (~> 5.2)
   - Kingfisher (~> 5.0)
-  - ReactorKit
+  - Moya (~> 14.0)
+  - Moya/RxSwift (~> 14.0)
   - RxAlamofire
   - RxCocoa (~> 5)
   - RxDataSources (~> 4.0)
@@ -46,7 +50,7 @@ SPEC REPOS:
     - Alamofire
     - Differentiator
     - Kingfisher
-    - ReactorKit
+    - Moya
     - RxAlamofire
     - RxCocoa
     - RxDataSources
@@ -56,13 +60,12 @@ SPEC REPOS:
     - Socket.IO-Client-Swift
     - Starscream
     - Then
-    - WeakMapTable
 
 SPEC CHECKSUMS:
   Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   Kingfisher: b3554e7bf6106115b44e8795300bad580ef2fdc7
-  ReactorKit: 6d894a20c3d508344320901cd8e386fde92df4b6
+  Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   RxAlamofire: aa949d345b1689eae02b7c7a217518878144f6df
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
@@ -72,8 +75,7 @@ SPEC CHECKSUMS:
   Socket.IO-Client-Swift: 1e3e3a1f09f3312a167f0d781eb2f383d477357c
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
-  WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 7c0b47dd798a93bc776342fd1aeb2e8ab7b4cfd2
+PODFILE CHECKSUM: 28cd2a0ec7eb4aa46b806e417c47e209fd78373e
 
 COCOAPODS: 1.10.1
