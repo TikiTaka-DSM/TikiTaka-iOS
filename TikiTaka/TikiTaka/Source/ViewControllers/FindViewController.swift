@@ -55,9 +55,9 @@ class FindViewController: UIViewController {
     
     func setUpConstraint() {
         searchBar.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            $0.leading.equalTo(self.view)
-            $0.trailing.equalTo(self.view)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.equalTo(view)
+            $0.trailing.equalTo(view)
             $0.height.equalTo(50)
         }
         
@@ -65,7 +65,6 @@ class FindViewController: UIViewController {
             $0.center.equalToSuperview()
         }
     }
-    
     /*
     // MARK: - Navigation
 

@@ -73,10 +73,10 @@ class MainViewController: UIViewController {
         
         output.loadData.drive(chatsTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
-        output.selectData.drive(onNext: { roomId in
-            guard let vc = self.storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
+        output.selectData.drive(onNext: { [unowned self] roomId in
+            guard let vc = storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
             vc.roomId = roomId
-            self.present(vc, animated: true, completion: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
         }).disposed(by: disposeBag)
     }
     
@@ -87,9 +87,9 @@ class MainViewController: UIViewController {
     func setUpConstraint() {
 
         searchBar.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            $0.leading.equalTo(self.view)
-            $0.trailing.equalTo(self.view)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.equalTo(view)
+            $0.trailing.equalTo(view)
             $0.height.equalTo(50)
         }
         
