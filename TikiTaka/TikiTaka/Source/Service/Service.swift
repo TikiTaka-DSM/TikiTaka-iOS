@@ -7,187 +7,132 @@
 
 import Foundation
 import RxSwift
-import Alamofire
+import Moya
 
 class Service {
-
-    let connect = ServiceType()
+    
+    let provider = MoyaProvider<TikiTakaAPI>()
     
     func signIn(_ id: String,_ password: String) -> Observable<(NetworkPart)> {
-        connect.requestData(.signIn(id, password)).map { (response, data) -> (NetworkPart) in
-            print(response.statusCode)
-            switch response.statusCode {
-            case 200:
-                guard let data = try? JSONDecoder().decode(Tokens.self, from: data) else { return (.fail) }
-
-                if StoregaeManager.shared.create(data) { return (.success) }
-                
+        return provider.rx.request(.signIn(id, password))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(Tokens.self)
+            .map { token -> (NetworkPart) in
+                if StoregaeManager.shared.create(token) { return (.success) }
                 return (.fail)
-            case 404:
-                return (.notFound)
-            default:
-                return (.fail)
-            }
-        }
+            }.catchError { [unowned self] in return .just(self.setNetworkError($0)) }
     }
     
     func signUp(_ id: String, _ password: String, _ name: String) -> Observable<NetworkPart> {
-        connect.requestData(.signUp(id, password, name)).map { (response, data) -> NetworkPart in
-            switch response.statusCode {
-            case 201:
-                return .success
-            case 409:
-                return .duplication
-            default:
-                return .fail
-            }
-        }
+        return provider.rx.request(.signUp(id, password, name))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> NetworkPart in
+                return (.success)
+            }.catchError { [unowned self] in return .just(self.setNetworkError($0)) }
     }
     
     func getMyProfile() -> Observable<(ProfileData?, NetworkPart)> {
-        connect.requestData(.getMyProfile).map { (response, data) -> (ProfileData?, NetworkPart) in
-            switch response.statusCode {
-            case 200:
-                guard let data = try? JSONDecoder().decode(ProfileData.self, from: data) else { return (nil, .fail)}
-                return (data, .success)
-            default:
-                return (nil, .fail)
-            }
-        }
+        return provider.rx.request(.getMyProfile)
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(ProfileData.self)
+            .map { return ($0, .success) }
+            .catchError { _ in return .just((nil, .fail)) }
     }
     
-    func changeProfile(_ img: Data?, _ name: String, statusMessage: String) -> DataRequest {
-        let api: TikiTakaAPI = .changeProfile
-        let param = ["name": name, "statusMessage": statusMessage]
-        
-        return AF.upload(multipartFormData: { (multipartFormData) in
-            if img != nil {
-                multipartFormData.append(img!, withName: "img", fileName: "image.jpg", mimeType: "image/jpg")
-            }else{
-                multipartFormData.append("".data(using: .utf8)!, withName: "img", fileName: "image", mimeType: "image/jpg")
-            }
-
-            for (key, value) in param {
-                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key, mimeType: "text/plain")
-            }
-        }, to: Config.baseURL + api.path, method: api.method, headers: api.headers)
+    func changeProfile(_ img: Data?, _ name: String, statusMessage: String) -> Observable<NetworkPart> {
+        return provider.rx.request(.changeProfile(name, statusMessage, img))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ in return (.success) }
+            .catchError{ _ in return .just(.fail) }
     }
     
     func getFriends() -> Observable<(Friends?, NetworkPart)> {
-        connect.requestData(.getFriends).map { (response, data) -> (Friends?, NetworkPart) in
-            print(response.statusCode)
-            switch response.statusCode {
-            case 200:
-                guard let data = try? JSONDecoder().decode(Friends.self, from: data) else { return (nil, .fail) }
-                
-                return (data, .success)
-            default:
-                return (nil, .fail)
-            }
-        }
+        return provider.rx.request(.getFriends)
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(Friends.self)
+            .map { return ($0, .success) }
+            .catchError { _ in .just((nil, .fail)) }
     }
     
     func getOtherProfile(_ str: String) -> Observable<(OtherProfile?, NetworkPart)> {
-        connect.requestData(.getOtherProfile(str)).map { (response, data) -> (OtherProfile?, NetworkPart) in
-            print(response.statusCode)
-            switch response.statusCode {
-            case 200:
-                guard let data = try? JSONDecoder().decode(OtherProfile.self, from: data) else { return (nil, .fail) }
-                
-                return (data, .success)
-            default:
-                return (nil, .fail)
-            }
-        }
+        return provider.rx.request(.getOtherProfile(str))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(OtherProfile.self)
+            .map { return ($0, .success) }
+            .catchError { _ in .just((nil, .fail))}
     }
     
     func searchFriends(_ name: String) -> Observable<(Search?, NetworkPart)> {
-        connect.requestData(.searchFriends(name)).map { (response, data) -> (Search?, NetworkPart) in
-            switch response.statusCode {
-            case 200:
-                guard let data = try? JSONDecoder().decode(Search.self, from: data) else { return (nil, .fail) }
-                
-                return (data, .success)
-            default:
-                return (nil, .fail)
-            }
-        }
+        return provider.rx.request(.searchFriends(name))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(Search.self)
+            .map { return ($0, .success) }
+            .catchError{ _ in .just((nil, .fail))}
     }
     
     func blockFriends(_ name: String) -> Observable<NetworkPart> {
-        connect.requestData(.blockFriends(name)).map { (response, data) -> NetworkPart in
-            switch response.statusCode {
-            case 200:
-                return .success
-            default:
-                return .fail
-            }
-        }
+        return provider.rx.request(.blockFriends(name))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> NetworkPart in
+                return (.success)
+            }.catchError{ _ in .just(.fail) }
     }
     
     func findFriends(_ name: String) -> Observable<NetworkPart> {
-        connect.requestData(.FindFriends(name)).map { (response, data) -> (NetworkPart) in
-            switch response.statusCode {
-            case 200:
-                return .success
-            case 404:
-                return .notFound
-            default:
-                return .fail
-            }
-        }
+        return provider.rx.request(.FindFriends(name))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> NetworkPart in
+                return (.success)
+            }.catchError { [unowned self] in .just(self.setNetworkError($0)) }
     }
     
     func postFriends(_ id: String) -> Observable<NetworkPart> {
-        connect.requestData(.postFriends(id)).map { (response, data) -> NetworkPart in
-            switch response.statusCode {
-            case 200:
-                return .success
-            default:
-                return .fail
-            }
-        }
+        return provider.rx.request(.postFriends(id))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> NetworkPart in
+                return (.success)
+            }.catchError { _ in .just(.fail) }
     }
     
     func postRoom(_ people: String) -> Observable<(RoomData?, NetworkPart)> {
-        connect.requestData(.postRoom(people)).map { (response, data) -> (RoomData?, NetworkPart) in
-            print(response.statusCode)
-            switch response.statusCode {
-            case 201, 200:
-                guard let data = try? JSONDecoder().decode(RoomData.self, from: data) else { return (nil, .fail)}
-                
-                return (data, .success)
-            default:
-                return (nil, .fail)
-            }
-        }
+        return provider.rx.request(.postRoom(people))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(RoomData.self)
+            .map { return ($0, .success) }
+            .catchError { _ in return .just((nil, .fail)) }
     }
     
     func getChatList() -> Observable<([ChatList]?, NetworkPart)> {
-        connect.requestData(.getChatList).map { (response, data) -> ([ChatList]?, NetworkPart) in
-            print(response.statusCode)
-            switch response.statusCode {
-            case 200:
-                guard let data = try? JSONDecoder().decode(Rooms.self, from: data) else { return (nil, .fail)}
-                
-                return (data.rooms, .success)
-            default:
-                return (nil, .fail)
-            }
-        }
+        return provider.rx.request(.getChatList)
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(Rooms.self)
+            .map { return ($0.rooms, .success) }
+            .catchError { _ in return .just((nil, .fail)) }
     }
     
     func getChatInfo(_ id: Int) -> Observable<(MessageData?, NetworkPart)> {
-        connect.requestData(.getChatInfo(id)).map { (response, data) -> (MessageData?, NetworkPart) in
-            switch response.statusCode {
-            case 200:
-                guard let data = try? JSONDecoder().decode(MessageData.self, from: data) else { return (nil, .fail) }
-                
-                return (data, .success)
-            default:
-                return (nil, .fail)
-            }
-        }
+        return provider.rx.request(.getChatInfo(id))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(MessageData.self)
+            .map { return ($0, .success) }
+            .catchError { _ in return .just((nil, .fail)) }
     }
     
+    func setNetworkError(_ error: Error) -> NetworkPart {
+        guard let status = (error as? MoyaError)?.response?.statusCode else { return (.fail) }
+        return (NetworkPart(rawValue: status) ?? .fail)
+    }
 }
