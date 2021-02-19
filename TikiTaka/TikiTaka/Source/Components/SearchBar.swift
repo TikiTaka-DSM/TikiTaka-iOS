@@ -39,7 +39,7 @@ class SearchBar: UIView {
         searchTextField.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalTo(self.snp.leading).offset(20)
-            $0.center.equalToSuperview()
+            $0.centerY.equalToSuperview()
         }
         
         doneBtn.snp.makeConstraints {
