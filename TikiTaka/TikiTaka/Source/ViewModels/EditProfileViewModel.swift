@@ -47,14 +47,14 @@ final class EditProfileViewModel: ViewModelType {
         }).disposed(by: disposeBag)
         
         input.doneTap.asObservable().withLatestFrom(info).subscribe(onNext: { img, name, status in
-            api.changeProfile(img, name, statusMessage: status).response { (response) in
-                switch response.response?.statusCode {
-                case 200:
+            api.changeProfile(img, name, statusMessage: status).subscribe(onNext: { response in
+                switch response {
+                case .success:
                     edit.onCompleted()
                 default:
                     edit.onNext("프로필 수정에 실패하였습니다.")
                 }
-            }
+            })
         }).disposed(by: disposeBag)
         
         return Output(result: result.asSignal(onErrorJustReturn: "프로필 로드 실패"), laodData: loadData, edit: edit.asSignal(onErrorJustReturn: "프로필 변경 실패"))
