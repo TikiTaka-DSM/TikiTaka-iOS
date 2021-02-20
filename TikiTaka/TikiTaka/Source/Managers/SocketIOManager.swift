@@ -30,6 +30,10 @@ class SocketIOManager: NSObject {
         }
     }
     
+    func disconnection() {
+        socket.disconnect()
+    }
+    
     func sendMessage(_ id: Int, _ token: String, message: String) {
         socket.emit("sendMessage", ["roomId" : id, "token" : token, "message": message])
     }

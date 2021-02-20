@@ -33,13 +33,18 @@ class ChatViewController: UIViewController {
         picker.allowsEditing = true
         return picker
     }()
-    var roomId = Int()
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        SocketIOManager.shared.disconnection()
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.addSubview(chatTableView)
         view.addSubview(inputBar)
+        SocketIOManager.shared.roomInfo.accept(roomId)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(note:)), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(note:)), name: UIResponder.keyboardWillHideNotification , object: nil)
