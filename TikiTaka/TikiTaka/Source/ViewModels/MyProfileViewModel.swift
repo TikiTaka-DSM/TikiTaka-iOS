@@ -19,13 +19,13 @@ final class MyProfileViewModel: ViewModelType {
     
     struct Output {
         let result: Signal<String>
-        let laodData: BehaviorRelay<ProfileData?>
+        let laodData: PublishRelay<ProfileData?>
     }
     
     func transform(input: Input) -> Output {
         let api = Service()
         let result = PublishSubject<String>()
-        let loadData = BehaviorRelay<ProfileData?>(value: nil)
+        let loadData = PublishRelay<ProfileData?>()
         
         input.loadProfile.asObservable().subscribe(onNext: {_ in
             api.getMyProfile().subscribe(onNext: { data, response in
