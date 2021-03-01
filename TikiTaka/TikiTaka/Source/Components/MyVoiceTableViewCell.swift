@@ -42,15 +42,15 @@ class MyVoiceTableViewCell: UITableViewCell {
         self.selectionStyle = .none
         
         timeLabel.snp.makeConstraints {
-            $0.top.equalTo(self.snp.top).offset(16)
-            $0.bottom.equalTo(self.snp.bottom).offset(-16)
+            $0.top.equalTo(snp.top).offset(16)
+            $0.bottom.equalTo(snp.bottom).offset(-16)
             $0.leading.equalTo(playBtn.snp.trailing).offset(11)
-            $0.trailing.equalTo(self.snp.trailing).offset(-11)
+            $0.trailing.equalTo(snp.trailing).offset(-11)
         }
         
         playBtn.snp.makeConstraints {
-            $0.top.equalTo(self.snp.top).offset(16)
-            $0.bottom.equalTo(self.snp.bottom).offset(-16)
+            $0.top.equalTo(snp.top).offset(16)
+            $0.bottom.equalTo(snp.bottom).offset(-16)
         }
         
         bubbleView.snp.makeConstraints {

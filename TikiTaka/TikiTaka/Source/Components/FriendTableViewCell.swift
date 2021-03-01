@@ -25,7 +25,7 @@ class FriendTableViewCell: UITableViewCell {
         friendImg.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.width.height.equalTo(50)
-            $0.leading.equalTo(self.snp.leading).offset(5)
+            $0.leading.equalTo(snp.leading).offset(5)
         }
         
         friendName.snp.makeConstraints {

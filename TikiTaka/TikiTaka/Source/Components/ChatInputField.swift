@@ -81,14 +81,14 @@ class ChatInputField: UIView {
         }
         
         sendBtn.snp.makeConstraints {
-            $0.trailing.equalTo(self.snp.trailing).offset(-10)
+            $0.trailing.equalTo(snp.trailing).offset(-10)
             $0.centerY.equalToSuperview()
             $0.height.equalTo(26)
         }
         
         stackView.snp.makeConstraints {
-            $0.leading.equalTo(self.snp.leading).offset(10)
-            $0.trailing.equalTo(self.snp.trailing).offset(-10)
+            $0.leading.equalTo(snp.leading).offset(10)
+            $0.trailing.equalTo(snp.trailing).offset(-10)
             $0.height.equalTo(26)
             $0.centerY.equalToSuperview()
         }

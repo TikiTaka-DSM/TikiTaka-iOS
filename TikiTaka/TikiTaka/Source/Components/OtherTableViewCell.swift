@@ -49,9 +49,9 @@ class OtherTableViewCell: UITableViewCell {
         }
         
         userImageView.snp.makeConstraints {
-            $0.top.equalTo(self.snp.top).offset(16)
-            $0.bottom.equalTo(self.snp.bottom).offset(-16)
-            $0.leading.equalTo(self.snp.leading).offset(11)
+            $0.top.equalTo(snp.top).offset(16)
+            $0.bottom.equalTo(snp.bottom).offset(-16)
+            $0.leading.equalTo(snp.leading).offset(11)
             $0.width.height.equalTo(53)
         }
     }

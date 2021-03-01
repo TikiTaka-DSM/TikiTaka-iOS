@@ -27,10 +27,10 @@ class ChatTableViewCell: UITableViewCell {
         self.addSubview(footerView)
         
         chatImg.snp.makeConstraints {
-            $0.top.equalTo(self.snp.top).offset(9)
-            $0.bottom.equalTo(self.snp.bottom).offset(-8)
+            $0.top.equalTo(snp.top).offset(9)
+            $0.bottom.equalTo(snp.bottom).offset(-8)
             $0.width.height.equalTo(53)
-            $0.leading.equalTo(self.snp.leading).offset(5)
+            $0.leading.equalTo(snp.leading).offset(5)
         }
         
         chatName.snp.makeConstraints {
@@ -44,14 +44,14 @@ class ChatTableViewCell: UITableViewCell {
         }
         
         chatTime.snp.makeConstraints {
-            $0.trailing.equalTo(self.snp.trailing).offset(-8)
+            $0.trailing.equalTo(snp.trailing).offset(-8)
             $0.centerY.equalToSuperview()
         }
         
         footerView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.height.equalTo(1)
-            $0.width.equalTo(self.snp.width)
+            $0.width.equalTo(snp.width)
             $0.centerX.equalToSuperview()
         }
         

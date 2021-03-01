@@ -28,9 +28,9 @@ class MyTableViewCell: UITableViewCell {
         messageLabel.numberOfLines = 0
         
         messageLabel.snp.makeConstraints {
-            $0.top.equalTo(self.snp.top).offset(16)
-            $0.bottom.equalTo(self.snp.bottom).offset(-16)
-            $0.trailing.equalTo(self.snp.trailing).offset(-11)
+            $0.top.equalTo(snp.top).offset(16)
+            $0.bottom.equalTo(snp.bottom).offset(-16)
+            $0.trailing.equalTo(snp.trailing).offset(-11)
             $0.width.lessThanOrEqualTo(250)
         }
         
