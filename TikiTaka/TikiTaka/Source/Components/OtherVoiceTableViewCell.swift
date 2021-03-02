@@ -41,13 +41,13 @@ class OtherVoiceTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.addSubview(bubbleView)
-        self.addSubview(userImageView)
-        self.addSubview(timeLabel)
-        self.addSubview(playBtn)
+        addSubview(bubbleView)
+        addSubview(userImageView)
+        addSubview(timeLabel)
+        addSubview(playBtn)
         
         
-        self.selectionStyle = .none
+        selectionStyle = .none
         
         timeLabel.snp.makeConstraints {
             $0.centerY.equalTo(userImageView)

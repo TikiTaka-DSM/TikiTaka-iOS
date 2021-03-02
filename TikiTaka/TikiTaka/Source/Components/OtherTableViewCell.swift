@@ -29,9 +29,9 @@ class OtherTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.addSubview(bubbleView)
-        self.addSubview(messageLabel)
-        self.addSubview(userImageView)
+        addSubview(bubbleView)
+        addSubview(messageLabel)
+        addSubview(userImageView)
         
         messageLabel.numberOfLines = 0
         

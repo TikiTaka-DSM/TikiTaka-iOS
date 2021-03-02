@@ -45,9 +45,9 @@ class ChatInputField: UIView {
         super.init(frame: frame)
         inputTextField.layer.cornerRadius = 16
         
-        self.backgroundColor = PointColor.primary
+        backgroundColor = PointColor.primary
         
-        self.addSubview(stackView)
+        addSubview(stackView)
         
         stackView.addArrangedSubview(chatImg)
         stackView.addArrangedSubview(chatAudio)

@@ -34,9 +34,9 @@ class MyVoiceTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.addSubview(bubbleView)
-        self.addSubview(timeLabel)
-        self.addSubview(playBtn)
+        addSubview(bubbleView)
+        addSubview(timeLabel)
+        addSubview(playBtn)
         
         
         self.selectionStyle = .none

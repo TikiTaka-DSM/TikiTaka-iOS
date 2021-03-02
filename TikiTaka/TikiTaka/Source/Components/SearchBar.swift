@@ -23,11 +23,12 @@ class SearchBar: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.layer.cornerRadius = 28
-        self.backgroundColor = PointColor.primary
         
-        self.addSubview(searchTextField)
-        self.addSubview(doneBtn)
+        layer.cornerRadius = 28
+        backgroundColor = PointColor.primary
+        
+        addSubview(searchTextField)
+        addSubview(doneBtn)
     }
     
     required init?(coder: NSCoder) {
@@ -38,7 +39,7 @@ class SearchBar: UIView {
         
         searchTextField.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.equalTo(self.snp.leading).offset(20)
+            $0.leading.equalTo(snp.leading).offset(20)
             $0.centerY.equalToSuperview()
         }
         

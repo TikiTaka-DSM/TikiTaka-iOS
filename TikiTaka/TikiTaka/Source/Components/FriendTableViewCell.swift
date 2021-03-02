@@ -18,9 +18,9 @@ class FriendTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        self.addSubview(friendImg)
-        self.addSubview(friendName)
-        self.addSubview(footerView)
+        addSubview(friendImg)
+        addSubview(friendName)
+        addSubview(footerView)
         
         friendImg.snp.makeConstraints {
             $0.centerY.equalToSuperview()

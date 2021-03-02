@@ -20,11 +20,11 @@ class ChatTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        self.addSubview(chatImg)
-        self.addSubview(chatName)
-        self.addSubview(chatTime)
-        self.addSubview(lastMessage)
-        self.addSubview(footerView)
+        addSubview(chatImg)
+        addSubview(chatName)
+        addSubview(chatTime)
+        addSubview(lastMessage)
+        addSubview(footerView)
         
         chatImg.snp.makeConstraints {
             $0.top.equalTo(snp.top).offset(9)
