@@ -11,6 +11,8 @@ import RxCocoa
 
 class FindViewController: UIViewController {
 
+    // MARK: UI
+    
     private let searchBar = SearchBar().then {
         $0.backgroundColor = PointColor.primary
     }
@@ -23,6 +25,8 @@ class FindViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     private let viewModel = FindViewModel()
+    
+    // MARK: LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,21 +43,23 @@ class FindViewController: UIViewController {
         setUpConstraint()
     }
     
-    func bindViewModel() {
+    // MARK: Binding
+    
+    private func bindViewModel() {
         let input = FindViewModel.Input(friendName: searchBar.searchTextField.rx.text.orEmpty.asDriver(),
                                         findFriend: searchBar.doneBtn.rx.tap.asDriver())
         let output = viewModel.transform(input: input)
         
-        output.findData.emit(onNext: {[unowned self] error in
-            errorLabel.text = error
-        },onCompleted: {
-            guard let vc = self.storyboard?.instantiateViewController(identifier: "Profile") as? ProfileViewController else { return }
-            vc.friendId = self.searchBar.searchTextField.text!
-            self.present(vc, animated: true, completion: nil)
+        output.findData.emit(onNext: {[unowned self] error in errorLabel.text = error },
+                             onCompleted: {[unowned self] in
+                                guard let vc = storyboard?.instantiateViewController(identifier: "Profile") as? ProfileViewController else { return }
+                                vc.friendId = searchBar.searchTextField.text!
+                                present(vc, animated: true, completion: nil)
         }).disposed(by: disposeBag)
     }
     
-    func setUpConstraint() {
+    // MARK: Constraint
+    private func setUpConstraint() {
         searchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalTo(view)
@@ -65,14 +71,4 @@ class FindViewController: UIViewController {
             $0.center.equalToSuperview()
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

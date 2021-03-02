@@ -12,6 +12,8 @@ import Kingfisher
 
 class MyProfileViewController: UIViewController {
     
+    // MARK: UI
+    
     private let gearBtn = UIButton().then {
         $0.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
         $0.tintColor = PointColor.primary
@@ -44,6 +46,8 @@ class MyProfileViewController: UIViewController {
     private let viewModel = MyProfileViewModel()
     private let loadData = BehaviorRelay<Void>(value: ())
     
+    // MARK: LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -53,9 +57,7 @@ class MyProfileViewController: UIViewController {
         view.addSubview(userIDLabel)
         view.addSubview(statusLabel)
 
-        gearBtn.rx.tap.subscribe(onNext: {[unowned self] in
-            self.pushVC("EditUp")
-        }).disposed(by: disposeBag)
+        gearBtn.rx.tap.subscribe(onNext: {[unowned self] in pushVC("EditUp")}).disposed(by: disposeBag)
         
         bindViewModel()
         setUpConstraint()
@@ -67,22 +69,23 @@ class MyProfileViewController: UIViewController {
         loadData.accept(())
     }
     
+    // MARK: Binding
+    
     private func bindViewModel() {
         let input = MyProfileViewModel.Input(loadProfile: loadData.asSignal(onErrorJustReturn: ()))
         let output = viewModel.transform(input: input)
         
-        output.result.emit(onNext: {[unowned self] text in
-            self.setAlert(text)
-        }).disposed(by: disposeBag)
-        
-        output.laodData.asObservable().subscribe(onNext: { (data) in
-            self.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data?.profileData.img ?? "default.png")"))
-            self.userNameLabel.text = data?.profileData.name
-            self.statusLabel.text = data?.profileData.statusMessage
-            self.userIDLabel.text = data?.profileData.id
+        output.result.emit(onNext: {[unowned self] text in setAlert(text) }).disposed(by: disposeBag)
+        output.laodData.asObservable().subscribe(onNext: {[unowned self] (data) in
+            userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data?.profileData.img ?? "default.png")"))
+            userNameLabel.text = data?.profileData.name
+            statusLabel.text = data?.profileData.statusMessage
+            userIDLabel.text = data?.profileData.id
         }).disposed(by: disposeBag)
     }
 
+    // MARK: Constraint
+    
     private func setUpConstraint() {
         
         gearBtn.snp.makeConstraints {

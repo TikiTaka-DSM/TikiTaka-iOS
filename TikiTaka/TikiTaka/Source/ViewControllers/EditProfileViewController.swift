@@ -11,6 +11,8 @@ import RxCocoa
 
 class EditProfileViewController: UIViewController {
 
+    // MARK: UI
+    
     private let editBtn = UIButton().then {
         $0.backgroundColor = PointColor.primary
         $0.tintColor = .white
@@ -19,9 +21,9 @@ class EditProfileViewController: UIViewController {
     }
     
     private let userImageBtn = UIButton().then {
-        $0.backgroundColor = .black
         $0.alpha = 0.7
-        $0.layer.cornerRadius = 54.5
+        $0.imageView?.layer.cornerRadius = 54.5
+        
     }
     
     private let nameTextField = UITextField().then {
@@ -32,7 +34,6 @@ class EditProfileViewController: UIViewController {
     private let statusTextField = UITextField().then {
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 18)
-        $0.text = "취업하고 싶어요"
     }
     
     private let defaultImg = UIImageView().then {
@@ -53,6 +54,8 @@ class EditProfileViewController: UIViewController {
     private let loadData = BehaviorRelay<Void>(value: ())
     private let editImageData = BehaviorRelay<Data?>(value: nil)
     
+    // MARK: LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,14 +65,20 @@ class EditProfileViewController: UIViewController {
         view.addSubview(statusTextField)
         view.insertSubview(defaultImg, aboveSubview: userImageBtn)
         
+        userImageBtn.rx.tap.subscribe(onNext: {[unowned self] in present(imagePicker, animated: true, completion: nil)}).disposed(by: disposeBag)
+        
         bindViewModel()
         setUpConstraint()
+        
+        editImageData.accept(userImageBtn.currentImage?.jpegData(compressionQuality: 0.2))
     }
     
     override func viewDidLayoutSubviews() {
         nameTextField.underLine()
         statusTextField.underLine()
     }
+    
+    // MARK: Binding
     
     private func bindViewModel() {
         let input = EditProfileViewModel.Input(
@@ -81,20 +90,17 @@ class EditProfileViewController: UIViewController {
         let output = viewModel.transform(input: input)
         
         output.laodData.asObservable().subscribe(onNext: { [unowned self] data in
-            self.userImageBtn.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data?.profileData.img ?? "default.png")"), for: .normal)
-            self.nameTextField.text = data!.profileData.name
-            self.statusTextField.text = data!.profileData.statusMessage
+            userImageBtn.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data?.profileData.img ?? "default.png")"), for: .normal)
+            nameTextField.text = data?.profileData.name
+            statusTextField.text = data?.profileData.statusMessage
         }).disposed(by: disposeBag)
         
         output.result.emit(onNext: {[unowned self] text in self.setAlert(text) }).disposed(by: disposeBag)
-        
-        output.edit.emit(onNext: {[unowned self] text in
-            self.setAlert(text)
-        }, onCompleted: {[unowned self] in
-            self.navigationController?.popViewController(animated: true)
-//            self.dismiss(animated: true, completion: nil)
-        }).disposed(by: disposeBag)
+        output.edit.emit(onNext: {[unowned self] text in setAlert(text) },
+                         onCompleted: {[unowned self] in navigationController?.popViewController(animated: true)}).disposed(by: disposeBag)
     }
+    
+    // MARK: Constraint
     
     private func setUpConstraint() {
         
@@ -128,18 +134,14 @@ class EditProfileViewController: UIViewController {
         }
         
     }
-
-
 }
 
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let originalImage: UIImage = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue)] as? UIImage {
-            guard let imageData = originalImage.jpegData(compressionQuality: 0.4) else {
-                print("Could not get JPEG representation of UIImage")
-                return
-            }
+            guard let imageData = originalImage.jpegData(compressionQuality: 0.4) else { return }
+            userImageBtn.setImage(originalImage, for: .normal)
             editImageData.accept(imageData)
         }
         self.dismiss(animated: true, completion: nil)

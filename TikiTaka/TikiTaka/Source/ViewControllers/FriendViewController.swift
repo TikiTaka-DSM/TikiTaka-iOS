@@ -12,6 +12,8 @@ import RxCocoa
 
 class FriendViewController: UIViewController {
 
+    // MARK: UI
+    
     private let friendsTableView = UITableView().then {
         $0.rowHeight = 65
     }
@@ -34,8 +36,10 @@ class FriendViewController: UIViewController {
         
         setTableView()
         bindViewModel()
-        setUpConstraint()
+        setupConstraint()
     }
+    
+    // MARK: LifeCycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -45,7 +49,9 @@ class FriendViewController: UIViewController {
         friendsTableView.separatorStyle = .none
     }
 
-    func bindViewModel() {
+    // MARK: Binding
+    
+    private func bindViewModel() {
         let input = FriendViewModel.Input(loadFriends: loadData.asSignal(onErrorJustReturn: ()),
                                           selectFriend: friendsTableView.rx.itemSelected.asSignal(),
                                           searchName: searchBar.searchTextField.rx.text.orEmpty.asSignal(onErrorJustReturn: ""),
@@ -56,18 +62,22 @@ class FriendViewController: UIViewController {
             cell.configCell(model)
         }.disposed(by: disposeBag)
         
-        output.selectData.drive(onNext: { friend in
-            guard let vc = self.storyboard?.instantiateViewController(identifier: "Profile") as? ProfileViewController else { return }
+        output.selectData.drive(onNext: {[unowned self] friend in
+            guard let vc = storyboard?.instantiateViewController(identifier: "Profile") as? ProfileViewController else { return }
             vc.friendId = friend
-            self.present(vc, animated: true, completion: nil)
+            present(vc, animated: true, completion: nil)
         }).disposed(by: disposeBag)
     }
 
-    func setTableView() {
+   
+    
+    private func setTableView() {
         friendsTableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "friendsCell")
     }
 
-    func setUpConstraint() {
+    // MARK: Constraint
+    
+    private func setupConstraint() {
         searchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalTo(view)
@@ -87,7 +97,7 @@ class FriendViewController: UIViewController {
 extension FriendViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let bottomView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.bounds.size.width, height: 0))
+        let bottomView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: view.bounds.size.width, height: 0))
 
         bottomView.addBottomBorderWithColor(color: PointColor.primary, width: 1)
 

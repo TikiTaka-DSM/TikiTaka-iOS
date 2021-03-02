@@ -11,16 +11,18 @@ import RxCocoa
 
 class SignUpViewController: UIViewController {
 
-    let logoView = UIImageView().then {
+    // MARK: UI
+    
+    private let logoView = UIImageView().then {
         $0.image = UIImage(named: "TikiTaka_logo")
     }
     
-    let logoLabel = UILabel().then {
+    private let logoLabel = UILabel().then {
         $0.text = "지금 바로 티키타카에 가입해 보세요!"
         $0.textColor = PointColor.sub
     }
     
-    let idTextField = UITextField().then {
+    private let idTextField = UITextField().then {
         $0.placeholder = "ID"
         $0.textColor = .white
         $0.backgroundColor = PointColor.primary
@@ -28,7 +30,7 @@ class SignUpViewController: UIViewController {
         $0.addLeftPadding()
     }
     
-    let pwTextField = UITextField().then {
+    private let pwTextField = UITextField().then {
         $0.placeholder = "Password"
         $0.textColor = .white
         $0.backgroundColor = PointColor.primary
@@ -37,7 +39,7 @@ class SignUpViewController: UIViewController {
         $0.isSecureTextEntry = true
     }
     
-    let nameTextField = UITextField().then {
+    private let nameTextField = UITextField().then {
         $0.placeholder = "이름"
         $0.textColor = .white
         $0.backgroundColor = PointColor.primary
@@ -45,7 +47,7 @@ class SignUpViewController: UIViewController {
         $0.addLeftPadding()
     }
     
-    let RepwTextField = UITextField().then {
+    private let repwTextField = UITextField().then {
         $0.placeholder = "Password check"
         $0.textColor = .white
         $0.backgroundColor = PointColor.primary
@@ -54,7 +56,7 @@ class SignUpViewController: UIViewController {
         $0.isSecureTextEntry = true
     }
     
-    let signInBtn = UIButton().then {
+    private let signInBtn = UIButton().then {
         $0.clipsToBounds = true
         $0.setBackgroundColor(PointColor.enable, for: .disabled)
         $0.setBackgroundColor(PointColor.sub, for: .normal)
@@ -66,6 +68,8 @@ class SignUpViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel = SignUpViewModel()
     
+    // MARK: LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,26 +79,31 @@ class SignUpViewController: UIViewController {
         view.addSubview(pwTextField)
         view.addSubview(signInBtn)
         view.addSubview(nameTextField)
-        view.addSubview(RepwTextField)
+        view.addSubview(repwTextField)
 
-        setUpConstraint()
+        setupConstraint()
         bindViewModel()
     }
 
-    func bindViewModel() {
-        let input = SignUpViewModel.Input(id: idTextField.rx.text.orEmpty.asDriver(), name: nameTextField.rx.text.orEmpty.asDriver(), password: pwTextField.rx.text.orEmpty.asDriver(), repassword: RepwTextField.rx.text.orEmpty.asDriver(), doneTap: signInBtn.rx.tap.asDriver())
+    // MARK: Binding
+    
+    private func bindViewModel() {
+        let input = SignUpViewModel.Input(id: idTextField.rx.text.orEmpty.asDriver(),
+                                          name: nameTextField.rx.text.orEmpty.asDriver(),
+                                          password: pwTextField.rx.text.orEmpty.asDriver(),
+                                          repassword: repwTextField.rx.text.orEmpty.asDriver(),
+                                          doneTap: signInBtn.rx.tap.asDriver())
         let output = viewModel.transform(input: input)
         
-        output.result.emit(onNext: { text in
-            self.setAlert(text)
-        },onCompleted: { self.pushVC("Main") }).disposed(by: disposeBag)
-        output.isEnable.drive(self.signInBtn.rx.isEnabled).disposed(by: disposeBag)
-        output.isEnable.drive(onNext: { isEnable in
-            self.signInBtn.tintColor = UIColor.gray
-        }).disposed(by: disposeBag)
+        output.result.emit(onNext: {[unowned self] text in setAlert(text) },
+                           onCompleted: {[unowned self] in pushVC("Main") }).disposed(by: disposeBag)
+        output.isEnable.drive(signInBtn.rx.isEnabled).disposed(by: disposeBag)
+        output.isEnable.drive(onNext: {[unowned self] isEnable in signInBtn.tintColor = UIColor.gray }).disposed(by: disposeBag)
     }
     
-    func setUpConstraint() {
+    // MARK: Constraint
+    
+    private func setupConstraint() {
         logoView.snp.makeConstraints { (make) in
             make.centerX.equalTo(view)
             make.top.equalTo(view.frame.height / 8)
@@ -131,7 +140,7 @@ class SignUpViewController: UIViewController {
             make.trailing.equalTo(-50)
         }
         
-        RepwTextField.snp.makeConstraints { (make) in
+        repwTextField.snp.makeConstraints { (make) in
             make.top.equalTo(pwTextField.snp.bottom).offset(10)
             make.centerX.equalTo(view)
             make.leading.equalTo(50)
@@ -140,7 +149,7 @@ class SignUpViewController: UIViewController {
         }
         
         signInBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(RepwTextField.snp.bottom).offset(30)
+            make.top.equalTo(repwTextField.snp.bottom).offset(30)
             make.height.equalTo(50)
             make.leading.equalTo(50)
             make.trailing.equalTo(-50)

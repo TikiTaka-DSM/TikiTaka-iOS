@@ -15,6 +15,8 @@ typealias ChatListDataSource = RxTableViewSectionedReloadDataSource<ChatListSect
 
 class MainViewController: UIViewController {
 
+    // MARK: UI
+    
     private let chatsTableView = UITableView().then {
         $0.rowHeight = 70
     }
@@ -42,13 +44,16 @@ class MainViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let loadData = BehaviorRelay<Void>(value: ())
     
+    // MARK: LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.addSubview(chatsTableView)
         view.addSubview(searchBar)
-    
-        chatsTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        chatsTableView.delegate = self
+        
         setTableView()
         bindViewModel()
     }
@@ -67,7 +72,9 @@ class MainViewController: UIViewController {
         setUpConstraint()
     }
     
-    func bindViewModel() {
+    // MARK: Binding
+    
+    private func bindViewModel() {
         let input = MainViewModel.Input(loadChatList: loadData.asSignal(onErrorJustReturn: ()), selectRoom: chatsTableView.rx.itemSelected.asSignal())
         let output = viewModel.transform(input: input)
         
@@ -76,15 +83,17 @@ class MainViewController: UIViewController {
         output.selectData.drive(onNext: { [unowned self] roomId in
             guard let vc = storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
             vc.roomId = roomId
-            self.navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
         }).disposed(by: disposeBag)
     }
     
-    func setTableView() {
+    private func setTableView() {
         chatsTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: "chatsCell")
     }
     
-    func setUpConstraint() {
+    // MARK: Constraint
+    
+    private func setUpConstraint() {
 
         searchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -99,14 +108,13 @@ class MainViewController: UIViewController {
             $0.trailing.equalTo(view.snp.trailing)
             $0.bottom.equalTo(view.snp.bottom)
         }
-        
     }
 }
 
 extension MainViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let bottomView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.bounds.size.width, height: 0))
+        let bottomView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: view.bounds.size.width, height: 0))
 
         bottomView.addTopBorderWithColor(color: PointColor.primary, width: 1)
 

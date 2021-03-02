@@ -14,6 +14,7 @@ import SnapKit
 final class SignInViewController: UIViewController {
     
     // MARK: UI
+    
     private let logoView = UIImageView().then {
         $0.image = UIImage(named: "TikiTaka_logo")
     }
@@ -59,6 +60,8 @@ final class SignInViewController: UIViewController {
     private let viewModel = SignInViewModel()
     private var sub = PublishRelay<Void>()
     
+    // MARK: LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,39 +72,40 @@ final class SignInViewController: UIViewController {
         view.addSubview(signInBtn)
         view.addSubview(signUpBtn)
         
-        setUpConstraint()
+        setupConstraint()
         bindViewModel()
         
-        signUpBtn.rx.tap.subscribe(onNext: {[unowned self] _ in
-            pushVC("SignUp")
-        }).disposed(by: disposeBag)
+        signUpBtn.rx.tap.subscribe(onNext: {[unowned self] _ in pushVC("SignUp") }).disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
+        
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-    func bindViewModel() {
+    // MARK: Binding
+    
+    private func bindViewModel() {
         let input = SignInViewModel.Input(id: idTextField.rx.text.orEmpty.asDriver(),
                                           password: pwTextField.rx.text.orEmpty.asDriver(),
                                           doneTap: signInBtn.rx.tap.asDriver())
         let output = viewModel.transform(input: input)
         
-        output.result.emit(onNext: { text in
-            self.setAlert(text)
-        }, onCompleted: { self.pushVC("Main") }).disposed(by: disposeBag)
-        output.isEnable.drive(self.signInBtn.rx.isEnabled).disposed(by: disposeBag)
+        output.result.emit(onNext: {[unowned self] text in setAlert(text)},
+                           onCompleted: {[unowned self] in pushVC("Main") }).disposed(by: disposeBag)
+        output.isEnable.drive(signInBtn.rx.isEnabled).disposed(by: disposeBag)
     }
     
     // MARK: Constraints
     
-    func setUpConstraint() {
+    private func setupConstraint() {
         logoView.snp.makeConstraints { (make) in
             make.centerX.equalTo(view)
             make.top.equalTo(view.frame.height / 8)

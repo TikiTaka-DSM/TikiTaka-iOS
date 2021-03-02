@@ -11,6 +11,8 @@ import RxCocoa
 
 class ProfileViewController: UIViewController {
 
+    // MARK: UI
+    
     private let userImageView = UIImageView()
     private let userNameLabel = UILabel().then {
         $0.textAlignment = .center
@@ -45,6 +47,8 @@ class ProfileViewController: UIViewController {
     
     var friendId = String()
     
+    // MARK: LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -64,14 +68,16 @@ class ProfileViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         statusLabel.underLine()
-        self.forCornerRadius(userImageView)
-        self.forCornerRadius(chatBtn)
-        self.forCornerRadius(blockBtn)
+        forCornerRadius(userImageView)
+        forCornerRadius(chatBtn)
+        forCornerRadius(blockBtn)
         setUpConstraint()
-        self.forCornerRadius(addBtn)
+        forCornerRadius(addBtn)
     }
     
-    func bindViewModel() {
+    // MARK: Binding
+    
+    private func bindViewModel() {
         let input = ProfileViewModel.Input(
             loadProfile: loadData.asSignal(onErrorJustReturn: ()),
             friendId: friendId,
@@ -80,20 +86,22 @@ class ProfileViewController: UIViewController {
             selectBlock: blockBtn.rx.tap.asDriver())
         let output = viewModel.transform(input: input)
 
-        output.loadData.bind { (data) in
-            self.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data.profileData.img)"))
-            self.userNameLabel.text = data.profileData.name
-            self.statusLabel.text = data.profileData.statusMessage
+        output.loadData.bind {[unowned self] (data) in
+            userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data.profileData.img)"))
+            userNameLabel.text = data.profileData.name
+            statusLabel.text = data.profileData.statusMessage
         }.disposed(by: disposeBag)
         
-        output.postChat.emit(onNext: { data in
-            guard let vc  = self.storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
+        output.postChat.emit(onNext: {[unowned self] data in
+            guard let vc  = storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
             vc.roomId = data!.roomData.id
-            self.navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
         }).disposed(by: disposeBag)
     }
     
-    func setUpConstraint() {
+    // MARK: Constraint
+    
+    private func setUpConstraint() {
    
         userImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
@@ -130,7 +138,6 @@ class ProfileViewController: UIViewController {
             chatBtn.isHidden = true
             blockBtn.isHidden = true
             
-            
             addBtn.snp.makeConstraints {
                 $0.height.width.equalTo(105)
                 $0.top.equalTo(statusLabel.snp.bottom).offset(120)
@@ -138,15 +145,5 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
