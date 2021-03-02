@@ -27,7 +27,8 @@ final class MyProfileViewModel: ViewModelType {
         let result = PublishSubject<String>()
         let loadData = PublishRelay<ProfileData?>()
         
-        input.loadProfile.asObservable().subscribe(onNext: {_ in
+        input.loadProfile.asObservable().subscribe(onNext: {[weak self] _ in
+            guard let self = self else { return }
             api.getMyProfile().subscribe(onNext: { data, response in
                 switch response {
                 case .success:

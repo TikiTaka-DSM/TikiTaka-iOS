@@ -34,19 +34,21 @@ final class ProfileViewModel: ViewModelType {
         let postBlock = PublishSubject<String>()
         let postChat = PublishSubject<RoomData?>()
         
-        input.loadProfile.asObservable().subscribe(onNext: { _ in
+        input.loadProfile.asObservable().subscribe(onNext: {[weak self] _ in
+            guard let self = self else { return }
             api.getOtherProfile(input.friendId).subscribe(onNext: { data, response in
                 print(response)
                 switch response {
                 case .success:
                     loadData.accept(data!)
                 default:
-                    print("ss")
+                    print("프로필 정보 로드 실패")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        input.selectAdd.asObservable().subscribe(onNext: { _ in
+        input.selectAdd.asObservable().subscribe(onNext: {[weak self] _ in
+            guard let self = self else { return }
             api.postFriends(input.friendId).subscribe(onNext: { response in
                 switch response {
                 case .success:
@@ -57,7 +59,8 @@ final class ProfileViewModel: ViewModelType {
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        input.selectChat.asObservable().subscribe(onNext: { _ in
+        input.selectChat.asObservable().subscribe(onNext: {[weak self] _ in
+            guard let self = self else { return }
             api.postRoom(input.friendId).subscribe(onNext: { data, response in
                 print(response)
                 switch response {
@@ -71,7 +74,8 @@ final class ProfileViewModel: ViewModelType {
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        input.selectBlock.asObservable().subscribe(onNext: { _ in
+        input.selectBlock.asObservable().subscribe(onNext: {[weak self] _ in
+            guard let self = self else { return }
             api.blockFriends(input.friendId).subscribe(onNext: { response in
                 switch response {
                 case .success:

@@ -27,7 +27,8 @@ final class MainViewModel: ViewModelType {
         let loadData = BehaviorRelay<[ChatListSection]>(value: [])
         let selectData = PublishRelay<Int>()
         
-        input.loadChatList.asObservable().subscribe(onNext: { _ in
+        input.loadChatList.asObservable().subscribe(onNext: {[weak self] _ in
+            guard let self = self else { return }
             api.getChatList().subscribe(onNext: { data, response in
                 print(response)
                 switch response {
@@ -43,7 +44,7 @@ final class MainViewModel: ViewModelType {
                     
                     loadData.accept(result.compactMap { ChatListSection(model: $0.key, items: $0.value) })
                 default:
-                    print("asdf")
+                    print("채팅방 정보 실패")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)

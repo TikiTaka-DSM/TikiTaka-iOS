@@ -31,7 +31,8 @@ final class FriendViewModel: ViewModelType {
         let searchData = BehaviorRelay<[SearchUser]?>(value: nil)
         let selectData = PublishRelay<String>()
         
-        input.loadFriends.asObservable().subscribe(onNext: { _ in
+        input.loadFriends.asObservable().subscribe(onNext: {[weak self] _ in
+            guard let self = self else { return }
             api.getFriends().subscribe(onNext: { data, response in
                 switch response {
                 case .success:
@@ -48,7 +49,8 @@ final class FriendViewModel: ViewModelType {
             selectData.accept(friend[indexPath.row].id)
         }).disposed(by: disposeBag)
         
-        input.searchFriend.asObservable().withLatestFrom(input.searchName).subscribe(onNext: { name in
+        input.searchFriend.asObservable().withLatestFrom(input.searchName).subscribe(onNext: {[weak self] name in
+            guard let self = self else { return }
             api.searchFriends(name).subscribe(onNext: { data, response in
                 switch response {
                 case .success:

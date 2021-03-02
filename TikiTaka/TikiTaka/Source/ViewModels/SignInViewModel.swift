@@ -30,7 +30,8 @@ final class SignInViewModel: ViewModelType {
         let info = Driver.combineLatest(input.id, input.password)
         let isEnable = info.map { !$0.0.isEmpty && !$0.1.isEmpty }
         
-        input.doneTap.asObservable().withLatestFrom(info).subscribe(onNext: { id, pw in
+        input.doneTap.asObservable().withLatestFrom(info).subscribe(onNext: {[weak self] id, pw in
+            guard let self = self else { return }
             api.signIn(id, pw).subscribe(onNext: { response in
                 switch response {
                 case .success:
