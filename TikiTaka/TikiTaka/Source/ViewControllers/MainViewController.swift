@@ -75,7 +75,8 @@ class MainViewController: UIViewController {
     // MARK: Binding
     
     private func bindViewModel() {
-        let input = MainViewModel.Input(loadChatList: loadData.asSignal(onErrorJustReturn: ()), selectRoom: chatsTableView.rx.itemSelected.asSignal())
+        let input = MainViewModel.Input(loadChatList: loadData.asSignal(onErrorJustReturn: ()),
+                                        selectRoom: chatsTableView.rx.itemSelected.asSignal())
         let output = viewModel.transform(input: input)
         
         output.loadData.drive(chatsTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)

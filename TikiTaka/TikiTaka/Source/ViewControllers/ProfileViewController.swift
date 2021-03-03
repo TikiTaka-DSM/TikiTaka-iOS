@@ -78,12 +78,11 @@ class ProfileViewController: UIViewController {
     // MARK: Binding
     
     private func bindViewModel() {
-        let input = ProfileViewModel.Input(
-            loadProfile: loadData.asSignal(onErrorJustReturn: ()),
-            friendId: friendId,
-            selectAdd: addBtn.rx.tap.asDriver(),
-            selectChat: chatBtn.rx.tap.asDriver(),
-            selectBlock: blockBtn.rx.tap.asDriver())
+        let input = ProfileViewModel.Input(loadProfile: loadData.asSignal(onErrorJustReturn: ()),
+                                           friendId: friendId,
+                                           selectAdd: addBtn.rx.tap.asDriver(),
+                                           selectChat: chatBtn.rx.tap.asDriver(),
+                                           selectBlock: blockBtn.rx.tap.asDriver())
         let output = viewModel.transform(input: input)
 
         output.loadData.bind {[unowned self] (data) in
@@ -97,6 +96,8 @@ class ProfileViewController: UIViewController {
             vc.roomId = data!.roomData.id
             navigationController?.pushViewController(vc, animated: true)
         }).disposed(by: disposeBag)
+        
+        output.postBlock.emit(onCompleted: { [unowned self] in dismiss(animated: true, completion: nil)}).disposed(by: disposeBag)
     }
     
     // MARK: Constraint

@@ -81,12 +81,11 @@ class EditProfileViewController: UIViewController {
     // MARK: Binding
     
     private func bindViewModel() {
-        let input = EditProfileViewModel.Input(
-            loadProfile: loadData.asSignal(onErrorJustReturn: ()),
-            editImage: editImageData.asDriver(onErrorJustReturn: nil),
-            editName: nameTextField.rx.text.orEmpty.asDriver(),
-            editStatus: statusTextField.rx.text.orEmpty.asDriver(),
-            doneTap: editBtn.rx.tap.asDriver())
+        let input = EditProfileViewModel.Input(loadProfile: loadData.asSignal(onErrorJustReturn: ()),
+                                               editImage: editImageData.asDriver(onErrorJustReturn: nil),
+                                               editName: nameTextField.rx.text.orEmpty.asDriver(),
+                                               editStatus: statusTextField.rx.text.orEmpty.asDriver(),
+                                               doneTap: editBtn.rx.tap.asDriver())
         let output = viewModel.transform(input: input)
         
         output.laodData.asObservable().subscribe(onNext: { [unowned self] data in
