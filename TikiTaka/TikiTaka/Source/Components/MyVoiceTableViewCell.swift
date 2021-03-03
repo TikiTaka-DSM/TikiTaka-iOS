@@ -38,8 +38,7 @@ class MyVoiceTableViewCell: UITableViewCell {
         addSubview(timeLabel)
         addSubview(playBtn)
         
-        
-        self.selectionStyle = .none
+        selectionStyle = .none
         
         timeLabel.snp.makeConstraints {
             $0.top.equalTo(snp.top).offset(16)

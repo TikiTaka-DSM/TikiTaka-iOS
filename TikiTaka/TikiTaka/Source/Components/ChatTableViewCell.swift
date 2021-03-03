@@ -26,6 +26,8 @@ class ChatTableViewCell: UITableViewCell {
         addSubview(lastMessage)
         addSubview(footerView)
         
+        selectionStyle = .none
+        
         chatImg.snp.makeConstraints {
             $0.top.equalTo(snp.top).offset(9)
             $0.bottom.equalTo(snp.bottom).offset(-8)

@@ -22,6 +22,8 @@ class FriendTableViewCell: UITableViewCell {
         addSubview(friendName)
         addSubview(footerView)
         
+        selectionStyle = .none
+        
         friendImg.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.width.height.equalTo(50)
