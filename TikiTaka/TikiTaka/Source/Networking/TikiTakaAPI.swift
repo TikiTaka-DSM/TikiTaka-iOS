@@ -20,13 +20,12 @@ enum TikiTakaAPI {
     case getFriends
     case searchFriends(_ name: String)
     case blockFriends(_ name: String)
-    case FindFriends(_ name: String)
+    case findFriend(_ name: String)
     case postFriends(_ id: String)
     
     case postRoom(_ people: String)
     case getChatList
     case getChatInfo(_ id: Int)
-    
 }
 
 extension TikiTakaAPI: TargetType {
@@ -46,12 +45,12 @@ extension TikiTakaAPI: TargetType {
             return "/profile/\(str)"
         case .getFriends:
             return "/friends"
-        case .searchFriends(let name):
-            return "/friends?name=\(name)"
+        case .searchFriends:
+            return "/friends/search"
         case .blockFriends(let name):
             return "friend/block/\(name)"
-        case .FindFriends(let name):
-            return "/friend?id=\(name)"
+        case .findFriend:
+            return "/friend"
         case .postFriends(let id):
             return "/friend/\(id)"
         case .postRoom:
@@ -67,7 +66,7 @@ extension TikiTakaAPI: TargetType {
         switch self {
         case .signIn, .signUp, .postFriends, .postRoom:
             return .post
-        case .getMyProfile, .getOtherProfile, .getFriends, .searchFriends, .FindFriends, .getChatList, .getChatInfo:
+        case .getMyProfile, .getOtherProfile, .getFriends, .searchFriends, .findFriend, .getChatList, .getChatInfo:
             return .get
         case .changeProfile:
             return .put
@@ -89,9 +88,14 @@ extension TikiTakaAPI: TargetType {
         case .postRoom(let people):
             return .requestParameters(parameters: ["friend": people], encoding: JSONEncoding.prettyPrinted)
         case .changeProfile(let name, let statusMessage, let img):
-            return .uploadMultipart([Moya.MultipartFormData(provider: .data(img!), name: "img", fileName: "image.jpg", mimeType: "image/jpg"),
+            return .uploadMultipart([Moya.MultipartFormData(provider: .data(img ?? Data()), name: "img", fileName: "image.jpg", mimeType: "image/jpg"),
                                      Moya.MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name", mimeType: "text/plain"),
                                      Moya.MultipartFormData(provider: .data(statusMessage.data(using: .utf8)!), name: "statusMessage", mimeType: "text/plain")])
+        case .searchFriends(let name):
+            return .requestParameters(parameters: ["name":name],
+                                    encoding: URLEncoding.queryString)
+        case .findFriend(let name):
+            return .requestParameters(parameters: ["id": name], encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
@@ -101,13 +105,11 @@ extension TikiTakaAPI: TargetType {
         switch self {
         case .signUp, .signIn:
             return nil
-        case .getMyProfile, .changeProfile, .getOtherProfile, .getFriends, .searchFriends, .FindFriends, .postRoom, .getChatList, .getChatInfo:
+        case .getMyProfile, .changeProfile, .getOtherProfile, .getFriends, .searchFriends, .findFriend, .postRoom, .getChatList, .getChatInfo:
             guard let token = TokenManager.currentToken?.tokens.accessToken else { return nil }
             return ["Authorization" : "Bearer " + token]
         default:
             return nil
         }
     }
-    
-    
 }

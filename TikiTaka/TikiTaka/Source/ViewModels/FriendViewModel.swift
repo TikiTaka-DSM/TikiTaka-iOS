@@ -23,6 +23,7 @@ final class FriendViewModel: ViewModelType {
         let loadData: BehaviorRelay<[SearchUser]>
         let searchData: Driver<[SearchUser]?>
         let selectData: Driver<String>
+        let message: Signal<String>
     }
     
     func transform(input: Input) -> Output {
@@ -30,7 +31,8 @@ final class FriendViewModel: ViewModelType {
         let loadData = BehaviorRelay<[SearchUser]>(value: [])
         let searchData = BehaviorRelay<[SearchUser]?>(value: nil)
         let selectData = PublishRelay<String>()
-        
+        let message = PublishSubject<String>()
+
         input.loadFriends.asObservable().subscribe(onNext: {[weak self] _ in
             guard let self = self else { return }
             api.getFriends().subscribe(onNext: { data, response in
@@ -38,7 +40,7 @@ final class FriendViewModel: ViewModelType {
                 case .success:
                     loadData.accept(data!.friends)
                 default:
-                    print("친구목록이 없습니다.")
+                    message.onNext("친구목록이 없습니다.")
                     loadData.accept([])
                 }
             }).disposed(by: self.disposeBag)
@@ -52,17 +54,16 @@ final class FriendViewModel: ViewModelType {
         input.searchFriend.asObservable().withLatestFrom(input.searchName).subscribe(onNext: {[weak self] name in
             guard let self = self else { return }
             api.searchFriends(name).subscribe(onNext: { data, response in
+                print(response)
                 switch response {
                 case .success:
-                    searchData.accept(data!.user)
+                    loadData.accept(data!.users)
                 default:
-                    searchData.accept(nil)
+                    message.onNext("해당 아이디를 가진 친구가 없습니다.")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        return Output(loadData: loadData, searchData: searchData.asDriver(), selectData: selectData.asDriver(onErrorJustReturn: ""))
+        return Output(loadData: loadData, searchData: searchData.asDriver(), selectData: selectData.asDriver(onErrorJustReturn: ""), message: message.asSignal(onErrorJustReturn: ""))
     }
-
-
 }

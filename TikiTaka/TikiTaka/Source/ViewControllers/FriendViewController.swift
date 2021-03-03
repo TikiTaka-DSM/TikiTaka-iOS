@@ -44,6 +44,7 @@ class FriendViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        friendsTableView.reloadData()
         friendsTableView.separatorColor = .clear
         friendsTableView.separatorInset = .zero
         friendsTableView.separatorStyle = .none
@@ -67,10 +68,10 @@ class FriendViewController: UIViewController {
             vc.friendId = friend
             present(vc, animated: true, completion: nil)
         }).disposed(by: disposeBag)
+        
+        output.message.emit(onNext: {[unowned self] text in setAlert(text)}).disposed(by: disposeBag)
     }
 
-   
-    
     private func setTableView() {
         friendsTableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "friendsCell")
     }
