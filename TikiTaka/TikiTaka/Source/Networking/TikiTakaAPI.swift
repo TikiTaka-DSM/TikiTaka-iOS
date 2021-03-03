@@ -68,10 +68,8 @@ extension TikiTakaAPI: TargetType {
             return .post
         case .getMyProfile, .getOtherProfile, .getFriends, .searchFriends, .findFriend, .getChatList, .getChatInfo:
             return .get
-        case .changeProfile:
+        case .changeProfile, .blockFriends:
             return .put
-        case .blockFriends:
-            return .delete
         }
     }
     
@@ -105,7 +103,7 @@ extension TikiTakaAPI: TargetType {
         switch self {
         case .signUp, .signIn:
             return nil
-        case .getMyProfile, .changeProfile, .getOtherProfile, .getFriends, .searchFriends, .findFriend, .postRoom, .getChatList, .getChatInfo:
+        case .getMyProfile, .changeProfile, .getOtherProfile, .getFriends, .searchFriends, .findFriend, .postRoom, .getChatList, .getChatInfo, .blockFriends:
             guard let token = TokenManager.currentToken?.tokens.accessToken else { return nil }
             return ["Authorization" : "Bearer " + token]
         default:
