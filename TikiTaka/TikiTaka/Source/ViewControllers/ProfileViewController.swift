@@ -40,7 +40,7 @@ class ProfileViewController: UIViewController {
         $0.backgroundColor = PointColor.primary
         $0.setTitleColor(.white, for: .normal)
     }
-    private var isFriend: Bool = true
+    
     private let disposeBag = DisposeBag()
     private let viewModel = ProfileViewModel()
     private let loadData = BehaviorRelay<Void>(value: ())
@@ -86,6 +86,7 @@ class ProfileViewController: UIViewController {
         let output = viewModel.transform(input: input)
 
         output.loadData.bind {[unowned self] (data) in
+            isBlocked(data.state.block, data.state.friend)
             userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(data.profileData.img)"))
             userNameLabel.text = data.profileData.name
             statusLabel.text = data.profileData.statusMessage
@@ -120,7 +121,20 @@ class ProfileViewController: UIViewController {
             $0.top.equalTo(userNameLabel.snp.bottom).offset(16)
         }
         
-        if isFriend {
+    }
+    
+    func isBlocked(_ block: Bool, _ friend: Bool) {
+        if block {
+            chatBtn.isHidden = true
+            addBtn.isHidden = true
+            blockBtn.setTitle("차단해제", for: .normal)
+
+            blockBtn.snp.makeConstraints {
+                $0.height.width.equalTo(105)
+                $0.top.equalTo(statusLabel.snp.bottom).offset(120)
+                $0.centerX.equalToSuperview()
+            }
+        }else if friend {
             addBtn.isHidden = true
             
             chatBtn.snp.makeConstraints {
@@ -138,13 +152,13 @@ class ProfileViewController: UIViewController {
         } else {
             chatBtn.isHidden = true
             blockBtn.isHidden = true
-            
+
             addBtn.snp.makeConstraints {
                 $0.height.width.equalTo(105)
                 $0.top.equalTo(statusLabel.snp.bottom).offset(120)
                 $0.centerX.equalToSuperview()
             }
+            
         }
     }
-
 }
