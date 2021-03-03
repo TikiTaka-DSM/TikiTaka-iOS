@@ -25,8 +25,9 @@ class SocketIOManager: NSObject {
     func establishConnection() {
         socket.connect()
         
-        socket.on(clientEvent: .connect) { (data, ack) in
-            self.socket.emit("joinRoom", ["roomId": self.roomInfo.value])
+        socket.on(clientEvent: .connect) {[unowned self] (data, ack) in
+            print("romminfo \(roomInfo.value)")
+            socket.emit("joinRoom", roomInfo.value)
         }
     }
     
@@ -35,15 +36,15 @@ class SocketIOManager: NSObject {
     }
     
     func sendMessage(_ id: Int, _ token: String, message: String) {
-        socket.emit("sendMessage", ["roomId" : id, "token" : token, "message": message])
+        socket.emit("sendMessage", id, token, message)
     }
     
     func sendImage(_ id: Int, _ token: String, image: String) {
-        socket.emit("sendImage", ["roomId" : id, "token" : token, "file": image])
+        socket.emit("sendImage", id, token, image)
     }
     
     func sendVoice(_ id: Int, _ token: String, voice: String) {
-        socket.emit("sendVoice", ["roomId" : id, "token": token, "file": voice])
+        socket.emit("sendVoice", id, token, voice)
     }
     
 }
