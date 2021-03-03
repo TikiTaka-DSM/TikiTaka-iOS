@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import RxDataSources
 
 struct Friend: Codable {
     let id: String
@@ -20,7 +19,7 @@ struct Friends: Codable {
 }
 
 struct Search: Codable {
-    let user: [SearchUser]
+    let users: [SearchUser]
 }
 
 struct SearchUser: Codable {
