@@ -51,8 +51,7 @@ final class MainViewModel: ViewModelType {
         
         input.selectRoom.asObservable().subscribe(onNext: { indexPath in
             let room = loadData.value
-            print(room[indexPath.section].items[indexPath.row].roomId)
-            selectData.accept(room[indexPath.row].items[indexPath.row].roomId)
+            selectData.accept(room[indexPath.section].items[indexPath.row].roomId)
         }).disposed(by: disposeBag)
 
         return Output(loadData: loadData.asDriver(), selectData: selectData.asDriver(onErrorJustReturn: 0))
