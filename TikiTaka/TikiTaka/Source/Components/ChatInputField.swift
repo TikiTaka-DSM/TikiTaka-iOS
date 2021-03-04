@@ -19,10 +19,11 @@ class ChatInputField: UIView {
         $0.tintColor = .white
     }
     
-    let inputTextField = UITextField().then {
+    let inputTextField = UITextView().then {
         $0.backgroundColor = .white
-        $0.addLeftPadding()
+        $0.textContainer.lineFragmentPadding = 0
         $0.font = .monospacedSystemFont(ofSize: 13, weight: .regular)
+        $0.returnKeyType = .done
     }
     
     let sendBtn = UIButton().then {
