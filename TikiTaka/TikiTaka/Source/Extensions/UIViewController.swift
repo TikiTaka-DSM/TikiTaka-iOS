@@ -27,6 +27,12 @@ extension UIViewController {
     func forCornerRadius(_ object: AnyObject) {
         object.layer?.cornerRadius = object.bounds!.height / 2
     }
+    
+    func navigationBarColor(_ color: UIColor) {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.backgroundColor = color
+    }
 }
 
 extension BehaviorRelay where Element: RangeReplaceableCollection {
