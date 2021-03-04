@@ -35,7 +35,7 @@ class MainViewController: UIViewController {
             cell.setNeedsLayout()
         })
         cell.chatName.text = item.user.name
-        cell.chatTime.text = "df"
+        cell.chatTime.text = item.lastMessage
         cell.lastMessage.text = item.lastMessage
         
         return cell
@@ -84,6 +84,7 @@ class MainViewController: UIViewController {
         output.selectData.drive(onNext: { [unowned self] roomId in
             guard let vc = storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
             vc.roomId = roomId
+            print("select \(roomId)")
             navigationController?.pushViewController(vc, animated: true)
         }).disposed(by: disposeBag)
     }
