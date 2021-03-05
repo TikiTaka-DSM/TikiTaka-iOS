@@ -61,9 +61,16 @@ class ProfileViewController: UIViewController {
         view.addSubview(blockBtn)
         view.addSubview(addBtn)
         
+        navigationController?.navigationBar.tintColor = PointColor.primary
+        
         bindViewModel()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        navigationBarColor(.clear)
+    }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -93,9 +100,14 @@ class ProfileViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         output.postChat.emit(onNext: {[unowned self] data in
-            guard let vc  = storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
-            vc.roomId = data!.roomData.id
-            navigationController?.pushViewController(vc, animated: true)
+            guard let pvc = presentingViewController else { return }
+            dismiss(animated: true) {
+                guard let vc  = storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
+                vc.roomId = data!.roomData.id
+                vc.modalPresentationStyle = .fullScreen
+                vc.modalTransitionStyle = .coverVertical
+                pvc.present(vc, animated: true, completion: nil)
+            }
         }).disposed(by: disposeBag)
         
         output.postBlock.emit(onCompleted: { [unowned self] in dismiss(animated: true, completion: nil)}).disposed(by: disposeBag)
@@ -161,4 +173,5 @@ class ProfileViewController: UIViewController {
             
         }
     }
+
 }
