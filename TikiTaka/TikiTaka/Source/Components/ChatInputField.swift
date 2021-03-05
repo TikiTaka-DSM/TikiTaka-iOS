@@ -21,9 +21,9 @@ class ChatInputField: UIView {
     
     let inputTextField = UITextView().then {
         $0.backgroundColor = .white
-        $0.textContainer.lineFragmentPadding = 0
         $0.font = .monospacedSystemFont(ofSize: 13, weight: .regular)
         $0.returnKeyType = .done
+        $0.textContainerInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
     }
     
     let sendBtn = UIButton().then {
@@ -49,7 +49,7 @@ class ChatInputField: UIView {
         backgroundColor = PointColor.primary
         
         addSubview(stackView)
-        
+
         stackView.addArrangedSubview(chatImg)
         stackView.addArrangedSubview(chatAudio)
         stackView.addArrangedSubview(inputTextField)
@@ -103,3 +103,4 @@ class ChatInputField: UIView {
         super.updateConstraints()
     }
 }
+
