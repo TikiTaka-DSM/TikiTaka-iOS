@@ -56,6 +56,7 @@ class MainViewController: UIViewController {
         
         setTableView()
         bindViewModel()
+        
     }
  
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +65,9 @@ class MainViewController: UIViewController {
         chatsTableView.separatorColor = .clear
         chatsTableView.separatorInset = .zero
         chatsTableView.separatorStyle = .none
+        
+        navigationBarColor(.white)
+        UIApplication.shared.statusBarUIView?.backgroundColor = .white
     }
     
     override func viewDidLayoutSubviews() {

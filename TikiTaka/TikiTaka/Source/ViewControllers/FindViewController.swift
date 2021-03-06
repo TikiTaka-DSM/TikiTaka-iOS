@@ -35,6 +35,9 @@ class FindViewController: UIViewController {
         view.addSubview(errorLabel)
         
         bindViewModel()
+        
+        navigationBarColor(.white)
+        UIApplication.shared.statusBarUIView?.backgroundColor = .white
     }
     
     override func viewDidLayoutSubviews() {

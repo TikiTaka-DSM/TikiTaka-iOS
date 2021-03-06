@@ -61,6 +61,9 @@ class MyProfileViewController: UIViewController {
         
         bindViewModel()
         setUpConstraint()
+        
+        navigationBarColor(.clear)
+        UIApplication.shared.statusBarUIView?.backgroundColor = .clear
     }
     
     override func viewWillAppear(_ animated: Bool) {

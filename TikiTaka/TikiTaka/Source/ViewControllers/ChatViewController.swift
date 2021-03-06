@@ -49,70 +49,75 @@ class ChatViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(note:)), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(note:)), name: UIResponder.keyboardWillHideNotification , object: nil)
         
-        inputBar.inputTextField.delegate = self
         setTableView()
         setUpConstraint()
         bindViewModel()
         
         SocketIOManager.shared.establishConnection()
-        socketClient = SocketIOManager.shared.socket
-        SocketIOManager.shared.socket.emit("joinRoom", ["roodId": roomId])
+        SocketIOManager.shared.socket.emit("joinRoom", roomId)
         
-        inputBar.chatAudio.rx.tap.subscribe(onNext: { _ in
-            self.setRecord()
-        }).disposed(by: disposeBag)
-   
+        navigationBarColor(PointColor.primary)
+        UIApplication.shared.statusBarUIView?.backgroundColor = PointColor.primary
+        
+        inputBar.chatAudio.rx.tap.subscribe(onNext: {[unowned self] _ in setAlert("티키타카 V2에서 사용 가능합니다.") }).disposed(by: disposeBag)
+        inputBar.chatImg.rx.tap.subscribe(onNext: {[unowned self] _ in present(imagePicker, animated: true, completion: nil)}).disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+
         chatTableView.separatorColor = .clear
         chatTableView.separatorInset = .zero
         chatTableView.separatorStyle = .none
+        chatTableView.allowsSelection = false
     }
     
-    func bindViewModel() {
-        
-        let input = ChatViewModel.Input(roomId: roomId, loadChat: loadData.asSignal(onErrorJustReturn: ()), emitText: inputBar.sendBtn.rx.tap.asDriver(), messageText: inputBar.inputTextField.rx.text.orEmpty.asDriver(), messageImage: sendImage.asDriver(onErrorJustReturn: Data.init()), messageAudio: sendVoice.asDriver(onErrorJustReturn: Data.init()))
+    // MARK: Binding
+    
+    private func bindViewModel() {
+        let input = ChatViewModel.Input(roomId: roomId,
+                                        loadChat: loadData.asSignal(onErrorJustReturn: ()),
+                                        emitText: inputBar.sendBtn.rx.tap.asDriver(),
+                                        messageText: inputBar.inputTextField.rx.text.orEmpty.asDriver(),
+                                        messageImage: sendImage.asDriver(onErrorJustReturn: ""),
+                                        messageAudio: sendVoice.asDriver(onErrorJustReturn: Data.init()))
         let output = viewModel.transform(input: input)
-
-        output.loadData.asObservable().bind(to: chatTableView.rx.items) { tableview, row, cellType -> UITableViewCell in
+        
+        output.loadData.asObservable().bind(to: chatTableView.rx.items) {[unowned self] tableview, row, cellType -> UITableViewCell in
             switch cellType {
             case .myMessages(let message):
-                print(message)
-                if message.message!.isEmpty && message.photo!.isEmpty{
+                if message.message == nil && message.photo == nil{
                     //voice
-                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "myVoiceCell") as! MyVoiceTableViewCell
-
+                    let cell = chatTableView.dequeueReusableCell(withIdentifier: "myVoiceCell") as! MyVoiceTableViewCell
 
                     return cell
-                }else if message.photo!.isEmpty {
+                }else if message.photo == nil {
                     //message
-                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
-
+                    
+                    let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
+                    
                     cell.messageLabel.text = message.message
-
+                    
                     return cell
                 }else {
                     //photo
-                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
+                    let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
 
-                    cell.bubbleView.kf.setImage(with: URL(string: ""))
+                    cell.bubbleView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.photo!)"))
 
                     return cell
                 }
             case .yourMessage(let message):
-                print(message)
-                if message.message!.isEmpty && message.photo!.isEmpty{
+                if message.message!.isEmpty && message.photo!.isEmpty {
                     //voice
-                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "otherVoiceCell") as! OtherVoiceTableViewCell
+                    let cell = chatTableView.dequeueReusableCell(withIdentifier: "otherVoiceCell") as! OtherVoiceTableViewCell
                     
                     cell.userImageView.kf.setImage(with: URL(string: ""))
                     
                     return cell
-                }else if message.photo!.isEmpty {
+                }else if message.photo == nil {
                     //message
-                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "otherCell") as! OtherTableViewCell
+                    let cell = chatTableView.dequeueReusableCell(withIdentifier: "otherCell") as! OtherTableViewCell
 
                     cell.messageLabel.text = message.message
                     cell.userImageView.kf.setImage(with: URL(string: ""))

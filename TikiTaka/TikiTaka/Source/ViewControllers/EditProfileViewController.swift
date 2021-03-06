@@ -71,6 +71,9 @@ class EditProfileViewController: UIViewController {
         setUpConstraint()
         
         editImageData.accept(userImageBtn.currentImage?.jpegData(compressionQuality: 0.2))
+        
+        navigationBarColor(PointColor.primary)
+        UIApplication.shared.statusBarUIView?.backgroundColor = PointColor.primary
     }
     
     override func viewDidLayoutSubviews() {
@@ -94,7 +97,7 @@ class EditProfileViewController: UIViewController {
             statusTextField.text = data?.profileData.statusMessage
         }).disposed(by: disposeBag)
         
-        output.result.emit(onNext: {[unowned self] text in self.setAlert(text) }).disposed(by: disposeBag)
+        output.result.emit(onNext: {[unowned self] text in setAlert(text) }).disposed(by: disposeBag)
         output.edit.emit(onNext: {[unowned self] text in setAlert(text) },
                          onCompleted: {[unowned self] in navigationController?.popViewController(animated: true)}).disposed(by: disposeBag)
     }
