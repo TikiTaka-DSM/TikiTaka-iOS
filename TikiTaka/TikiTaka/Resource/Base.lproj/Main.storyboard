@@ -43,7 +43,7 @@
         <!--Main View Controller-->
         <scene sceneID="j6g-w2-guc">
             <objects>
-                <viewController id="2bN-0D-bGk" customClass="MainViewController" customModule="TikiTaka" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Room" id="2bN-0D-bGk" customClass="MainViewController" customModule="TikiTaka" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rOd-xV-W81">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -56,7 +56,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MWk-IH-fMK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1881" y="67"/>
+            <point key="canvasLocation" x="1829" y="67"/>
         </scene>
         <!--Chat View Controller-->
         <scene sceneID="7zJ-TP-lh7">
@@ -71,7 +71,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9sC-Bt-1Z6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2614" y="67"/>
+            <point key="canvasLocation" x="2645" y="67"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="r5u-4x-bcz">
@@ -103,7 +103,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cQR-VM-sq4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1880" y="800"/>
+            <point key="canvasLocation" x="1829" y="800"/>
         </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="6CT-Mh-OJB">
