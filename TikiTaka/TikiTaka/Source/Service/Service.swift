@@ -74,7 +74,7 @@ class Service {
             .asObservable()
             .map(Search.self)
             .map { return ($0, .success) }
-            .catchError{ _ in .just((nil, .fail))}
+            .catchError{[unowned self] error in .just((nil, self.setNetworkError(error)))}
     }
     
     func blockFriends(_ name: String) -> Observable<NetworkPart> {
@@ -83,16 +83,16 @@ class Service {
             .asObservable()
             .map { _ -> NetworkPart in
                 return (.success)
-            }.catchError{ _ in .just(.fail) }
+            }.catchError{ error in .just(self.setNetworkError(error)) }
     }
     
     func findFriends(_ name: String) -> Observable<NetworkPart> {
-        return provider.rx.request(.FindFriends(name))
+        return provider.rx.request(.findFriend(name))
             .filterSuccessfulStatusCodes()
             .asObservable()
             .map { _ -> NetworkPart in
                 return (.success)
-            }.catchError { [unowned self] in .just(self.setNetworkError($0)) }
+            }.catchError { [unowned self] in .just( setNetworkError($0)) }
     }
     
     func postFriends(_ id: String) -> Observable<NetworkPart> {
@@ -133,6 +133,7 @@ class Service {
     
     func setNetworkError(_ error: Error) -> NetworkPart {
         guard let status = (error as? MoyaError)?.response?.statusCode else { return (.fail) }
+        print(error)
         return (NetworkPart(rawValue: status) ?? .fail)
     }
 }
