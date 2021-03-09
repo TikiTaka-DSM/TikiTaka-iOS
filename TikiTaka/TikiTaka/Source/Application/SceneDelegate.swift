@@ -12,23 +12,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
+            
         guard let _ = (scene as? UIWindowScene) else { return }
-
-        window = UIWindow(frame: UIScreen.main.bounds)
-        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+
         if TokenManager.currentToken?.tokens.accessToken != nil {
             let viewController = storyboard.instantiateViewController(withIdentifier: "Main")
-            
+
             window?.rootViewController = UINavigationController.init(rootViewController: viewController)
             window?.makeKeyAndVisible()
         }else {
             let viewController = storyboard.instantiateViewController(withIdentifier: "SignIn") as! SignInViewController
-            
+
             window?.rootViewController = UINavigationController.init(rootViewController: viewController)
             window?.makeKeyAndVisible()
         }
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
