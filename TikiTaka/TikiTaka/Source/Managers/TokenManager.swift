@@ -8,7 +8,6 @@
 import Foundation
 
 struct TokenManager {
-    
     enum TokenSataus {
         case access
         case refresh
@@ -17,5 +16,4 @@ struct TokenManager {
     static var currentToken: Tokens? {
         return StoregaeManager.shared.read()
     }
-    
 }

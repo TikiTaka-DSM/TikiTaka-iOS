@@ -29,6 +29,7 @@ final class FindViewModel: ViewModelType {
         input.findFriend.asObservable().withLatestFrom(input.friendName).subscribe(onNext: {[weak self] name in
             guard let self = self else { return }
             api.findFriends(name).subscribe(onNext: { response in
+                print(response)
                 switch response {
                 case .success:
                     findData.onCompleted()
