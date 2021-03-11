@@ -13,7 +13,7 @@ class SocketIOManager: NSObject {
     
     static let shared = SocketIOManager()
     
-    var manager = SocketManager(socketURL: URL(string: "http://54.180.2.226:3000")!, config: [.log(true), .compress])
+    var manager = SocketManager(socketURL: URL(string: "http://54.180.2.226:3100")!, config: [.log(true), .compress])
     var socket: SocketIOClient!
     var roomInfo = BehaviorRelay<Int>(value: 0)
     
