@@ -12,19 +12,22 @@ import AVFoundation
 import SocketIO
 import Kingfisher
 
-class ChatViewController: UIViewController {
-    
-    private let chatTableView = UITableView()
+final class ChatViewController: UIViewController {
+
     private let inputBar = ChatInputField()
     private let disposeBag = DisposeBag()
     private let viewModel = ChatViewModel()
     private let loadData = BehaviorRelay<Void>(value: ())
-    private let sendImage = PublishRelay<Data>()
+    private let sendImage = PublishRelay<String>()
     private let sendVoice = PublishRelay<Data>()
     private var voiceRecord: AVAudioRecorder!
     private var timer = Timer()
     private var count = Int()
-    var socketClient: SocketIOClient!
+    var roomId = Int()
+    
+    private let chatTableView = UITableView().then {
+        $0.keyboardDismissMode = .interactive
+    }
     
     lazy var imagePicker: UIImagePickerController = {
         let picker: UIImagePickerController = UIImagePickerController()
@@ -33,12 +36,10 @@ class ChatViewController: UIViewController {
         picker.allowsEditing = true
         return picker
     }()
+
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        SocketIOManager.shared.disconnection()
-    }
-        
+    // MARK: LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,7 +59,7 @@ class ChatViewController: UIViewController {
         
         navigationBarColor(PointColor.primary)
         UIApplication.shared.statusBarUIView?.backgroundColor = PointColor.primary
-        
+                
         inputBar.chatAudio.rx.tap.subscribe(onNext: {[unowned self] _ in setAlert("티키타카 V2에서 사용 가능합니다.") }).disposed(by: disposeBag)
         inputBar.chatImg.rx.tap.subscribe(onNext: {[unowned self] _ in present(imagePicker, animated: true, completion: nil)}).disposed(by: disposeBag)
     }
@@ -86,25 +87,25 @@ class ChatViewController: UIViewController {
         output.loadData.asObservable().bind(to: chatTableView.rx.items) {[unowned self] tableview, row, cellType -> UITableViewCell in
             switch cellType {
             case .myMessages(let message):
+                print(message)
                 if message.message == nil && message.photo == nil{
                     //voice
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "myVoiceCell") as! MyVoiceTableViewCell
 
                     return cell
-                }else if message.photo == nil {
+                } else if message.photo == nil {
                     //message
-                    
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
                     
                     cell.messageLabel.text = message.message
                     
                     return cell
-                }else {
+                } else {
                     //photo
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
-
+                    
                     cell.bubbleView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.photo!)"))
-
+                    
                     return cell
                 }
             case .yourMessage(let message):
@@ -112,48 +113,53 @@ class ChatViewController: UIViewController {
                     //voice
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "otherVoiceCell") as! OtherVoiceTableViewCell
                     
-                    cell.userImageView.kf.setImage(with: URL(string: ""))
+                    cell.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.user.img)"))
                     
                     return cell
-                }else if message.photo == nil {
+                } else if message.photo == nil {
                     //message
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "otherCell") as! OtherTableViewCell
 
                     cell.messageLabel.text = message.message
-                    cell.userImageView.kf.setImage(with: URL(string: ""))
+                    cell.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.user.img)"))
                     
                     return cell
-                }else {
+                } else {
                     //photo
-                    let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "otherCell") as! OtherTableViewCell
+                    let cell = chatTableView.dequeueReusableCell(withIdentifier: "otherCell") as! OtherTableViewCell
 
-                    cell.bubbleView.kf.setImage(with: URL(string: ""))
-                    cell.userImageView.kf.setImage(with: URL(string: ""))
+                    cell.bubbleView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.photo!)"))
+                    cell.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.user.img)"))
                     
                     return cell
                 }
             }
         }.disposed(by: disposeBag)
         
-        output.afterSend.emit(onNext: {[unowned self] _ in
-            loadData.accept(())
-            chatTableView.reloadData()
+        output.afterSend.emit(onNext: {[unowned self] data in
+            output.loadData.add(element: CellType.myMessages(data!))
             inputBar.inputTextField.text = ""
+        }).disposed(by: disposeBag)
+        
+        output.afterGive.emit(onNext: {[unowned self] data in
+            output.loadData.add(element: CellType.yourMessage(data!))
         }).disposed(by: disposeBag)
     }
     
-    func setTableView() {
+    // MARK: setup
+    
+    private func setTableView() {
         chatTableView.register(MyTableViewCell.self, forCellReuseIdentifier: "mineCell")
         chatTableView.register(OtherTableViewCell.self, forCellReuseIdentifier: "otherCell")
         chatTableView.register(OtherVoiceTableViewCell.self, forCellReuseIdentifier: "otherVoiceCell")
         chatTableView.register(MyVoiceTableViewCell.self, forCellReuseIdentifier: "myVoiceCell")
     }
     
-    func setRecord() {
+    private func setRecord() {
         UIView.animate(withDuration: 0.5) { [unowned self] in
             inputBar.chatAudio.isSelected = !inputBar.chatAudio.isSelected
             inputBar.chatImg.isHidden = !inputBar.chatImg.isHidden
-            inputBar.inputTextField.isEnabled = !inputBar.inputTextField.isEnabled
+            inputBar.inputTextField.isEditable = !inputBar.inputTextField.isEditable
             inputBar.recordTime.isHidden = !inputBar.recordTime.isHidden
             if inputBar.chatAudio.isSelected {
                 timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(counting), userInfo: nil, repeats: true)
@@ -175,7 +181,7 @@ class ChatViewController: UIViewController {
         }
     }
     
-    func startRecording() {
+    private func startRecording() {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let audioFileName = paths[0].appendingPathComponent(NSUUID().uuidString + ".m4a")
         
@@ -196,7 +202,9 @@ class ChatViewController: UIViewController {
         }
     }
     
-    func setUpConstraint() {
+    // MARK: Constraint
+    
+    private func setUpConstraint() {
         chatTableView.snp.makeConstraints {
             $0.top.equalTo(view.snp.top)
             $0.leading.equalToSuperview()
@@ -208,35 +216,27 @@ class ChatViewController: UIViewController {
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            $0.height.equalTo(41)
+            $0.height.equalTo(view).multipliedBy(0.05)
         }
     }
     
     @objc func keyboardWillAppear(note: Notification){
         if let keyboardSize = (note.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.view.frame.origin.y -= keyboardSize.height
+            view.frame.origin.y = inputBar.inputTextField.frame.height - keyboardSize.height
             inputBar.sendBtn.isHidden = false
         }
     }
     
     @objc func keyboardWillDisappear(note: Notification){
-        self.view.frame.origin.y = 0
+        view.frame.origin.y = 0
         inputBar.sendBtn.isHidden = true
     }
     
     @objc func counting() {
         count += 1
-        
         let minutes = count / 60 % 60
         let seconds = count % 60
-        
         inputBar.recordTime.text = String(format: "%01i:%02i", minutes, seconds)
-    }
-}
-
-extension ChatViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
     }
 }
 
@@ -244,20 +244,20 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let originalImage: UIImage = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue)] as? UIImage {
-            guard let imageData = originalImage.jpegData(compressionQuality: 0.4) else {
+
+            guard let imageData = originalImage.jpegData(compressionQuality: 0.2)?.base64EncodedString() else {
                 print("Could not get JPEG representation of UIImage")
                 return
             }
             sendImage.accept(imageData)
         }
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }
 
 extension ChatViewController: AVAudioRecorderDelegate {
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         do {
-            
             let data = try Data(contentsOf: voiceRecord.url)
             sendVoice.accept(data.base64EncodedData())
         }catch {
