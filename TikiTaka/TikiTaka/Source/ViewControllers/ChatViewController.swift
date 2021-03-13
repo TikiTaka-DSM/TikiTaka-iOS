@@ -85,6 +85,7 @@ final class ChatViewController: UIViewController {
         let output = viewModel.transform(input: input)
         
         output.loadData.asObservable().bind(to: chatTableView.rx.items) {[unowned self] tableview, row, cellType -> UITableViewCell in
+            setupSelectBottom(row: output.loadData.value.count - 1)
             switch cellType {
             case .myMessages(let message):
                 print(message)
@@ -93,7 +94,7 @@ final class ChatViewController: UIViewController {
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "myVoiceCell") as! MyVoiceTableViewCell
 
                     return cell
-                } else if message.photo == nil {
+                } else if message.photo == nil || message.photo == ""{
                     //message
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
                     
@@ -104,6 +105,7 @@ final class ChatViewController: UIViewController {
                     //photo
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
                     
+                    print("message 안에서 \(message.message)")
                     cell.bubbleView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.photo!)"))
                     
                     return cell
