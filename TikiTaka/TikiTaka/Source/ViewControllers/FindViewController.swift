@@ -53,11 +53,14 @@ final class FindViewController: UIViewController {
                                         findFriend: searchBar.doneBtn.rx.tap.asDriver())
         let output = viewModel.transform(input: input)
         
-        output.findData.emit(onNext: {[unowned self] error in errorLabel.text = error },
-                             onCompleted: {[unowned self] in
-                                guard let vc = storyboard?.instantiateViewController(identifier: "Profile") as? ProfileViewController else { return }
-                                vc.friendId = searchBar.searchTextField.text!
-                                present(vc, animated: true, completion: nil)
+        output.findData.emit(onNext: {[unowned self] error in
+            if error == "Complete" {
+                guard let vc = storyboard?.instantiateViewController(identifier: "Profile") as? ProfileViewController else { return }
+                vc.friendId = searchBar.searchTextField.text!
+                present(vc, animated: true, completion: nil)
+            }else {
+                errorLabel.text = error
+            }
         }).disposed(by: disposeBag)
     }
     
