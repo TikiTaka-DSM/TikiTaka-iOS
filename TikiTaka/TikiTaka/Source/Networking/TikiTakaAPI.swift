@@ -103,7 +103,7 @@ extension TikiTakaAPI: TargetType {
         switch self {
         case .signUp, .signIn:
             return nil
-        case .getMyProfile, .changeProfile, .getOtherProfile, .getFriends, .searchFriends, .findFriend, .postRoom, .getChatList, .getChatInfo, .blockFriends:
+        case .getMyProfile, .changeProfile, .getOtherProfile, .getFriends, .searchFriends, .findFriend, .postRoom, .getChatList, .getChatInfo, .blockFriends, .postFriends:
             guard let token = TokenManager.currentToken?.tokens.accessToken else { return nil }
             return ["Authorization" : "Bearer " + token]
         default:

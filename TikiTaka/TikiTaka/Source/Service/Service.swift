@@ -101,7 +101,7 @@ class Service {
             .asObservable()
             .map { _ -> NetworkPart in
                 return (.success)
-            }.catchError { _ in .just(.fail) }
+            }.catchError {[unowned self] in .just( setNetworkError($0)) }
     }
     
     func postRoom(_ people: String) -> Observable<(RoomData?, NetworkPart)> {
