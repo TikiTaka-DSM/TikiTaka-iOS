@@ -139,10 +139,12 @@ final class ChatViewController: UIViewController {
         output.afterSend.emit(onNext: {[unowned self] data in
             output.loadData.add(element: CellType.myMessages(data!))
             inputBar.inputTextField.text = ""
+            setupSelectBottom(row: output.loadData.value.count - 1)
         }).disposed(by: disposeBag)
         
         output.afterGive.emit(onNext: {[unowned self] data in
             output.loadData.add(element: CellType.yourMessage(data!))
+            chatTableView.reloadData()
         }).disposed(by: disposeBag)
     }
     
@@ -178,6 +180,13 @@ final class ChatViewController: UIViewController {
                 inputBar.chatAudio.tintColor = .white
                 voiceRecord.stop()
             }
+        }
+    }
+    
+    private func setupSelectBottom(row: Int) {
+        DispatchQueue.main.async { [unowned self] in
+            let indexPath = IndexPath(row: row, section: 0)
+            chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
     
