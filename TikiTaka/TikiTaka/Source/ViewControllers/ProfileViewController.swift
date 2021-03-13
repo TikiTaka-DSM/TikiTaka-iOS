@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
 
     // MARK: UI
     
@@ -104,7 +104,7 @@ class ProfileViewController: UIViewController {
             dismiss(animated: true) {
                 guard let vc  = storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
                 vc.roomId = data!.roomData.id
-                vc.modalPresentationStyle = .fullScreen
+                vc.modalPresentationStyle = .overFullScreen
                 vc.modalTransitionStyle = .coverVertical
                 pvc.present(vc, animated: true, completion: nil)
             }

@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SignUpViewController: UIViewController {
+final class SignUpViewController: UIViewController {
 
     // MARK: UI
     

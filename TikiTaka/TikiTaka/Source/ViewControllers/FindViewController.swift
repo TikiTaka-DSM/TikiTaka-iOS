@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class FindViewController: UIViewController {
+final class FindViewController: UIViewController {
 
     // MARK: UI
     

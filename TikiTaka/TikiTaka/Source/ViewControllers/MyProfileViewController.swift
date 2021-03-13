@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import Kingfisher
 
-class MyProfileViewController: UIViewController {
+final class MyProfileViewController: UIViewController {
     
     // MARK: UI
     

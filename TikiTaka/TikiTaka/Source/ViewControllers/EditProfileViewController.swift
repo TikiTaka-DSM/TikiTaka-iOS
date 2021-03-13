@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class EditProfileViewController: UIViewController {
+final class EditProfileViewController: UIViewController {
 
     // MARK: UI
     

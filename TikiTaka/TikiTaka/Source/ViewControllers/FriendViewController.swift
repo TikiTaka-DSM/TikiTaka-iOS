@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 
-class FriendViewController: UIViewController {
+final class FriendViewController: UIViewController {
 
     // MARK: UI
     

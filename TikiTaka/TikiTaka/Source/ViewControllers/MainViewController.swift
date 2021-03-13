@@ -13,7 +13,7 @@ import RxDataSources
 typealias ChatListSection = SectionModel<String, ChatList>
 typealias ChatListDataSource = RxTableViewSectionedReloadDataSource<ChatListSection>
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
 
     // MARK: UI
     
@@ -31,11 +31,8 @@ class MainViewController: UIViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatsCell", for: indexPath) as! ChatTableViewCell
         cell.separatorInset = UIEdgeInsets.zero
 
-        cell.chatImg.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(item.user.img)"), completionHandler:  { result in
-            cell.setNeedsLayout()
-        })
+        cell.chatImg.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(item.user.img)"))
         cell.chatName.text = item.user.name
-        cell.chatTime.text = item.lastMessage
         cell.lastMessage.text = item.lastMessage
         
         return cell
