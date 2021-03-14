@@ -111,6 +111,9 @@ final class ProfileViewController: UIViewController {
         }).disposed(by: disposeBag)
         
         output.postBlock.emit(onCompleted: { [unowned self] in dismiss(animated: true, completion: nil)}).disposed(by: disposeBag)
+        
+        output.postFriend.emit(onNext: { [unowned self] error in setAlert(error)} ,
+                               onCompleted: { [unowned self] in dismiss(animated: true, completion: nil)}).disposed(by: disposeBag)
     }
     
     // MARK: Constraint
@@ -160,7 +163,6 @@ final class ProfileViewController: UIViewController {
                 $0.trailing.equalToSuperview().offset(-75)
                 $0.top.equalTo(statusLabel.snp.bottom).offset(120)
             }
-            
         } else {
             chatBtn.isHidden = true
             blockBtn.isHidden = true
@@ -170,7 +172,7 @@ final class ProfileViewController: UIViewController {
                 $0.top.equalTo(statusLabel.snp.bottom).offset(120)
                 $0.centerX.equalToSuperview()
             }
-            
+
         }
     }
 
