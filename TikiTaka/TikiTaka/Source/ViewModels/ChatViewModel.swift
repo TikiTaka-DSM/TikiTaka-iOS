@@ -24,19 +24,21 @@ final class ChatViewModel: ViewModelType {
     
     struct Output {
         let loadData: BehaviorRelay<[CellType]>
-        let afterSend: Signal<String>
+        let afterSend: Signal<emitMessage?>
+        let afterGive: Signal<emitMessage?>
     }
     
     func transform(input: Input) -> Output {
         let api = Service()
         let loadData = BehaviorRelay<[CellType]>(value: [])
-        let afterSend = PublishSubject<String>()
+        let afterSend = PublishSubject<emitMessage?>()
         let Textinfo = Driver.combineLatest(Driver.just(input.roomId), input.messageText)
         let Imageinfo = Driver.combineLatest(Driver.just(input.roomId), input.messageImage)
         let Audioinfo = Driver.combineLatest(Driver.just(input.roomId), input.messageText)
         var cellType: [CellType] = []
         let token = TokenManager.currentToken?.tokens.accessToken
-
+        let afterGvie = PublishSubject<emitMessage?>()
+        
         input.loadChat.asObservable().subscribe(onNext: { [weak self] _ in
             guard let self = self else {return}
             api.getChatInfo(input.roomId).subscribe(onNext: { data, response in
@@ -51,7 +53,7 @@ final class ChatViewModel: ViewModelType {
                     }
                     loadData.accept(cellType)
                 default:
-                    print("af")
+                    print("채팅 정보를 불러올 수 없음")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
@@ -59,10 +61,9 @@ final class ChatViewModel: ViewModelType {
         input.emitText.asObservable().withLatestFrom(Textinfo).subscribe(onNext: { id, text in
             SocketIOManager.shared.sendMessage(id, token!, message: text)
             
-            let data = emitMessage(user: SearchUser(id: "gayo03", name: "gayo03", img: ""), message: text, photo: "", voice: "", createdAt: TimeZone.current.identifier)
+            let data = emitMessage(user: SearchUser(id: "", name: "", img: ""), message: text, photo: "", voice: "", createdAt: TimeZone.current.identifier)
             
-            loadData.add(element: CellType.myMessages(data))
-            afterSend.onNext("전송완료")
+            afterSend.onNext(data)
         }).disposed(by: disposeBag)
         
         input.messageImage.asObservable().withLatestFrom(Imageinfo).subscribe(onNext: { id, image in
@@ -71,7 +72,7 @@ final class ChatViewModel: ViewModelType {
             let data = emitMessage(user: SearchUser(id: "gayo03", name: "gayo03", img: ""), message: "", photo: image, voice: "", createdAt: TimeZone.current.identifier)
             
             loadData.add(element: CellType.myMessages(data))
-            afterSend.onNext("전송완료")
+            afterSend.onNext(data)
         }).disposed(by: disposeBag)
         
         input.messageAudio.asObservable().withLatestFrom(Audioinfo).subscribe(onNext: { id, audio in
@@ -80,43 +81,42 @@ final class ChatViewModel: ViewModelType {
             let data = emitMessage(user: SearchUser(id: "gayo03", name: "gayo03", img: ""), message: "", photo: "", voice: audio, createdAt: TimeZone.current.identifier)
             
             loadData.add(element: CellType.myMessages(data))
-            
-            afterSend.onNext("전송완료")
+            afterSend.onNext(data)
         }).disposed(by: disposeBag)
         
-//        socketClient.on("realTimeChatting") { (data, ack) in
-//            print(data)
-//
-//            var name = String()
-//            var img = String()
-//            var id = String()
-//            var message = String()
-//            var photo = String()
-//            var voice = String()
-//            var createdAt = String()
-//
-//            do {
-//                let jsonData = try JSONSerialization.data(withJSONObject: data)
-//                let decoder = JSONDecoder()
-//                let addComments = try decoder.decode(emitMessage.self, from: jsonData)
-//
-//                name = addComments.user.name
-//                id = addComments.user.id
-//                img = addComments.user.img
-//                message = addComments.message ?? ""
-//                photo = addComments.photo ?? ""
-//                voice = addComments.voice ?? ""
-//                createdAt = addComments.createdAt
-//            } catch {
-//                print(error)
-//            }
-//
-//            let data = emitMessage(user: SearchUser(id: id, name: name, img: img), message: message , photo: photo, voice: voice, createdAt: createdAt)
-//
-//            loadData.add(element: CellType.yourMessage(data))
-//        }
+        SocketIOManager.shared.socket.on("realTimeChatting") { (data, ack) in
+            print(data)
+
+            var name = String()
+            var img = String()
+            var id = String()
+            var message = String()
+            var photo = String()
+            var voice = String()
+            var createdAt = String()
+
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: data[0])
+                let decoder = JSONDecoder()
+                let addComments = try decoder.decode(emitMessage.self, from: jsonData)
+
+                name = addComments.user.name
+                id = addComments.user.id
+                img = addComments.user.img
+                message = addComments.message ?? ""
+                photo = addComments.photo ?? ""
+                voice = addComments.voice ?? ""
+                createdAt = addComments.createdAt ?? ""
+            } catch {
+                print(error)
+            }
+
+            let data = emitMessage(user: SearchUser(id: id, name: name, img: img), message: message , photo: photo, voice: voice, createdAt: createdAt)
+            
+            afterGvie.onNext(data)
+        }
         
-        return Output(loadData: loadData, afterSend: afterSend.asSignal(onErrorJustReturn: ""))
+        return Output(loadData: loadData, afterSend: afterSend.asSignal(onErrorJustReturn: nil), afterGive: afterGvie.asSignal(onErrorJustReturn: nil))
     }
 }
 

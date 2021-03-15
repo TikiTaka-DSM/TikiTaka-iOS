@@ -105,23 +105,24 @@ final class ChatViewController: UIViewController {
                     //photo
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
                     
-                    print("message 안에서 \(message.message)")
                     cell.bubbleView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.photo!)"))
                     
                     return cell
                 }
             case .yourMessage(let message):
-                if message.message!.isEmpty && message.photo!.isEmpty {
+                if message.message == nil && message.photo == nil {
                     //voice
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "otherVoiceCell") as! OtherVoiceTableViewCell
                     
+                    print("voice")
                     cell.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.user.img)"))
                     
                     return cell
-                } else if message.photo == nil {
+                } else if message.photo == "" || message.photo == nil {
                     //message
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "otherCell") as! OtherTableViewCell
-
+                    
+                    print("message")
                     cell.messageLabel.text = message.message
                     cell.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.user.img)"))
                     
@@ -130,6 +131,8 @@ final class ChatViewController: UIViewController {
                     //photo
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "otherCell") as! OtherTableViewCell
 
+                    print("photo")
+                    print(message)
                     cell.bubbleView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.photo!)"))
                     cell.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.user.img)"))
                     
@@ -146,6 +149,7 @@ final class ChatViewController: UIViewController {
         
         output.afterGive.emit(onNext: {[unowned self] data in
             output.loadData.add(element: CellType.yourMessage(data!))
+            setupSelectBottom(row: output.loadData.value.count - 1)
             chatTableView.reloadData()
         }).disposed(by: disposeBag)
     }
