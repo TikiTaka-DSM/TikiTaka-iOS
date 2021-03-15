@@ -60,9 +60,7 @@ final class ProfileViewController: UIViewController {
         view.addSubview(chatBtn)
         view.addSubview(blockBtn)
         view.addSubview(addBtn)
-        
-        navigationController?.navigationBar.tintColor = PointColor.primary
-        
+                
         bindViewModel()
     }
     
@@ -70,6 +68,7 @@ final class ProfileViewController: UIViewController {
         super.viewWillDisappear(true)
         
         navigationBarColor(.clear)
+        navigationController?.navigationBar.tintColor = PointColor.primary
     }
     
     override func viewWillAppear(_ animated: Bool) {

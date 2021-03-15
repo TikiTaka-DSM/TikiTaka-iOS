@@ -53,7 +53,7 @@ final class MainViewController: UIViewController {
         
         setTableView()
         bindViewModel()
-        
+        setUpConstraint()
     }
  
     override func viewWillAppear(_ animated: Bool) {
@@ -65,12 +65,8 @@ final class MainViewController: UIViewController {
         
         navigationBarColor(.white)
         UIApplication.shared.statusBarUIView?.backgroundColor = .white
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
         
-        setUpConstraint()
+        loadData.accept(())
     }
     
     // MARK: Binding

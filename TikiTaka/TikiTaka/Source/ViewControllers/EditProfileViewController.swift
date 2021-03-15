@@ -23,7 +23,6 @@ final class EditProfileViewController: UIViewController {
     private let userImageBtn = UIButton().then {
         $0.alpha = 0.7
         $0.imageView?.layer.cornerRadius = 54.5
-        
     }
     
     private let nameTextField = UITextField().then {

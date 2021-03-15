@@ -37,9 +37,6 @@ final class FriendViewController: UIViewController {
         setTableView()
         bindViewModel()
         setupConstraint()
-        
-        navigationBarColor(.white)
-        UIApplication.shared.statusBarUIView?.backgroundColor = .white
     }
     
     // MARK: LifeCycle
@@ -50,13 +47,15 @@ final class FriendViewController: UIViewController {
         friendsTableView.separatorColor = .clear
         friendsTableView.separatorInset = .zero
         friendsTableView.separatorStyle = .none
+        
+        navigationBarColor(.white)
+        UIApplication.shared.statusBarUIView?.backgroundColor = .white
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
         loadData.accept(())
-        friendsTableView.reloadData()
     }
     // MARK: Binding
     

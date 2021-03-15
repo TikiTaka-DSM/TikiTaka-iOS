@@ -61,15 +61,15 @@ final class MyProfileViewController: UIViewController {
         
         bindViewModel()
         setUpConstraint()
-        
-        navigationBarColor(.clear)
-        UIApplication.shared.statusBarUIView?.backgroundColor = .clear
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
         loadData.accept(())
+        
+        navigationBarColor(.clear)
+        UIApplication.shared.statusBarUIView?.backgroundColor = .clear
     }
     
     // MARK: Binding
