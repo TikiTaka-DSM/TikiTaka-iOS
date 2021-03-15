@@ -56,10 +56,7 @@ final class ChatViewController: UIViewController {
         
         SocketIOManager.shared.establishConnection()
         SocketIOManager.shared.socket.emit("joinRoom", roomId)
-        
-        navigationBarColor(PointColor.primary)
-        UIApplication.shared.statusBarUIView?.backgroundColor = PointColor.primary
-                
+
         inputBar.chatAudio.rx.tap.subscribe(onNext: {[unowned self] _ in setAlert("티키타카 V2에서 사용 가능합니다.") }).disposed(by: disposeBag)
         inputBar.chatImg.rx.tap.subscribe(onNext: {[unowned self] _ in present(imagePicker, animated: true, completion: nil)}).disposed(by: disposeBag)
     }
@@ -71,6 +68,10 @@ final class ChatViewController: UIViewController {
         chatTableView.separatorInset = .zero
         chatTableView.separatorStyle = .none
         chatTableView.allowsSelection = false
+        
+        navigationBarColor(PointColor.primary)
+        UIApplication.shared.statusBarUIView?.backgroundColor = PointColor.primary
+        navigationController?.navigationBar.tintColor = .white
     }
     
     // MARK: Binding
@@ -105,6 +106,7 @@ final class ChatViewController: UIViewController {
                     //photo
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
                     
+                    cell.messageLabel.text = " "
                     cell.bubbleView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.photo!)"))
                     
                     return cell
@@ -114,7 +116,6 @@ final class ChatViewController: UIViewController {
                     //voice
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "otherVoiceCell") as! OtherVoiceTableViewCell
                     
-                    print("voice")
                     cell.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.user.img)"))
                     
                     return cell
@@ -122,7 +123,6 @@ final class ChatViewController: UIViewController {
                     //message
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "otherCell") as! OtherTableViewCell
                     
-                    print("message")
                     cell.messageLabel.text = message.message
                     cell.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.user.img)"))
                     
@@ -131,8 +131,6 @@ final class ChatViewController: UIViewController {
                     //photo
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "otherCell") as! OtherTableViewCell
 
-                    print("photo")
-                    print(message)
                     cell.bubbleView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.photo!)"))
                     cell.userImageView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.user.img)"))
                     
