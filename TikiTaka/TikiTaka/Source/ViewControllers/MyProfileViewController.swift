@@ -17,7 +17,7 @@ final class MyProfileViewController: UIViewController {
     private let gearBtn = UIButton().then {
         $0.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
         $0.tintColor = PointColor.primary
-        $0.imageView?.contentMode = .scaleToFill
+        $0.imageView?.contentMode = .scaleAspectFit
     }
     
     private let userImageView = UIImageView().then {

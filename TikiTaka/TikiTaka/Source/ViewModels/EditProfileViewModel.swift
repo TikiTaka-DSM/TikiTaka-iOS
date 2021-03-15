@@ -24,6 +24,7 @@ final class EditProfileViewModel: ViewModelType {
         let result: Signal<String>
         let laodData: BehaviorRelay<ProfileData?>
         let edit: Signal<String>
+        let isEnable: Driver<Bool>
     }
     
     func transform(input: Input) -> Output {
@@ -32,6 +33,7 @@ final class EditProfileViewModel: ViewModelType {
         let edit = PublishSubject<String>()
         let loadData = BehaviorRelay<ProfileData?>(value: nil)
         let info = Driver.combineLatest(input.editImage, input.editName, input.editStatus)
+        let isEnable = info.map { $0.0 != nil }
         
         input.loadProfile.asObservable().subscribe(onNext: {[weak self] _ in
             guard let self = self else { return }
@@ -58,6 +60,6 @@ final class EditProfileViewModel: ViewModelType {
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        return Output(result: result.asSignal(onErrorJustReturn: "프로필 로드 실패"), laodData: loadData, edit: edit.asSignal(onErrorJustReturn: "프로필 변경 실패"))
+        return Output(result: result.asSignal(onErrorJustReturn: "프로필 로드 실패"), laodData: loadData, edit: edit.asSignal(onErrorJustReturn: "프로필 변경 실패"), isEnable: isEnable.asDriver())
     }
 }

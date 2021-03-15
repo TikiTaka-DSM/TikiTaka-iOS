@@ -14,10 +14,12 @@ final class EditProfileViewController: UIViewController {
     // MARK: UI
     
     private let editBtn = UIButton().then {
-        $0.backgroundColor = PointColor.primary
         $0.tintColor = .white
+        $0.clipsToBounds = true
         $0.layer.cornerRadius = 52.5
         $0.setTitle("변경하기", for: .normal)
+        $0.setBackgroundColor(PointColor.enable, for: .disabled)
+        $0.setBackgroundColor(PointColor.sub, for: .normal)
     }
     
     private let userImageBtn = UIButton().then {
@@ -99,6 +101,7 @@ final class EditProfileViewController: UIViewController {
         output.result.emit(onNext: {[unowned self] text in setAlert(text) }).disposed(by: disposeBag)
         output.edit.emit(onNext: {[unowned self] text in setAlert(text) },
                          onCompleted: {[unowned self] in navigationController?.popViewController(animated: true)}).disposed(by: disposeBag)
+        output.isEnable.drive(editBtn.rx.isEnabled).disposed(by: disposeBag)
     }
     
     // MARK: Constraint
