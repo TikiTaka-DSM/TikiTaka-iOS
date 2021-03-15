@@ -50,6 +50,7 @@ final class ProfileViewModel: ViewModelType {
         input.selectAdd.asObservable().subscribe(onNext: {[weak self] _ in
             guard let self = self else { return }
             api.postFriends(input.friendId).subscribe(onNext: { response in
+                print(response)
                 switch response {
                 case .success:
                     postFriend.onCompleted()
@@ -69,6 +70,7 @@ final class ProfileViewModel: ViewModelType {
                 case .duplication:
                     postChat.onCompleted()
                 default:
+                    postChat.onCompleted()
                     print("채팅하기 실패")
                 }
             }).disposed(by: self.disposeBag)

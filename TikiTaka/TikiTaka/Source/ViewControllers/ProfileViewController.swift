@@ -77,6 +77,7 @@ final class ProfileViewController: UIViewController {
         
         navigationBarColor(.clear)
         UIApplication.shared.statusBarUIView?.backgroundColor = .clear
+        navigationController?.navigationBar.tintColor = PointColor.primary
     }
     
     override func viewDidLayoutSubviews() {
@@ -112,8 +113,6 @@ final class ProfileViewController: UIViewController {
                 guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "Chat")
                     as? ChatViewController else { return }
                 vc.roomId = data!.roomData.id
-                let nC = UINavigationController(rootViewController: vc)
-                nC.modalTransitionStyle = .coverVertical
                 navigationController?.pushViewController(vc, animated: true)
             }
         }).disposed(by: disposeBag)

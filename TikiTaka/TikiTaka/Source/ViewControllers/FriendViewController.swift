@@ -74,7 +74,7 @@ final class FriendViewController: UIViewController {
         output.selectData.drive(onNext: {[unowned self] friend in
             guard let vc = storyboard?.instantiateViewController(identifier: "Profile") as? ProfileViewController else { return }
             vc.friendId = friend
-            present(vc, animated: true, completion: nil)
+            navigationController?.pushViewController(vc, animated: true)
         }).disposed(by: disposeBag)
         
         output.message.emit(onNext: {[unowned self] text in setAlert(text)}).disposed(by: disposeBag)
