@@ -71,6 +71,14 @@ final class ProfileViewController: UIViewController {
         
         navigationBarColor(.clear)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        navigationBarColor(.clear)
+        UIApplication.shared.statusBarUIView?.backgroundColor = .clear
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -100,13 +108,13 @@ final class ProfileViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         output.postChat.emit(onNext: {[unowned self] data in
-            guard let pvc = presentingViewController else { return }
             dismiss(animated: true) {
-                guard let vc  = storyboard?.instantiateViewController(identifier: "Chat") as? ChatViewController else { return }
+                guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "Chat")
+                    as? ChatViewController else { return }
                 vc.roomId = data!.roomData.id
-                vc.modalPresentationStyle = .overFullScreen
-                vc.modalTransitionStyle = .coverVertical
-                pvc.present(vc, animated: true, completion: nil)
+                let nC = UINavigationController(rootViewController: vc)
+                nC.modalTransitionStyle = .coverVertical
+                navigationController?.pushViewController(vc, animated: true)
             }
         }).disposed(by: disposeBag)
         
