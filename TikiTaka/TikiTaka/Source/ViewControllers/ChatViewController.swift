@@ -36,7 +36,6 @@ final class ChatViewController: UIViewController {
         picker.allowsEditing = true
         return picker
     }()
-
     
     // MARK: LifeCycle
     
@@ -90,25 +89,27 @@ final class ChatViewController: UIViewController {
             switch cellType {
             case .myMessages(let message):
                 print(message)
-                if message.message == nil && message.photo == nil{
-                    //voice
-                    let cell = chatTableView.dequeueReusableCell(withIdentifier: "myVoiceCell") as! MyVoiceTableViewCell
-
-                    return cell
-                } else if message.photo == nil || message.photo == ""{
-                    //message
-                    let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
-                    
-                    cell.messageLabel.text = message.message
-                    
-                    return cell
-                } else {
+                if message.message == nil && message.voice == nil || message.message == ""{
+                    print("photo")
                     //photo
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
                     
                     cell.messageLabel.text = " "
                     cell.bubbleView.kf.setImage(with: URL(string: "https://jobits.s3.ap-northeast-2.amazonaws.com/\(message.photo!)"))
                     
+                    return cell
+                } else if message.photo == nil && message.voice == nil || message.photo == "" {
+                    //message
+                    print("message")
+                    let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
+                    
+                    cell.messageLabel.text = message.message
+                    
+                    return cell
+                } else {
+                    //voice
+                    let cell = chatTableView.dequeueReusableCell(withIdentifier: "myVoiceCell") as! MyVoiceTableViewCell
+
                     return cell
                 }
             case .yourMessage(let message):
@@ -148,7 +149,6 @@ final class ChatViewController: UIViewController {
         output.afterGive.emit(onNext: {[unowned self] data in
             output.loadData.add(element: CellType.yourMessage(data!))
             setupSelectBottom(row: output.loadData.value.count - 1)
-            chatTableView.reloadData()
         }).disposed(by: disposeBag)
     }
     
