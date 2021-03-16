@@ -81,6 +81,11 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+Gemfile
+Gemfile.lock
+fastlane/Appfile
+fastlane/Fastfile
+
 .DS_Store
 # Code Injection
 #
