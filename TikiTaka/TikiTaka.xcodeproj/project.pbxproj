@@ -3,31 +3,141 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D0DF515284C9D2F02A429AF1 /* Pods_TikiTaka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E2C42356C859626BCFB0636 /* Pods_TikiTaka.framework */; };
+		EB0A43B825A2EB0E00E2CCB9 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A43B725A2EB0E00E2CCB9 /* ViewModelType.swift */; };
+		EB0A43BC25A2F31A00E2CCB9 /* TikiTakaAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A43BB25A2F31A00E2CCB9 /* TikiTakaAPI.swift */; };
+		EB0A43C225A305B000E2CCB9 /* NetworkPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A43C125A305B000E2CCB9 /* NetworkPart.swift */; };
+		EB0A43C625A32C1800E2CCB9 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A43C525A32C1800E2CCB9 /* Color.swift */; };
+		EB200ADE25A9E8A00099E1B2 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB200ADD25A9E8A00099E1B2 /* FindViewController.swift */; };
+		EB200AE125A9ECAA0099E1B2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB200AE025A9ECAA0099E1B2 /* MainViewController.swift */; };
 		EB2896802587A0D400C023F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28967F2587A0D400C023F7 /* AppDelegate.swift */; };
-		EB2896822587A0D400C023F7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2896812587A0D400C023F7 /* SceneDelegate.swift */; };
-		EB2896842587A0D400C023F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2896832587A0D400C023F7 /* ViewController.swift */; };
+		EB2896842587A0D400C023F7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2896832587A0D400C023F7 /* SignInViewController.swift */; };
 		EB2896872587A0D400C023F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB2896852587A0D400C023F7 /* Main.storyboard */; };
 		EB2896892587A0D600C023F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB2896882587A0D600C023F7 /* Assets.xcassets */; };
 		EB28968C2587A0D600C023F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB28968A2587A0D600C023F7 /* LaunchScreen.storyboard */; };
+		EB43E48825B95905008C9C05 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB43E48725B95905008C9C05 /* ChatViewModel.swift */; };
+		EB66DB8225A358710080A761 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DB8125A358710080A761 /* SignUpViewController.swift */; };
+		EB66DB8625A35A950080A761 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DB8525A35A950080A761 /* FriendViewController.swift */; };
+		EB66DB8C25A3FA530080A761 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DB8B25A3FA530080A761 /* SearchBar.swift */; };
+		EB66DB9025A405B90080A761 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DB8F25A405B90080A761 /* ProfileViewController.swift */; };
+		EB66DB9625A40B190080A761 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DB9525A40B190080A761 /* SignInViewModel.swift */; };
+		EB66DB9925A40D890080A761 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DB9825A40D890080A761 /* Service.swift */; };
+		EB66DB9C25A457850080A761 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DB9B25A457850080A761 /* UIViewController.swift */; };
+		EB66DB9F25A4589A0080A761 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DB9E25A4589A0080A761 /* SignUpViewModel.swift */; };
+		EB66DBA225A577810080A761 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DBA125A577810080A761 /* MyProfileViewController.swift */; };
+		EB66DBA525A5932B0080A761 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DBA425A5932B0080A761 /* EditProfileViewController.swift */; };
+		EB66DBA825A5AAD50080A761 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DBA725A5AAD50080A761 /* Profile.swift */; };
+		EB66DBAB25A691F50080A761 /* MyProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DBAA25A691F50080A761 /* MyProfileViewModel.swift */; };
+		EB66DBAE25A692010080A761 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DBAD25A692010080A761 /* EditProfileViewModel.swift */; };
+		EB66DBB325A6A62A0080A761 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DBB225A6A62A0080A761 /* FriendViewModel.swift */; };
+		EB66DBB625A6C8300080A761 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66DBB525A6C8300080A761 /* Friend.swift */; };
+		EB8E3EF025B6B31900B59010 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E3EEF25B6B31900B59010 /* StorageManager.swift */; };
+		EB8E3EF425B6C1DB00B59010 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E3EF325B6C1DB00B59010 /* TokenManager.swift */; };
+		EB8E3EFD25B7F19200B59010 /* TikiTakaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E3EFC25B7F19200B59010 /* TikiTakaTests.swift */; };
+		EBAD81BD25C9202B00B4D98A /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAD81BC25C9202B00B4D98A /* UIButton.swift */; };
+		EBB171E525AC8C0800B6BA48 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB171E425AC8C0800B6BA48 /* ChatTableViewCell.swift */; };
+		EBB171E825ACA61900B6BA48 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB171E725ACA61900B6BA48 /* Chat.swift */; };
+		EBB171EB25ACA62600B6BA48 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB171EA25ACA62600B6BA48 /* Room.swift */; };
+		EBB171FF25AD9D2C00B6BA48 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB171FE25AD9D2C00B6BA48 /* ChatViewController.swift */; };
+		EBB1720225ADC4AD00B6BA48 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1720125ADC4AD00B6BA48 /* ProfileViewModel.swift */; };
+		EBB1720525B3281300B6BA48 /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1720425B3281200B6BA48 /* UILabel.swift */; };
+		EBB1720825B3282400B6BA48 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1720725B3282400B6BA48 /* UITextField.swift */; };
+		EBB1720B25B3284300B6BA48 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1720A25B3284300B6BA48 /* UIView.swift */; };
+		EBB1721225B329D100B6BA48 /* FindViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1721125B329D100B6BA48 /* FindViewModel.swift */; };
+		EBB1721525B4706A00B6BA48 /* ChatInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1721425B4706A00B6BA48 /* ChatInputField.swift */; };
+		EBB1721F25B55CC000B6BA48 /* OtherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1721D25B55CC000B6BA48 /* OtherTableViewCell.swift */; };
+		EBB1722425B585DA00B6BA48 /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1722325B585D900B6BA48 /* SocketIOManager.swift */; };
+		EBD0318A25EDC42F00D80981 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD0318925EDC42F00D80981 /* SceneDelegate.swift */; };
+		EBD7880B25C3B18C00F1B3BD /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD7880A25C3B18C00F1B3BD /* MainViewModel.swift */; };
+		EBD7880F25C404B300F1B3BD /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD7880E25C404B300F1B3BD /* FriendTableViewCell.swift */; };
+		EBDFE62225BD90B0009BC589 /* OtherVoiceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDFE62125BD90B0009BC589 /* OtherVoiceTableViewCell.swift */; };
+		EBDFE62825BDB4D6009BC589 /* MyVoiceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDFE62725BDB4D6009BC589 /* MyVoiceTableViewCell.swift */; };
+		EBE0B98B25BC50CC00B636FA /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE0B98A25BC50CC00B636FA /* MyTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EB8E3EFF25B7F19200B59010 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EB2896742587A0D400C023F7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EB28967B2587A0D400C023F7;
+			remoteInfo = TikiTaka;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		3A2EE186E6CB45A042AC2D70 /* Pods-TikiTaka.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TikiTaka.release.xcconfig"; path = "Target Support Files/Pods-TikiTaka/Pods-TikiTaka.release.xcconfig"; sourceTree = "<group>"; };
+		4E2C42356C859626BCFB0636 /* Pods_TikiTaka.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TikiTaka.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA9EEBE037DF67467BC4B380 /* Pods-TikiTaka.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TikiTaka.debug.xcconfig"; path = "Target Support Files/Pods-TikiTaka/Pods-TikiTaka.debug.xcconfig"; sourceTree = "<group>"; };
+		EB0A43B725A2EB0E00E2CCB9 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
+		EB0A43BB25A2F31A00E2CCB9 /* TikiTakaAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikiTakaAPI.swift; sourceTree = "<group>"; };
+		EB0A43C125A305B000E2CCB9 /* NetworkPart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPart.swift; sourceTree = "<group>"; };
+		EB0A43C525A32C1800E2CCB9 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		EB200ADD25A9E8A00099E1B2 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindViewController.swift; sourceTree = "<group>"; };
+		EB200AE025A9ECAA0099E1B2 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		EB28967C2587A0D400C023F7 /* TikiTaka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TikiTaka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB28967F2587A0D400C023F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EB2896812587A0D400C023F7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		EB2896832587A0D400C023F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EB2896832587A0D400C023F7 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		EB2896862587A0D400C023F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EB2896882587A0D600C023F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EB28968B2587A0D600C023F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		EB28968D2587A0D600C023F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EB28968D2587A0D600C023F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "TikiTaka/Supporting Files/Info.plist"; sourceTree = SOURCE_ROOT; };
+		EB43E48725B95905008C9C05 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		EB66DB8125A358710080A761 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		EB66DB8525A35A950080A761 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
+		EB66DB8B25A3FA530080A761 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		EB66DB8F25A405B90080A761 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		EB66DB9525A40B190080A761 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		EB66DB9825A40D890080A761 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		EB66DB9B25A457850080A761 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		EB66DB9E25A4589A0080A761 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		EB66DBA125A577810080A761 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		EB66DBA425A5932B0080A761 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		EB66DBA725A5AAD50080A761 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		EB66DBAA25A691F50080A761 /* MyProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewModel.swift; sourceTree = "<group>"; };
+		EB66DBAD25A692010080A761 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
+		EB66DBB225A6A62A0080A761 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
+		EB66DBB525A6C8300080A761 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		EB8E3EEF25B6B31900B59010 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		EB8E3EF325B6C1DB00B59010 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
+		EB8E3EFA25B7F19200B59010 /* TikiTakaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TikiTakaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB8E3EFC25B7F19200B59010 /* TikiTakaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikiTakaTests.swift; sourceTree = "<group>"; };
+		EB8E3EFE25B7F19200B59010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EBAD81BC25C9202B00B4D98A /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		EBB171E425AC8C0800B6BA48 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		EBB171E725ACA61900B6BA48 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		EBB171EA25ACA62600B6BA48 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		EBB171FE25AD9D2C00B6BA48 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		EBB1720125ADC4AD00B6BA48 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		EBB1720425B3281200B6BA48 /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
+		EBB1720725B3282400B6BA48 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		EBB1720A25B3284300B6BA48 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		EBB1721125B329D100B6BA48 /* FindViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindViewModel.swift; sourceTree = "<group>"; };
+		EBB1721425B4706A00B6BA48 /* ChatInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputField.swift; sourceTree = "<group>"; };
+		EBB1721D25B55CC000B6BA48 /* OtherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherTableViewCell.swift; sourceTree = "<group>"; };
+		EBB1722325B585D900B6BA48 /* SocketIOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
+		EBD0318925EDC42F00D80981 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		EBD7880A25C3B18C00F1B3BD /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		EBD7880E25C404B300F1B3BD /* FriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
+		EBDFE62125BD90B0009BC589 /* OtherVoiceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherVoiceTableViewCell.swift; sourceTree = "<group>"; };
+		EBDFE62725BDB4D6009BC589 /* MyVoiceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyVoiceTableViewCell.swift; sourceTree = "<group>"; };
+		EBE0B98A25BC50CC00B636FA /* MyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		EB2896792587A0D400C023F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0DF515284C9D2F02A429AF1 /* Pods_TikiTaka.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB8E3EF725B7F19200B59010 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -37,11 +147,171 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		72597FFB20074B90CBD3A2EF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CA9EEBE037DF67467BC4B380 /* Pods-TikiTaka.debug.xcconfig */,
+				3A2EE186E6CB45A042AC2D70 /* Pods-TikiTaka.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		983C80C67AA5F3F5022AB617 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4E2C42356C859626BCFB0636 /* Pods_TikiTaka.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EB0A43AC25A2E8E200E2CCB9 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				EB0A43C525A32C1800E2CCB9 /* Color.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		EB0A43AD25A2E8F300E2CCB9 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				EB0A43B725A2EB0E00E2CCB9 /* ViewModelType.swift */,
+				EB66DB9525A40B190080A761 /* SignInViewModel.swift */,
+				EB66DB9E25A4589A0080A761 /* SignUpViewModel.swift */,
+				EB66DBAA25A691F50080A761 /* MyProfileViewModel.swift */,
+				EB66DBAD25A692010080A761 /* EditProfileViewModel.swift */,
+				EB66DBB225A6A62A0080A761 /* FriendViewModel.swift */,
+				EBB1720125ADC4AD00B6BA48 /* ProfileViewModel.swift */,
+				EBB1721125B329D100B6BA48 /* FindViewModel.swift */,
+				EB43E48725B95905008C9C05 /* ChatViewModel.swift */,
+				EBD7880A25C3B18C00F1B3BD /* MainViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		EB0A43AE25A2E8FA00E2CCB9 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				EB2896832587A0D400C023F7 /* SignInViewController.swift */,
+				EB66DB8125A358710080A761 /* SignUpViewController.swift */,
+				EB66DB8525A35A950080A761 /* FriendViewController.swift */,
+				EB66DB8F25A405B90080A761 /* ProfileViewController.swift */,
+				EB66DBA125A577810080A761 /* MyProfileViewController.swift */,
+				EB66DBA425A5932B0080A761 /* EditProfileViewController.swift */,
+				EB200ADD25A9E8A00099E1B2 /* FindViewController.swift */,
+				EB200AE025A9ECAA0099E1B2 /* MainViewController.swift */,
+				EBB171FE25AD9D2C00B6BA48 /* ChatViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		EB0A43AF25A2E8FF00E2CCB9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EB66DBA725A5AAD50080A761 /* Profile.swift */,
+				EB66DBB525A6C8300080A761 /* Friend.swift */,
+				EBB171E725ACA61900B6BA48 /* Chat.swift */,
+				EBB171EA25ACA62600B6BA48 /* Room.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EB0A43B025A2E90200E2CCB9 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				EB0A43BB25A2F31A00E2CCB9 /* TikiTakaAPI.swift */,
+				EB0A43C125A305B000E2CCB9 /* NetworkPart.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		EB0A43B125A2E90B00E2CCB9 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				EBB1722225B585C900B6BA48 /* Managers */,
+				EB0A43BA25A2F30000E2CCB9 /* Service */,
+				EB0A43B625A2EAB400E2CCB9 /* Components */,
+				EB0A43B525A2EA7D00E2CCB9 /* Extensions */,
+				EB0A43B425A2EA1C00E2CCB9 /* Application */,
+				EB0A43B025A2E90200E2CCB9 /* Networking */,
+				EB0A43AF25A2E8FF00E2CCB9 /* Models */,
+				EB0A43AE25A2E8FA00E2CCB9 /* ViewControllers */,
+				EB0A43AD25A2E8F300E2CCB9 /* ViewModels */,
+				EB0A43AC25A2E8E200E2CCB9 /* Util */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		EB0A43B225A2E90E00E2CCB9 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				EB28968A2587A0D600C023F7 /* LaunchScreen.storyboard */,
+				EB2896852587A0D400C023F7 /* Main.storyboard */,
+				EB2896882587A0D600C023F7 /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		EB0A43B325A2E91100E2CCB9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EB28968D2587A0D600C023F7 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EB0A43B425A2EA1C00E2CCB9 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				EB28967F2587A0D400C023F7 /* AppDelegate.swift */,
+				EBD0318925EDC42F00D80981 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		EB0A43B525A2EA7D00E2CCB9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EB66DB9B25A457850080A761 /* UIViewController.swift */,
+				EBB1720425B3281200B6BA48 /* UILabel.swift */,
+				EBB1720725B3282400B6BA48 /* UITextField.swift */,
+				EBB1720A25B3284300B6BA48 /* UIView.swift */,
+				EBAD81BC25C9202B00B4D98A /* UIButton.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		EB0A43B625A2EAB400E2CCB9 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				EB66DB8B25A3FA530080A761 /* SearchBar.swift */,
+				EBB171E425AC8C0800B6BA48 /* ChatTableViewCell.swift */,
+				EBB1721425B4706A00B6BA48 /* ChatInputField.swift */,
+				EBB1721D25B55CC000B6BA48 /* OtherTableViewCell.swift */,
+				EBE0B98A25BC50CC00B636FA /* MyTableViewCell.swift */,
+				EBDFE62125BD90B0009BC589 /* OtherVoiceTableViewCell.swift */,
+				EBDFE62725BDB4D6009BC589 /* MyVoiceTableViewCell.swift */,
+				EBD7880E25C404B300F1B3BD /* FriendTableViewCell.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		EB0A43BA25A2F30000E2CCB9 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				EB66DB9825A40D890080A761 /* Service.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		EB2896732587A0D400C023F7 = {
 			isa = PBXGroup;
 			children = (
 				EB28967E2587A0D400C023F7 /* TikiTaka */,
+				EB8E3EFB25B7F19200B59010 /* TikiTakaTests */,
 				EB28967D2587A0D400C023F7 /* Products */,
+				72597FFB20074B90CBD3A2EF /* Pods */,
+				983C80C67AA5F3F5022AB617 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -49,6 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				EB28967C2587A0D400C023F7 /* TikiTaka.app */,
+				EB8E3EFA25B7F19200B59010 /* TikiTakaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -56,15 +327,30 @@
 		EB28967E2587A0D400C023F7 /* TikiTaka */ = {
 			isa = PBXGroup;
 			children = (
-				EB28967F2587A0D400C023F7 /* AppDelegate.swift */,
-				EB2896812587A0D400C023F7 /* SceneDelegate.swift */,
-				EB2896832587A0D400C023F7 /* ViewController.swift */,
-				EB2896852587A0D400C023F7 /* Main.storyboard */,
-				EB2896882587A0D600C023F7 /* Assets.xcassets */,
-				EB28968A2587A0D600C023F7 /* LaunchScreen.storyboard */,
-				EB28968D2587A0D600C023F7 /* Info.plist */,
+				EB0A43B325A2E91100E2CCB9 /* Supporting Files */,
+				EB0A43B225A2E90E00E2CCB9 /* Resource */,
+				EB0A43B125A2E90B00E2CCB9 /* Source */,
 			);
 			path = TikiTaka;
+			sourceTree = "<group>";
+		};
+		EB8E3EFB25B7F19200B59010 /* TikiTakaTests */ = {
+			isa = PBXGroup;
+			children = (
+				EB8E3EFC25B7F19200B59010 /* TikiTakaTests.swift */,
+				EB8E3EFE25B7F19200B59010 /* Info.plist */,
+			);
+			path = TikiTakaTests;
+			sourceTree = "<group>";
+		};
+		EBB1722225B585C900B6BA48 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				EBB1722325B585D900B6BA48 /* SocketIOManager.swift */,
+				EB8E3EEF25B6B31900B59010 /* StorageManager.swift */,
+				EB8E3EF325B6C1DB00B59010 /* TokenManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +360,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB2896902587A0D700C023F7 /* Build configuration list for PBXNativeTarget "TikiTaka" */;
 			buildPhases = (
+				16B9FE7E79861BADACEF592C /* [CP] Check Pods Manifest.lock */,
 				EB2896782587A0D400C023F7 /* Sources */,
 				EB2896792587A0D400C023F7 /* Frameworks */,
 				EB28967A2587A0D400C023F7 /* Resources */,
+				A56A864694672E78B8F8D925 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -87,17 +375,39 @@
 			productReference = EB28967C2587A0D400C023F7 /* TikiTaka.app */;
 			productType = "com.apple.product-type.application";
 		};
+		EB8E3EF925B7F19200B59010 /* TikiTakaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB8E3F0125B7F19200B59010 /* Build configuration list for PBXNativeTarget "TikiTakaTests" */;
+			buildPhases = (
+				EB8E3EF625B7F19200B59010 /* Sources */,
+				EB8E3EF725B7F19200B59010 /* Frameworks */,
+				EB8E3EF825B7F19200B59010 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EB8E3F0025B7F19200B59010 /* PBXTargetDependency */,
+			);
+			name = TikiTakaTests;
+			productName = TikiTakaTests;
+			productReference = EB8E3EFA25B7F19200B59010 /* TikiTakaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		EB2896742587A0D400C023F7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
 					EB28967B2587A0D400C023F7 = {
 						CreatedOnToolsVersion = 12.2;
+					};
+					EB8E3EF925B7F19200B59010 = {
+						CreatedOnToolsVersion = 12.3;
+						TestTargetID = EB28967B2587A0D400C023F7;
 					};
 				};
 			};
@@ -115,6 +425,7 @@
 			projectRoot = "";
 			targets = (
 				EB28967B2587A0D400C023F7 /* TikiTaka */,
+				EB8E3EF925B7F19200B59010 /* TikiTakaTests */,
 			);
 		};
 /* End PBXProject section */
@@ -130,20 +441,127 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EB8E3EF825B7F19200B59010 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		16B9FE7E79861BADACEF592C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TikiTaka-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A56A864694672E78B8F8D925 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TikiTaka/Pods-TikiTaka-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TikiTaka/Pods-TikiTaka-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TikiTaka/Pods-TikiTaka-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EB2896782587A0D400C023F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB2896842587A0D400C023F7 /* ViewController.swift in Sources */,
+				EB66DB9C25A457850080A761 /* UIViewController.swift in Sources */,
+				EB8E3EF025B6B31900B59010 /* StorageManager.swift in Sources */,
+				EB0A43C225A305B000E2CCB9 /* NetworkPart.swift in Sources */,
+				EB66DBB325A6A62A0080A761 /* FriendViewModel.swift in Sources */,
+				EB66DB9925A40D890080A761 /* Service.swift in Sources */,
+				EB66DB8225A358710080A761 /* SignUpViewController.swift in Sources */,
+				EB66DB9025A405B90080A761 /* ProfileViewController.swift in Sources */,
+				EBB1720225ADC4AD00B6BA48 /* ProfileViewModel.swift in Sources */,
+				EBB1721F25B55CC000B6BA48 /* OtherTableViewCell.swift in Sources */,
+				EBB171E525AC8C0800B6BA48 /* ChatTableViewCell.swift in Sources */,
+				EBD7880B25C3B18C00F1B3BD /* MainViewModel.swift in Sources */,
+				EBB1722425B585DA00B6BA48 /* SocketIOManager.swift in Sources */,
+				EBDFE62225BD90B0009BC589 /* OtherVoiceTableViewCell.swift in Sources */,
+				EB200ADE25A9E8A00099E1B2 /* FindViewController.swift in Sources */,
+				EB2896842587A0D400C023F7 /* SignInViewController.swift in Sources */,
+				EBAD81BD25C9202B00B4D98A /* UIButton.swift in Sources */,
+				EBD7880F25C404B300F1B3BD /* FriendTableViewCell.swift in Sources */,
+				EB43E48825B95905008C9C05 /* ChatViewModel.swift in Sources */,
+				EB66DBAB25A691F50080A761 /* MyProfileViewModel.swift in Sources */,
+				EBB1720825B3282400B6BA48 /* UITextField.swift in Sources */,
+				EBD0318A25EDC42F00D80981 /* SceneDelegate.swift in Sources */,
+				EBB1721525B4706A00B6BA48 /* ChatInputField.swift in Sources */,
+				EBB1720525B3281300B6BA48 /* UILabel.swift in Sources */,
+				EB66DBA825A5AAD50080A761 /* Profile.swift in Sources */,
+				EBDFE62825BDB4D6009BC589 /* MyVoiceTableViewCell.swift in Sources */,
+				EB66DB9F25A4589A0080A761 /* SignUpViewModel.swift in Sources */,
+				EBB171E825ACA61900B6BA48 /* Chat.swift in Sources */,
 				EB2896802587A0D400C023F7 /* AppDelegate.swift in Sources */,
-				EB2896822587A0D400C023F7 /* SceneDelegate.swift in Sources */,
+				EBB1720B25B3284300B6BA48 /* UIView.swift in Sources */,
+				EB0A43BC25A2F31A00E2CCB9 /* TikiTakaAPI.swift in Sources */,
+				EB66DBAE25A692010080A761 /* EditProfileViewModel.swift in Sources */,
+				EB200AE125A9ECAA0099E1B2 /* MainViewController.swift in Sources */,
+				EB66DBA525A5932B0080A761 /* EditProfileViewController.swift in Sources */,
+				EB0A43B825A2EB0E00E2CCB9 /* ViewModelType.swift in Sources */,
+				EB66DB9625A40B190080A761 /* SignInViewModel.swift in Sources */,
+				EB66DB8C25A3FA530080A761 /* SearchBar.swift in Sources */,
+				EB0A43C625A32C1800E2CCB9 /* Color.swift in Sources */,
+				EBE0B98B25BC50CC00B636FA /* MyTableViewCell.swift in Sources */,
+				EBB171EB25ACA62600B6BA48 /* Room.swift in Sources */,
+				EBB1721225B329D100B6BA48 /* FindViewModel.swift in Sources */,
+				EB66DBA225A577810080A761 /* MyProfileViewController.swift in Sources */,
+				EB66DB8625A35A950080A761 /* FriendViewController.swift in Sources */,
+				EB8E3EF425B6C1DB00B59010 /* TokenManager.swift in Sources */,
+				EBB171FF25AD9D2C00B6BA48 /* ChatViewController.swift in Sources */,
+				EB66DBB625A6C8300080A761 /* Friend.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB8E3EF625B7F19200B59010 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB8E3EFD25B7F19200B59010 /* TikiTakaTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EB8E3F0025B7F19200B59010 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EB28967B2587A0D400C023F7 /* TikiTaka */;
+			targetProxy = EB8E3EFF25B7F19200B59010 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		EB2896852587A0D400C023F7 /* Main.storyboard */ = {
@@ -283,11 +701,13 @@
 		};
 		EB2896912587A0D700C023F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA9EEBE037DF67467BC4B380 /* Pods-TikiTaka.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TikiTaka/Info.plist;
+				DEVELOPMENT_TEAM = MP3B7M7JB3;
+				INFOPLIST_FILE = "TikiTaka/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -301,11 +721,13 @@
 		};
 		EB2896922587A0D700C023F7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A2EE186E6CB45A042AC2D70 /* Pods-TikiTaka.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TikiTaka/Info.plist;
+				DEVELOPMENT_TEAM = MP3B7M7JB3;
+				INFOPLIST_FILE = "TikiTaka/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -314,6 +736,46 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EB8E3F0225B7F19200B59010 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TikiTakaTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.develop.TikiTakaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TikiTaka.app/TikiTaka";
+			};
+			name = Debug;
+		};
+		EB8E3F0325B7F19200B59010 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TikiTakaTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.develop.TikiTakaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TikiTaka.app/TikiTaka";
 			};
 			name = Release;
 		};
@@ -334,6 +796,15 @@
 			buildConfigurations = (
 				EB2896912587A0D700C023F7 /* Debug */,
 				EB2896922587A0D700C023F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EB8E3F0125B7F19200B59010 /* Build configuration list for PBXNativeTarget "TikiTakaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB8E3F0225B7F19200B59010 /* Debug */,
+				EB8E3F0325B7F19200B59010 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
