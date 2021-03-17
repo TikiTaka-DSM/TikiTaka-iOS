@@ -37,6 +37,7 @@ final class FriendViewController: UIViewController {
         setTableView()
         bindViewModel()
         setupConstraint()
+        
     }
     
     // MARK: LifeCycle

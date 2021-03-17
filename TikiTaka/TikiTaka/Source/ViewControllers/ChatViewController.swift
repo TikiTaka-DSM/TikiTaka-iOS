@@ -85,12 +85,9 @@ final class ChatViewController: UIViewController {
         let output = viewModel.transform(input: input)
         
         output.loadData.asObservable().bind(to: chatTableView.rx.items) {[unowned self] tableview, row, cellType -> UITableViewCell in
-            setupSelectBottom(row: output.loadData.value.count - 1)
             switch cellType {
             case .myMessages(let message):
-                print(message)
-                if message.message == nil && message.voice == nil || message.message == ""{
-                    print("photo")
+                if message.message == nil && message.voice == nil || message.message == "" {
                     //photo
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
                     
@@ -100,7 +97,6 @@ final class ChatViewController: UIViewController {
                     return cell
                 } else if message.photo == nil && message.voice == nil || message.photo == "" {
                     //message
-                    print("message")
                     let cell = chatTableView.dequeueReusableCell(withIdentifier: "mineCell") as! MyTableViewCell
                     
                     cell.messageLabel.text = message.message

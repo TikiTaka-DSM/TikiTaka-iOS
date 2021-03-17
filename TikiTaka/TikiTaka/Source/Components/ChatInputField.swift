@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChatInputField: UIView {
+final class ChatInputField: UIView {
 
     let chatImg = UIButton().then {
         $0.setImage(UIImage(systemName: "photo"), for: .normal)
@@ -45,12 +45,12 @@ class ChatInputField: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         inputTextField.layer.cornerRadius = 16
         
         backgroundColor = PointColor.primary
         
         addSubview(stackView)
-
         stackView.addArrangedSubview(chatImg)
         stackView.addArrangedSubview(chatAudio)
         stackView.addArrangedSubview(inputTextField)

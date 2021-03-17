@@ -106,8 +106,6 @@ extension TikiTakaAPI: TargetType {
         case .getMyProfile, .changeProfile, .getOtherProfile, .getFriends, .searchFriends, .findFriend, .postRoom, .getChatList, .getChatInfo, .blockFriends, .postFriends:
             guard let token = TokenManager.currentToken?.tokens.accessToken else { return nil }
             return ["Authorization" : "Bearer " + token]
-        default:
-            return nil
         }
     }
 }

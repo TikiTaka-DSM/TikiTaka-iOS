@@ -32,7 +32,7 @@ final class FindViewModel: ViewModelType {
                 print(response)
                 switch response {
                 case .success:
-                    findData.onCompleted()
+                    findData.onNext("Complete")
                 case .notFound:
                     findData.onNext("ID에 해당하는 유저가 없습니다.")
                 default:

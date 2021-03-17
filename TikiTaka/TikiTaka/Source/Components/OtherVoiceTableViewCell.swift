@@ -28,6 +28,7 @@ class OtherVoiceTableViewCell: UITableViewCell {
     }
     
     let userImageView = UIImageView().then {
+        $0.clipsToBounds = true
         $0.image = UIImage(named: "TikiTaka_logo")
         $0.layer.cornerRadius = 26.5
         $0.layer.borderWidth = 0.1
