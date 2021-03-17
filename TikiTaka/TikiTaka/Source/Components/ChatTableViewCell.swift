@@ -9,7 +9,11 @@ import UIKit
 
 class ChatTableViewCell: UITableViewCell {
 
-    let chatImg = UIImageView()
+    let chatImg = UIImageView().then {
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 53/2
+    }
+    
     let chatName = UILabel()
     let chatTime = UILabel()
     let lastMessage = UILabel()

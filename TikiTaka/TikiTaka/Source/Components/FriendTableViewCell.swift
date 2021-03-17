@@ -9,7 +9,10 @@ import UIKit
 
 class FriendTableViewCell: UITableViewCell {
     
-    let friendImg = UIImageView()
+    let friendImg = UIImageView().then {
+        $0.layer.cornerRadius = 25
+        $0.clipsToBounds = true
+    }
     let friendName = UILabel()
     let footerView = UIView().then {
         $0.backgroundColor = PointColor.primary
@@ -41,9 +44,6 @@ class FriendTableViewCell: UITableViewCell {
             $0.width.equalTo(snp.width)
             $0.centerX.equalToSuperview()
         }
-
-        friendImg.layer.cornerRadius = 25
-        friendImg.clipsToBounds = true
     }
     
     required init?(coder aDecoder: NSCoder) {
