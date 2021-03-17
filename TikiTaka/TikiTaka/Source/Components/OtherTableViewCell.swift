@@ -20,6 +20,7 @@ class OtherTableViewCell: UITableViewCell {
     }
     
     let userImageView = UIImageView().then {
+        $0.clipsToBounds = true
         $0.image = UIImage(named: "TikiTaka_logo")
         $0.layer.cornerRadius = 26.5
         $0.layer.borderWidth = 0.1
@@ -46,6 +47,7 @@ class OtherTableViewCell: UITableViewCell {
             $0.bottom.equalTo(messageLabel.snp.bottom).offset(8)
             $0.leading.equalTo(messageLabel.snp.leading).offset(-8)
             $0.trailing.equalTo(messageLabel.snp.trailing).offset(8)
+            $0.width.height.lessThanOrEqualTo(250)
         }
         
         userImageView.snp.makeConstraints {
@@ -54,6 +56,12 @@ class OtherTableViewCell: UITableViewCell {
             $0.leading.equalTo(snp.leading).offset(11)
             $0.width.height.equalTo(53)
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        bubbleView.image = nil
     }
     
     required init?(coder: NSCoder) {

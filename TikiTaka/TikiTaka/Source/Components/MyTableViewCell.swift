@@ -39,8 +39,15 @@ class MyTableViewCell: UITableViewCell {
             $0.bottom.equalTo(messageLabel.snp.bottom).offset(8)
             $0.leading.equalTo(messageLabel.snp.leading).offset(-8)
             $0.trailing.equalTo(messageLabel.snp.trailing).offset(8)
+            $0.width.height.lessThanOrEqualTo(250)
         }
 
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        bubbleView.image = nil
     }
     
     required init?(coder: NSCoder) {
