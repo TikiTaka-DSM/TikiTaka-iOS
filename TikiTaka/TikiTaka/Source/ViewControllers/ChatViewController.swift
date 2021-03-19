@@ -232,13 +232,11 @@ final class ChatViewController: UIViewController {
     @objc func keyboardWillAppear(note: Notification){
         if let keyboardSize = (note.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             view.frame.origin.y = inputBar.inputTextField.frame.height - keyboardSize.height
-            inputBar.sendBtn.isHidden = false
         }
     }
     
     @objc func keyboardWillDisappear(note: Notification){
         view.frame.origin.y = 0
-        inputBar.sendBtn.isHidden = true
     }
     
     @objc func counting() {

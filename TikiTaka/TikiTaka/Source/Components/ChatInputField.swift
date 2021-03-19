@@ -29,7 +29,6 @@ final class ChatInputField: UIView {
     
     let sendBtn = UIButton().then {
         $0.setTitle("전송", for: .normal)
-        $0.isHidden = false
     }
     
     let stackView = UIStackView().then {
@@ -58,7 +57,6 @@ final class ChatInputField: UIView {
         inputTextField.addSubview(recordTime)
         
         recordTime.isHidden = true
-        sendBtn.isHidden = true
     }
 
     required init(coder: NSCoder) {
