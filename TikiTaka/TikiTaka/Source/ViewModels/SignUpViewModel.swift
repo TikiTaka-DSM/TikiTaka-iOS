@@ -35,6 +35,7 @@ final class SignUpViewModel: ViewModelType {
         input.doneTap.asObservable().withLatestFrom(info).subscribe(onNext: {[weak self] id, name, pw, repw in
             guard let self = self else { return }
             api.signUp(id, repw, name).subscribe(onNext: { response in
+                print(response)
                 switch response {
                 case .success:
                     result.onCompleted()

@@ -96,7 +96,7 @@ final class SignUpViewController: UIViewController {
         let output = viewModel.transform(input: input)
         
         output.result.emit(onNext: {[unowned self] text in setAlert(text) },
-                           onCompleted: {[unowned self] in dismiss(animated: true, completion: nil) }).disposed(by: disposeBag)
+                           onCompleted: {[unowned self] in navigationController?.popViewController(animated: true) }).disposed(by: disposeBag)
         output.isEnable.drive(signInBtn.rx.isEnabled).disposed(by: disposeBag)
         output.isEnable.drive(onNext: {[unowned self] isEnable in signInBtn.tintColor = UIColor.gray }).disposed(by: disposeBag)
     }
